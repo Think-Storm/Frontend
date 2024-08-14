@@ -106,13 +106,14 @@ section {
   display: block;
 }
 
+html,
 body {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   line-height: 1;
   font-family: -apple-systemㅡ, BlinkMacSystemFont, 'Arial', sans-serif;
   font-size: 14px;
-  background-color: #000;
+  background-color: transparent;
   color: #333;
 }
 
@@ -159,7 +160,7 @@ input[type='text']::placeholder,
 input[type='email']::placeholder,
 input[type='password']::placeholder,
 textarea::placeholder {
-  color: #888888;
+  color: #aaaaaa;
 }
 
 blockquote,
