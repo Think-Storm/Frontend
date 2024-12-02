@@ -3,18 +3,31 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'think-storm-frontend'
+app = 'ts-frontend'
 primary_region = 'cdg'
-
-[build]
 
 [http_service]
   internal_port = 3000
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
   processes = ['app']
+
+
+[[services]]
+  internal_port = 3000  # Port privé interne sur lequel le backend écoute
+  protocol = "tcp"
+
+  [[services.tcp_checks]]
+    grace_period = "5s"
+    interval = "10s"
+    retries = 3
+    port = 3000  # Vérification de santé sur le port interne du backend
+
+  [[services.ports]]
+  handlers = ["http"]
+  port = 80
 
 [[vm]]
   memory = '1gb'
