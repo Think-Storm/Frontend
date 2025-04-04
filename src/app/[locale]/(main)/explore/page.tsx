@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
   Menubar,
@@ -6,20 +6,18 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarTrigger,
-} from '@/components/ui/menubar';
-import React from 'react';
-import { useState } from 'react';
-import Image from 'next/image';
-import logoGradient from '../../../../../public/images/logoGradient.png';
-import iconMenu from '../../../../../public/images/iconMenu.png';
-import iconWorld from '../../../../../public/images/iconWorld.png';
-import notificationIcon from '../../../../../public/images/notificationIcon.png';
-import avatarImage from '../../../../../public/images/avatarImage.png';
-import headerBackground from '../../../../../public/images/headerBackground.svg';
-import iconSearch from '../../../../../public/images/iconSearch.png';
-import FilterSelect from '@/components/ui/FilterSelect';
-import { FILTERS } from '@/lib/constants/common';
-
+} from '@/components/ui/menubar'
+import React from 'react'
+import { useState } from 'react'
+import Image from 'next/image'
+import logoGradient from '../../../../../public/images/logoGradient.png'
+import iconMenu from '../../../../../public/images/iconMenu.png'
+import iconWorld from '../../../../../public/images/iconWorld.png'
+import notificationIcon from '../../../../../public/images/notificationIcon.png'
+import avatarImage from '../../../../../public/images/avatarImage.png'
+import iconSearch from '../../../../../public/images/iconSearch.png'
+import FilterSelect from '@/components/ui/FilterSelect'
+import { FILTERS } from '@/lib/constants/common'
 
 const projects = [
   {
@@ -34,16 +32,16 @@ const projects = [
     skills: ['Software Dev', 'Cloud/DevOps', 'Blockchain/Security'],
     icons: ['Node', 'Vue', 'Azure'],
   },
-];
+]
 
 export default function ExplorePage() {
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState('All')
 
   const filteredProjects =
-    filter === 'All' ? projects : projects.filter((p) => p.type === filter);
+    filter === 'All' ? projects : projects.filter((p) => p.type === filter)
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       {/* Navbar */}
       <Menubar className="border-none flex flex-row justify-between gap-2 bg-[#F3F4F6] w-full h-[74px]">
         {/* Logo and Title */}
@@ -101,16 +99,14 @@ export default function ExplorePage() {
         </MenubarMenu>
       </Menubar>
       <Image
-          src={headerBackground}
-          alt="Header Background"
-          fill
-          className="object-cover z-[-1000]"
-        />
-
+        src="/images/bg-explore.png"
+        alt="Header Background"
+        width={1440}
+        height={384}
+        className="w-full -z-10 object-cover absolute top-0 left-0 mt-[74px]"
+      />
       {/* Header and Filters Section */}
       <div className="relative w-full h-48">
-        
-
         <div className="mx-[188px]">
           <div className="pt-[40px]">
             <h1 className="text-3xl font-semibold mb-[40px]">Explore</h1>
@@ -128,10 +124,14 @@ export default function ExplorePage() {
             }}
           />
           <div className="flex flex-wrap gap-4 sm:flex-row">
-      {FILTERS.map((filter, index) => (
-        <FilterSelect key={index} placeholder={filter.placeholder} options={filter.options} />
-      ))}
-    </div>
+            {FILTERS.map((filter, index) => (
+              <FilterSelect
+                key={index}
+                placeholder={filter.placeholder}
+                options={filter.options}
+              />
+            ))}
+          </div>
 
           {/* Projects Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
@@ -160,5 +160,5 @@ export default function ExplorePage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
