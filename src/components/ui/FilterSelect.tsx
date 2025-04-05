@@ -1,15 +1,24 @@
 import React from 'react';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
 
 interface FilterSelectProps {
   placeholder: string;
   options: { label: string; value: string }[];
 }
 
-const FilterSelect: React.FC<FilterSelectProps> = ({ placeholder, options }) => {
+const FilterSelect: React.FC<FilterSelectProps> = ({
+  placeholder,
+  options,
+}) => {
   return (
-    <Select>
-      <SelectTrigger className="w-[254px]">
+    <Select >
+      <SelectTrigger className="w-[254px] h-full flex items-center">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

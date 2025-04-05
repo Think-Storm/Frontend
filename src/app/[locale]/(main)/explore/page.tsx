@@ -19,7 +19,13 @@ import headerBackground from '../../../../../public/images/headerBackground.svg'
 import iconSearch from '../../../../../public/images/iconSearch.png';
 import FilterSelect from '@/components/ui/FilterSelect';
 import { FILTERS } from '@/lib/constants/common';
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const projects = [
   {
@@ -43,9 +49,9 @@ export default function ExplorePage() {
     filter === 'All' ? projects : projects.filter((p) => p.type === filter);
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       {/* Navbar */}
-      <Menubar className="border-none flex flex-row justify-between gap-2 bg-[#F3F4F6] w-full h-[74px]">
+      <Menubar className="border-none flex flex-row justify-between gap-2 bg-[#F3F4F6] w-full h-[74px] px-[25px]">
         {/* Logo and Title */}
         <div className="flex items-center justify-baseline flex-row gap-2">
           <Image src={logoGradient} alt="Logo picture" width={16} height={20} />
@@ -76,8 +82,8 @@ export default function ExplorePage() {
             </div>
           </div>
           {/* Notification button & Profile */}
-          <div className="flex flex-row items-center gap-[18px]">
-            <div>
+          <div className="flex flex-row items-center gap-[18px] ">
+            <div className="flex items-center justify-center h-[40px] w-[40px]">
               <button>
                 <Image
                   src={notificationIcon}
@@ -101,37 +107,57 @@ export default function ExplorePage() {
         </MenubarMenu>
       </Menubar>
       <Image
-          src={headerBackground}
-          alt="Header Background"
-          fill
-          className="object-cover z-[-1000]"
-        />
+        src={headerBackground}
+        alt="Header Background"
+        fill
+        className="object-cover z-[-1000]"
+      />
 
       {/* Header and Filters Section */}
-      <div className="relative w-full h-48">
-        
-
-        <div className="mx-[188px]">
+      <div className="relative w-full">
+        <div className="mx-[188px] border-2 border-green-400 h-full">
           <div className="pt-[40px]">
             <h1 className="text-3xl font-semibold mb-[40px]">Explore</h1>
           </div>
 
           {/* Search Bar */}
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full max-w-[524px] h-[48px] p-2 mb-4 border rounded-md border-[#EEE] bg-no-repeat bg-left pl-10 focus:outline-gray-300"
-            style={{
-              backgroundImage: `url(${iconSearch.src})`,
-              backgroundSize: '19px 19px',
-              backgroundPosition: '10px center',
-            }}
-          />
-          <div className="flex flex-wrap gap-4 sm:flex-row">
-      {FILTERS.map((filter, index) => (
-        <FilterSelect key={index} placeholder={filter.placeholder} options={filter.options} />
-      ))}
-    </div>
+          <div className="flex flex-row items-center justify-between mb-4 ">
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-full max-w-[524px] h-[48px] p-2 border rounded-md border-[#EEE] bg-no-repeat bg-left pl-10 focus:outline-gray-300"
+              style={{
+                backgroundImage: `url(${iconSearch.src})`,
+                backgroundSize: '19px 19px',
+                backgroundPosition: '10px center',
+              }}
+            />
+            {/* sorting filter */}
+            <div className="flex flex-row items-center">
+              <p className="text-sm font-bold">Sort by:</p>
+              <Select>
+                <SelectTrigger className="w-[113px] h-[48px]">
+                  <SelectValue placeholder="Recent" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">Popular</SelectItem>
+                  <SelectItem value="dark">Paid</SelectItem>
+                  <SelectItem value="system">Unpaid</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          {/* flex-wrap h-full justify-between gap-4 sm:flex-row w-[254px] items-center border-2 border-l-blue-500 */}
+          {/* Filters */}
+          <div className="lg:h-[48px] flex md:flex-wrap gap-4 justify-between border-2 border-red-500">
+            {FILTERS.map((filter, index) => (
+              <FilterSelect
+                key={index}
+                placeholder={filter.placeholder}
+                options={filter.options}
+              />
+            ))}
+          </div>
 
           {/* Projects Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
