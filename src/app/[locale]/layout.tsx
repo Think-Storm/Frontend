@@ -1,14 +1,19 @@
-import type { Metadata } from "next";
-import { Provider } from "@/providers/provider";
-import { routing } from "@/i18n/routing";
-import { notFound } from "next/navigation";
-import { NextIntlClientProvider, hasLocale } from "next-intl";
-import "@/styles/globals.css";
-import { satoshi, nippo } from "@/styles/fonts";
-import { siteMetadata } from "@/constants/metadata";
-import { Toaster } from "sonner";
-
-const { baseUrl, title, description, keywords, author, ogImage } = siteMetadata;
+import type { Metadata } from 'next'
+import { Provider } from '@/providers/provider'
+import { routing } from '@/i18n/routing'
+import { notFound } from 'next/navigation'
+import { NextIntlClientProvider, hasLocale } from 'next-intl'
+import '@/styles/globals.css'
+import { satoshi, nippo } from '@/styles/fonts'
+import {
+  BASE_URL,
+  TITLE,
+  DESCRIPTION,
+  KEYWORDS,
+  AUTHOR,
+  OG_IMAGE,
+} from '@/lib/constants/common'
+import QueryProvider from '@/providers/query-provider'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -17,32 +22,32 @@ export const metadata: Metadata = {
   keywords,
   authors: { name: author },
   icons: {
-    icon: "/images/favicon.ico",
+    icon: '/images/favicon.ico',
   },
   openGraph: {
-    type: "website",
-    title,
-    description,
-    siteName: title,
-    images: [ogImage],
-    url: baseUrl,
+    type: 'website',
+    title: TITLE,
+    description: DESCRIPTION,
+    siteName: TITLE,
+    images: [OG_IMAGE],
+    url: BASE_URL,
   },
   robots: {
     index: true,
     follow: true,
   },
-};
+}
 
 export default async function RootLayout({
   children,
   params,
 }: Readonly<{
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
 }>) {
-  const { locale } = await params;
+  const { locale } = await params
   if (!hasLocale(routing.locales, locale)) {
-    notFound();
+    notFound()
   }
   return (
     <html lang={locale}>
@@ -51,12 +56,14 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <NextIntlClientProvider>
-          <Provider>
-            <main>{children}</main>
-          </Provider>
+          <QueryProvider>
+            <Provider>
+              <main>{children}</main>
+            </Provider>
+          </QueryProvider>
         </NextIntlClientProvider>
         <Toaster />
       </body>
     </html>
-  );
+  )
 }

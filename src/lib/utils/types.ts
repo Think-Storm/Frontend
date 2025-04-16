@@ -12,6 +12,8 @@ export type TProjects = {
   founder: number;
   createdAt: string;
   lastUpdatedAt: string;
+  type: string;
+  skills: string[];
 };
 
 export type TTechnicalLabels = {
