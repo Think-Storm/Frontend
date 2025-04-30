@@ -11,13 +11,56 @@ import {
 } from '@/components/ui/select'
 import { useState } from 'react'
 import { useOutsideClick } from '@/store/hooks'
+import { useFetchProjects } from '../../../../store/hooks'
+import ProjectCard from '@/components/ui/ProjectCard'
 
 const projectFilters = ['Created', 'Saved', 'Joined', 'Requested']
 
 export default function MyProjectPage() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null)
-  const containerRef = useOutsideClick<HTMLDivElement>(() => {setActiveFilter(null)})
- 
+  const containerRef = useOutsideClick<HTMLDivElement>(() => {
+    setActiveFilter(null)
+  })
+  const mockProjects = [
+    {
+      id: '1',
+      title: 'Mock Project One',
+      description: 'This is a mock project for layout testing.',
+      status: 'Created',
+      goal: 'Collaboration',
+      technicalLabels: [
+        { labelName: 'React' },
+        { labelName: 'TypeScript' },
+        { labelName: 'Tailwind CSS' },
+      ],
+    },
+    {
+      id: '2',
+      title: 'Mock Project Two',
+      description: 'Another sample project to visualize layout.',
+      status: 'Saved',
+      goal: 'Learning',
+      technicalLabels: [{ labelName: 'Next.js' }],
+    },
+  ]
+  const useMock = true
+
+  const {
+    data: projects,
+    isLoading,
+    error,
+  } = useMock
+    ? { data: mockProjects, isLoading: false, error: null }
+    : useFetchProjects()
+
+  const displayProjects = projects
+
+  if (isLoading)
+    return <div className="p-8 text-center">Loading projects...</div>
+  if (error)
+    return (
+      <div className="p-8 text-center text-red-500">Error: {error.message}</div>
+    )
 
   return (
     <div className="w-full relative">
@@ -67,6 +110,43 @@ export default function MyProjectPage() {
             </div>
           </div>
         </div>
+        {/* Projects grid */}
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {displayProjects && displayProjects.length > 0 ? (
+            displayProjects.map((project) => (
+              <div key={project.id} className="border p-4 rounded-md">
+                <h2 className="text-xl font-bold">{project.title}</h2>
+                <p className="text-gray-600">{project.description}</p>
+                <div className="mt-2">
+                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+                    {project.status}
+                  </span>
+                  <span className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700">
+                    {project.goal}
+                  </span>
+                </div>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {project.technicalLabels.map((tech, idx) => (
+                    <span
+                      key={`${project.id}-tech-${idx}`}
+                      className="inline-block bg-green-200 rounded-full px-2 py-1 text-xs font-semibold text-green-700"
+                    >
+                      {tech.labelName}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="col-span-full text-center py-8 text-gray-500">
+              No projects found.{' '}
+              {activeFilter
+                ? `Try selecting a different filter than "${activeFilter}".`
+                : ''}
+            </div>
+          )}
+        </div> */}
+        <ProjectCard/>
       </div>
     </div>
   )
