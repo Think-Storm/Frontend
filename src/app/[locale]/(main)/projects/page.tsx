@@ -111,42 +111,7 @@ export default function MyProjectPage() {
           </div>
         </div>
         {/* Projects grid */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {displayProjects && displayProjects.length > 0 ? (
-            displayProjects.map((project) => (
-              <div key={project.id} className="border p-4 rounded-md">
-                <h2 className="text-xl font-bold">{project.title}</h2>
-                <p className="text-gray-600">{project.description}</p>
-                <div className="mt-2">
-                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                    {project.status}
-                  </span>
-                  <span className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700">
-                    {project.goal}
-                  </span>
-                </div>
-                <div className="mt-2 flex flex-wrap gap-1">
-                  {project.technicalLabels.map((tech, idx) => (
-                    <span
-                      key={`${project.id}-tech-${idx}`}
-                      className="inline-block bg-green-200 rounded-full px-2 py-1 text-xs font-semibold text-green-700"
-                    >
-                      {tech.labelName}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="col-span-full text-center py-8 text-gray-500">
-              No projects found.{' '}
-              {activeFilter
-                ? `Try selecting a different filter than "${activeFilter}".`
-                : ''}
-            </div>
-          )}
-        </div> */}
-        <ProjectCard/>
+        <ProjectCard />
       </div>
     </div>
   )

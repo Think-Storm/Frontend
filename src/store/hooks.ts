@@ -31,8 +31,6 @@ export function useFetchProjects() {
         queryKey: ['projects'],
         queryFn: getProjects,
         staleTime: 1000 * 60 * 15,
-        // retry: 2,
-        // refetchOnWindowFocus: true
     })
 
 }
