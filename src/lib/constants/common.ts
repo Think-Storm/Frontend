@@ -73,17 +73,15 @@ export const FILTERS = [
   },
 ]
 
-export const PROJECTS = [
-  {
-    title: 'Generative AI/LLM Project —looking for volunteers',
-    type: 'Educational',
-    skills: ['Software Dev', 'Design', 'AI/Data'],
-    icons: ['TS', 'React', 'AWS'],
-  },
-  {
-    title: 'Generative AI/LLM Project —looking for volunteers',
-    type: 'Educational',
-    skills: ['Software Dev', 'Cloud/DevOps', 'Blockchain/Security'],
-    icons: ['Node', 'Vue', 'Azure'],
-  },
-]
+// different colors for technical labels below
+
+// export const technicalLabelsColors = {
+//   React: 'bg-blue-500 text-white',
+//   NextJS: 'bg-gray-800 text-white',
+//   TailwindCSS: 'bg-teal-500 text-white',
+//   Python: 'bg-yellow-500 text-white',
+//   JavaScript: 'bg-green-500 text-white',
+//   TypeScript: 'bg-blue-600 text-white',
+//   MongoDB : 'bg-green-700 text-white',
+// }
+
