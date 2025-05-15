@@ -24,7 +24,7 @@ const ProjectCard = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 border-2 border-red-500">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 ">
       {projects.map((project, index) => (
         <div key={index} className="p-4 border rounded-md shadow-md">
           <div className="flex flex-row justify-between items-center">
