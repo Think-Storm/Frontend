@@ -13,6 +13,7 @@ import { useState } from 'react'
 import { useOutsideClick } from '@/store/hooks'
 import { useFetchProjects } from '../../../../store/hooks'
 import ProjectCard from '@/components/ui/ProjectCard'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const projectFilters = ['Created', 'Saved', 'Joined', 'Requested']
 
@@ -69,14 +70,14 @@ export default function MyProjectPage() {
       </div>
       <div className="flex flex-col gap-[40px] mx-[188px] mt-[74px] ">
         {/* header and button container */}
-        <div className="flex flex-row items-center justify-between border-2 border-red-500">
+        <div className="flex flex-row items-center justify-between ">
           <h1 className="text-3xl font-semibold">My Projects</h1>
           <button className="rounded-md bg-black text-white w-[164px] h-[48px]">
             + Create project
           </button>
         </div>
         {/* filters container */}
-        <div className="flex items-center justify-between h-full border-2 border-violet-500 ">
+        <div className="flex items-center justify-between h-full  ">
           <div
             className="flex flex-wrap sm:flex-row gap-2 text-black"
             ref={containerRef}
@@ -95,9 +96,9 @@ export default function MyProjectPage() {
               </Button>
             ))}
           </div>
-          <div className="flex flex-wrap sm:flex-row  items-center gap-2 h-[48px] border-2 border-green-400">
+          <div className="flex flex-wrap sm:flex-row  items-center gap-2 h-[48px] ">
             <div className="text-sm font-bold ">Sort by:</div>
-            <div className="h-full border-2 border-blue-500">
+            <div className="h-full ">
               <Select>
                 <SelectTrigger className="w-[113px]">
                   <SelectValue placeholder="Recent" />
@@ -111,6 +112,7 @@ export default function MyProjectPage() {
           </div>
         </div>
         {/* Projects grid */}
+        <Skeleton className="w-[100px] h-[20px] rounded-full" />
         <ProjectCard />
       </div>
     </div>
