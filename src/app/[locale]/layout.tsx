@@ -5,31 +5,27 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import "@/styles/globals.css";
 import { satoshi, nippo } from "@/styles/fonts";
-import {
-  BASE_URL,
-  TITLE,
-  DESCRIPTION,
-  KEYWORDS,
-  AUTHOR,
-  OG_IMAGE,
-} from "@/lib/constants/common";
+import { siteMetadata } from "@/constants/metadata";
+import { Toaster } from "sonner";
+
+const { baseUrl, title, description, keywords, author, ogImage } = siteMetadata;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
-  title: TITLE,
-  description: DESCRIPTION,
-  keywords: KEYWORDS,
-  authors: { name: AUTHOR },
+  metadataBase: new URL(baseUrl),
+  title,
+  description,
+  keywords,
+  authors: { name: author },
   icons: {
     icon: "/images/favicon.ico",
   },
   openGraph: {
     type: "website",
-    title: TITLE,
-    description: DESCRIPTION,
-    siteName: TITLE,
-    images: [OG_IMAGE],
-    url: BASE_URL,
+    title,
+    description,
+    siteName: title,
+    images: [ogImage],
+    url: baseUrl,
   },
   robots: {
     index: true,
@@ -50,12 +46,16 @@ export default async function RootLayout({
   }
   return (
     <html lang={locale}>
-      <body className={`${satoshi.variable} ${nippo.variable}`}>
+      <body
+        className={`${satoshi.variable} ${nippo.variable}`}
+        suppressHydrationWarning
+      >
         <NextIntlClientProvider>
           <Provider>
             <main>{children}</main>
           </Provider>
         </NextIntlClientProvider>
+        <Toaster />
       </body>
     </html>
   );
