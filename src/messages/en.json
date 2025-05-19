@@ -1,1 +1,8 @@
-{}
+{
+  "landing": {
+    "welcome": "Welcome to ThinkStorm!",
+    "subtitle": "Your creative space for ideas, collaboration, and innovation",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  }
+}
