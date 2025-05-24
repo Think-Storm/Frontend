@@ -1,6 +1,13 @@
 'use client'
 
 import { Menubar, MenubarMenu, MenubarTrigger } from './menubar'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import Image from 'next/image'
 import iconMenu from '../../../public/images/iconMenu.png'
 import iconWorld from '../../../public/images/iconWorld.png'
@@ -51,6 +58,7 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
           </div>
         </div>
         {/* Notification button & Profile */}
+
         <div className="flex flex-row items-center gap-[18px] ">
           <div className="flex items-center justify-center h-[40px] w-[40px]">
             <button>
@@ -63,14 +71,29 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
             </button>
           </div>
           <div>
-            <button>
+            <Select>
+              <SelectTrigger className="border-2 flex items-center border-none shadow-none rounded-full overflow-hidden">
+                <Image
+                  src={avatarImage}
+                  alt="avatar Image Buttom"
+                  width={40}
+                  height={40}
+                />
+                {/* <SelectValue placeholder="Recent" /> */}
+              </SelectTrigger>
+              <SelectContent className="border-none">
+                <SelectItem value="recent">Profile</SelectItem>
+                <SelectItem value="popular">Settings</SelectItem>
+              </SelectContent>
+            </Select>
+            {/* <button>
               <Image
                 src={avatarImage}
                 alt="avatar Image Buttom"
                 width={40}
                 height={40}
               />
-            </button>
+            </button> */}
           </div>
         </div>
       </MenubarMenu>

@@ -2,8 +2,8 @@ import { useDispatch, useSelector, useStore } from 'react-redux'
 import type { RootState, AppDispatch, AppStore } from './store'
 import { useEffect, useRef } from 'react'
 import { getProjects } from '@/lib/utils/thinkstorm-api'
-import type { TProjects } from '../lib/utils/types';
-import { useQuery } from '@tanstack/react-query';
+import type { TProjects } from '../lib/utils/types'
+import { useQuery } from '@tanstack/react-query'
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 export const useAppSelector = useSelector.withTypes<RootState>()
@@ -20,17 +20,17 @@ export function useOutsideClick<T extends HTMLElement>(callback: () => void) {
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
-        document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [callback])
   return ref
 }
 
-export function useFetchProjects() {
-    return useQuery<TProjects[],Error>({
-        queryKey: ['projects'],
-        queryFn: getProjects,
-        staleTime: 1000 * 60 * 15,
-    })
+export function useFetchProjects(page = 1, limit = 10) {
+  return useQuery({
+    queryKey: ['projects', page, limit],
+    queryFn: () => getProjects(page, limit),
+    staleTime: 1000 * 60 * 15,
 
+  })
 }
