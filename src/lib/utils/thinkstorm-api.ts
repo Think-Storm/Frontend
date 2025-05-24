@@ -6,7 +6,7 @@ const checkResponse = <T>(res: Response): Promise<T> =>
 
 export const getProjects = async (
   page = 1,
-  limit = 10,
+  limit = 9,
 ): Promise<TProjectsResponseTest> => {
   try {
     const url = new URL(`${BASE_API_URL}/projects/search`)
@@ -17,8 +17,6 @@ export const getProjects = async (
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        // Add authentication headers if needed
-        // 'Authorization': `Bearer ${token}`,
       },
     })
 
@@ -32,15 +30,11 @@ export const getProjects = async (
       }
     }
 
-    // Check for non-2xx status codes
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status} ${res.statusText}`)
     }
-
-    // Parse JSON response
     const json = await res.json()
 
-    // Validate response structure
     if (
       !json ||
       !Array.isArray(json.projects) ||
@@ -54,49 +48,17 @@ export const getProjects = async (
       )
     }
 
-    // Return typed response
     return json as TProjectsResponse
   } catch (error) {
-    // Log error for debugging
+    
     console.error(
       'Error fetching projects:',
       error instanceof Error ? error.message : 'Unknown error',
     )
-    // Throw a user-friendly error
+   
     throw new Error('Failed to fetch projects. Please try again later.')
   }
 }
-
-// export const getProjects = async (
-//   page = 1,
-//   limit = 10,
-// ): Promise<TProjectsResponse> => {
-//   // await is added for checking skeleton loading, remove once in production
-//   await new Promise((resolve) => setTimeout(resolve, 2000))
-
-//   const res = await fetch(`${BASE_API_URL}/projects/search`, {
-//     method: 'GET',
-//     headers: {
-//       'Accept': 'application/json',
-//     },
-//     //  body: JSON.stringify({ page, limit }),
-//   })
-
-//   if (res.status === 204) {
-//     return {
-//       projects: [],
-//       page,
-//       limit,
-//       totalPages: 0,
-//       totalItems: 0,
-//     }
-//   }
-
-//   const json = await res.json()
-//   return json as TProjectsResponse
-
-//   // return await checkResponse<TProjectsSearchResponse>(res)
-// }
 
 export const getProjectById = async (id: number): Promise<TProjects> => {
   const res = await fetch(`${BASE_API_URL}/projects/${id}`)

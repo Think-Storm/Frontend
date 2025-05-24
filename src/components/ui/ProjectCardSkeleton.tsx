@@ -4,7 +4,7 @@ const ProjectCardSkeleton = () => {
   return (
     <div className="p-4 border border-gray-300 rounded-md shadow-md">
       <div className="flex justify-between items-center">
-        <Skeleton className="w-[80px] h-[24px] rounded" />
+        <Skeleton className="w-[330px] h-[24px] rounded" />
         <Skeleton className="w-[24px] h-[24px] rounded" />
       </div>
       <Skeleton className="mt-2 w-3/4 h-6 rounded" />
