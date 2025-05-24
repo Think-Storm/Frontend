@@ -1,3 +1,5 @@
+import React from 'react'
+
 export type TProjects = {
   id: number
   title: string
@@ -37,6 +39,26 @@ export type DomainLabel = {
   labelName: string
 }
 
+export type ProjectCardProps = {
+  projects?: TProjects[]
+  isLoading: boolean
+  error: unknown
+}
+
+export interface BackgroundHeaderProps {
+  bgImage: string
+  height?: string // default to h-[384px]
+  children?: React.ReactNode
+}
+
+export type TProjectsResponse = {
+  projects: TProjects[]
+  page: number
+  limit: number
+  totalPages: number
+  totalItems: number
+}
+
 // These types don't match the current API response but could be useful
 // if needed for the application's internal data model
 export type TTechnicalLabels = {
@@ -49,4 +71,39 @@ export type TDomainLabels = {
 
 export type TUsersQuantity = {
   usersQuantity: number
+}
+
+export interface TProjectsResponseTest {
+  projects: Array<{
+    id: number;
+    title: string;
+    language: {
+      code: string;
+      name: string;
+      createdAt: string;
+      lastUpdatedAt: string;
+    };
+    technicalLabels: Array<{ projectId: number; labelName: string }>;
+    domainLabels: Array<{ projectId: number; labelName: string }>;
+    description: string;
+    status: string;
+    goal: string;
+    milestone: string;
+    users: Array<any>; 
+    founder: {
+      id: number;
+      email: string;
+      username: string;
+      fullName: string;
+      birthdate: string | null;
+      createdAt: string;
+      lastUpdatedAt: string;
+    };
+    createdAt: string;
+    lastUpdatedAt: string;
+  }>;
+  page: number;
+  limit: number;
+  totalPages: number;
+  totalItems: number;
 }
