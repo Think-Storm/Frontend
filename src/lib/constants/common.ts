@@ -1,5 +1,7 @@
 export const BASE_URL = 'https://thinkstorm.app'
 
+export const BASE_API_URL = 'http://localhost:3001'
+
 export const TITLE = 'ThinkStorm'
 
 export const DESCRIPTION =
