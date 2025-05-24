@@ -12,7 +12,7 @@ import {
   MenubarTrigger,
 } from './menubar'
 import ProjectCardSkeleton from './ProjectCardSkeleton'
-import type { TProjectsResponseTest, ProjectCardProps } from '@/lib/utils/types'
+import type { TProjects, ProjectCardProps } from '@/lib/utils/types'
 
 const ProjectCard = ({ projects = [], isLoading, error }: ProjectCardProps) => {
   if (isLoading) {

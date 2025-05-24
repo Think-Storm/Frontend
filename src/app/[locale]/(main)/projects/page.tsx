@@ -23,8 +23,16 @@ export default function MyProjectPage() {
     setActiveFilter(null)
   })
   const [page, setPage] = useState(1)
-  const limit = 6
-  const { data, isLoading, error } = useFetchProjects(page, limit )
+  const limit = 9
+  const { data: response, isLoading, error } = useFetchProjects(page, limit)
+
+  const handlePreviousPage = () => {
+    if (page > 1) setPage(page - 1)
+  }
+
+  const handleNextPage = () => {
+    if (response && page < response.totalPages) setPage(page + 1)
+  }
 
   return (
     <div className="w-full relative">
@@ -76,12 +84,34 @@ export default function MyProjectPage() {
             </div>
           </div>
           {/* Projects grid */}
-          {/* <Skeleton className="w-[100px] h-[20px] rounded-full" /> */}
           <ProjectCard
-            projects={data?.projects || []}
+            projects={response?.projects || []}
             isLoading={isLoading}
             error={error}
           />
+          {/* Pagination control */}
+
+          {response && (
+            <div className="flex justify-center items-center gap-4 mt-6">
+              <button
+                onClick={handlePreviousPage}
+                disabled={page === 1}
+                className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
+              >
+                Previous
+              </button>
+              <span>
+                Page {page} of {response.totalPages || 1}
+              </span>
+              <button
+                onClick={handleNextPage}
+                disabled={page >= (response.totalPages || 1)}
+                className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </BackgroundHeader>
     </div>

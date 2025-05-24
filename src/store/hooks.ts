@@ -3,7 +3,7 @@ import type { RootState, AppDispatch, AppStore } from './store'
 import { useEffect, useRef } from 'react'
 import { getProjects } from '@/lib/utils/thinkstorm-api'
 import type { TProjects } from '../lib/utils/types'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 export const useAppSelector = useSelector.withTypes<RootState>()
@@ -26,7 +26,7 @@ export function useOutsideClick<T extends HTMLElement>(callback: () => void) {
   return ref
 }
 
-export function useFetchProjects(page = 1, limit = 10) {
+export function useFetchProjects(page = 1, limit = 9) {
   return useQuery({
     queryKey: ['projects', page, limit],
     queryFn: () => getProjects(page, limit),

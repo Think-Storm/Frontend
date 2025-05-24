@@ -1,5 +1,40 @@
 import React from 'react'
 
+export interface TProjectsResponseTest {
+  projects: Array<{
+    id: number
+    title: string
+    language: {
+      code: string
+      name: string
+      createdAt: string
+      lastUpdatedAt: string
+    }
+    technicalLabels: Array<{ projectId: number; labelName: string }>
+    domainLabels: Array<{ projectId: number; labelName: string }>
+    description: string
+    status: string
+    goal: string
+    milestone: string
+    users: Array<any>
+    founder: {
+      id: number
+      email: string
+      username: string
+      fullName: string
+      birthdate: string | null
+      createdAt: string
+      lastUpdatedAt: string
+    }
+    createdAt: string
+    lastUpdatedAt: string
+  }>
+  page: number
+  limit: number
+  totalPages: number
+  totalItems: number
+}
+
 export type TProjects = {
   id: number
   title: string
@@ -71,39 +106,4 @@ export type TDomainLabels = {
 
 export type TUsersQuantity = {
   usersQuantity: number
-}
-
-export interface TProjectsResponseTest {
-  projects: Array<{
-    id: number;
-    title: string;
-    language: {
-      code: string;
-      name: string;
-      createdAt: string;
-      lastUpdatedAt: string;
-    };
-    technicalLabels: Array<{ projectId: number; labelName: string }>;
-    domainLabels: Array<{ projectId: number; labelName: string }>;
-    description: string;
-    status: string;
-    goal: string;
-    milestone: string;
-    users: Array<any>; 
-    founder: {
-      id: number;
-      email: string;
-      username: string;
-      fullName: string;
-      birthdate: string | null;
-      createdAt: string;
-      lastUpdatedAt: string;
-    };
-    createdAt: string;
-    lastUpdatedAt: string;
-  }>;
-  page: number;
-  limit: number;
-  totalPages: number;
-  totalItems: number;
 }

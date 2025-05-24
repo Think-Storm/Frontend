@@ -19,21 +19,21 @@ import BackgroundHeader from '@/components/ui/BackroundHeader'
 import bgExplore from '../../../../../public/images/bg-explore.png'
 
 export default function ExplorePage() {
-  const [filter, setFilter] = useState('All')
+  // const [filter, setFilter] = useState('All')
   const [page, setPage] = useState(1)
-  const limit = 10
+  const limit = 9
   const { data: response, isLoading, error } = useFetchProjects(page, limit)
 
   const handlePreviousPage = () => {
-    if (page > 1) setPage(page - 1);
-  };
+    if (page > 1) setPage(page - 1)
+  }
 
   const handleNextPage = () => {
-    if (response && page < response.totalPages) setPage(page + 1);
-  };
+    if (response && page < response.totalPages) setPage(page + 1)
+  }
 
   return (
-    <div className="w-full relative">
+    <div className="flex w-full relative items-center justify-center ">
       <BackgroundHeader bgImage={bgExplore.src}>
         {/* Navbar */}
         <Navbar />
@@ -44,10 +44,12 @@ export default function ExplorePage() {
           height={384}
           className="w-full -z-10 object-cover absolute top-0 left-0 mt-[74px]"
         />
+
         {/* Header and Filters Section */}
-        <div className="relative w-full h-48">
-          <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40 max-w-7xl mx-auto border-2 border-red-500">
-            <div className="pt-10">
+
+        <div className="flex flex-col w-full  items-center justify-center px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40">
+          <div className=" w-full ">
+            <div className="flex pt-10">
               <h1 className="text-3xl font-semibold mb-10">Explore</h1>
             </div>
             <div className="flex flex-col gap-4">
@@ -63,7 +65,7 @@ export default function ExplorePage() {
                     backgroundPosition: '10px center',
                   }}
                 />
-                <div className="flex flex-row justify-center items-center gap-2 h-[48px]">
+                <div className="flex flex-row justify-center items-center gap-2 h-[48px] ">
                   <div className="text-sm font-bold ">Sort by:</div>
                   <div className="h-full ">
                     <Select>
@@ -80,7 +82,7 @@ export default function ExplorePage() {
               </div>
 
               {/* filters */}
-              <div className="flex flex-wrap gap-6 sm:flex-row h-[48px] ">
+              <div className="flex justify-between gap-2 sm:gap-4 md:gap-6 lg:gap-8 h-[48px]">
                 {FILTERS.slice(0, 4).map((filter, index) => (
                   <FilterSelect
                     key={index}
@@ -90,16 +92,18 @@ export default function ExplorePage() {
                 ))}
               </div>
             </div>
+          </div>
 
-            {/* Projects Grid */}
+          {/* Projects & pagination container */}
+          <div className="">
             <ProjectCard
-            projects={response?.projects || []}
-            isLoading={isLoading}
-            error={error}
+              projects={response?.projects || []}
+              isLoading={isLoading}
+              error={error}
             />
             {/* Pagination control */}
-          </div>
-          {response && (
+
+            {response && (
               <div className="flex justify-center items-center gap-4 mt-6">
                 <button
                   onClick={handlePreviousPage}
@@ -120,6 +124,7 @@ export default function ExplorePage() {
                 </button>
               </div>
             )}
+          </div>
         </div>
       </BackgroundHeader>
     </div>
