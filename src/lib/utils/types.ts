@@ -94,6 +94,14 @@ export type TProjectsResponse = {
   totalItems: number
 }
 
+export type InfiniteScrollSpinProps = {
+  hasNextPage?: boolean
+  isFetchingNextPage: boolean
+  fetchNextPage: () => void
+  onDataChange?: (projects: TProjects[]) => void
+  className?: string
+}
+
 // These types don't match the current API response but could be useful
 // if needed for the application's internal data model
 export type TTechnicalLabels = {

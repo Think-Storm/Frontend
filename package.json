@@ -27,10 +27,12 @@
     "postcss": "^8.5.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-intersection-observer": "^9.16.0",
     "react-redux": "^9.2.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.14",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "tech-stack-icons": "^2.1.0"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.7",

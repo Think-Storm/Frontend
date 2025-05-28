@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import iconSearch from '../../../../../public/images/iconSearch.png'
 import FilterSelect from '@/components/ui/FilterSelect'
@@ -14,23 +14,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useFetchProjects, useOutsideClick } from '@/store/hooks'
+import {
+  useFetchInfiniteProjects,
+  useFetchProjects,
+  useOutsideClick,
+} from '@/store/hooks'
 import BackgroundHeader from '@/components/ui/BackroundHeader'
 import bgExplore from '../../../../../public/images/bg-explore.png'
+import { useInView } from 'react-intersection-observer'
+import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
 
 export default function ExplorePage() {
   // const [filter, setFilter] = useState('All')
   const [page, setPage] = useState(1)
   const limit = 9
-  const { data: response, isLoading, error } = useFetchProjects(page, limit)
 
-  const handlePreviousPage = () => {
-    if (page > 1) setPage(page - 1)
-  }
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    error,
+  } = useFetchInfiniteProjects()
 
-  const handleNextPage = () => {
-    if (response && page < response.totalPages) setPage(page + 1)
-  }
+  const allProjects = data?.pages.flatMap((page) => page.projects) || []
 
   return (
     <div className="flex w-full relative items-center justify-center ">
@@ -97,33 +105,16 @@ export default function ExplorePage() {
           {/* Projects & pagination container */}
           <div className="">
             <ProjectCard
-              projects={response?.projects || []}
+              projects={allProjects}
               isLoading={isLoading}
               error={error}
             />
-            {/* Pagination control */}
-
-            {response && (
-              <div className="flex justify-center items-center gap-4 mt-6">
-                <button
-                  onClick={handlePreviousPage}
-                  disabled={page === 1}
-                  className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
-                >
-                  Previous
-                </button>
-                <span>
-                  Page {page} of {response.totalPages || 1}
-                </span>
-                <button
-                  onClick={handleNextPage}
-                  disabled={page >= (response.totalPages || 1)}
-                  className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
-                >
-                  Next
-                </button>
-              </div>
-            )}
+            {/* Infinite scroll animation */}
+            <InfiniteScrollSpin
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              fetchNextPage={fetchNextPage}
+            />
           </div>
         </div>
       </BackgroundHeader>
