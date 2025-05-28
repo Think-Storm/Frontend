@@ -1,3 +1,5 @@
+import { Target, GraduationCap, Heart, DollarSign, Gamepad } from 'lucide-react'
+
 export const BASE_URL = 'https://thinkstorm.app'
 
 export const BASE_API_URL = 'http://localhost:3001'
@@ -75,15 +77,12 @@ export const FILTERS = [
   },
 ]
 
-// different colors for technical labels below
+export const goalIcons = {
+  Profitable: DollarSign,
+  Education: GraduationCap,
+  Fun: Gamepad,
+  OpenSource: Heart,
+  Other: Target,
+}
 
-// export const technicalLabelsColors = {
-//   React: 'bg-blue-500 text-white',
-//   NextJS: 'bg-gray-800 text-white',
-//   TailwindCSS: 'bg-teal-500 text-white',
-//   Python: 'bg-yellow-500 text-white',
-//   JavaScript: 'bg-green-500 text-white',
-//   TypeScript: 'bg-blue-600 text-white',
-//   MongoDB : 'bg-green-700 text-white',
-// }
-
+export type GoalType = keyof typeof goalIcons

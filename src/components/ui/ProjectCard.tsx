@@ -13,8 +13,14 @@ import {
 } from './menubar'
 import ProjectCardSkeleton from './ProjectCardSkeleton'
 import type { TProjects, ProjectCardProps } from '@/lib/utils/types'
+import StackIcon from 'tech-stack-icons'
+import { goalIcons, type GoalType } from '@/lib/constants/common'
 
 const ProjectCard = ({ projects = [], isLoading, error }: ProjectCardProps) => {
+  const GoalIcon = (goal: string) => {
+    const Icon = goalIcons[goal as GoalType] || goalIcons.Other
+    return <Icon className="w-4 h-4 incline-block mr-1"/>
+  }
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
@@ -35,8 +41,8 @@ const ProjectCard = ({ projects = [], isLoading, error }: ProjectCardProps) => {
           className="p-4 border border-gray-200 rounded-md shadow-md"
         >
           <div className="flex flex-row justify-between items-center">
-            <span className="text-sm font-semibold bg-gray-200 p-1 rounded">
-              {project.goal}
+            <span className="flex flex-row items-center text-sm font-medium bg-gray-200 p-1 rounded">
+              {GoalIcon(project.goal)}{project.goal}
             </span>
             <Menubar className="w-[40px] border border-gray-200">
               <MenubarMenu>
@@ -58,9 +64,12 @@ const ProjectCard = ({ projects = [], isLoading, error }: ProjectCardProps) => {
             {project.technicalLabels.map((tech, i) => (
               <span
                 key={`${project.id}-tech-${i}`}
-                className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"
+                className="text-xs  px-2 py-1 rounded"
               >
-                {tech.labelName}
+                <StackIcon
+                  name={tech.labelName}
+                  className="w-[18px] h-[18px]"
+                />
               </span>
             ))}
           </div>

@@ -31,6 +31,16 @@ export function useFetchProjects(page = 1, limit = 9) {
     queryKey: ['projects', page, limit],
     queryFn: () => getProjects(page, limit),
     staleTime: 1000 * 60 * 15,
+  })
+}
 
+export function useFetchInfiniteProjects(limit = 9) {
+  return useInfiniteQuery({
+    queryKey: ['infiniteProjects'],
+    queryFn: ({ pageParam = 1 }) => getProjects(pageParam, limit),
+    getNextPageParam: (lastPage) => {
+      return lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined
+    },
+    initialPageParam: 1,
   })
 }
