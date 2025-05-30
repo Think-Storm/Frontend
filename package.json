@@ -18,6 +18,7 @@
     "@tailwindcss/postcss": "^4.0.14",
     "@tanstack/react-query": "^5.72.2",
     "@tanstack/react-query-devtools": "^5.68.0",
+    "@think-storm/contracts": "github:Think-Storm/Contracts",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cypress": "^14.4.0",
@@ -32,7 +33,8 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.14",
     "tailwindcss-animate": "^1.0.7",
-    "tech-stack-icons": "^2.1.0"
+    "tech-stack-icons": "^2.1.0",
+    "think-storm-contracts": "git+https://github.com/Think-Storm/Contracts.git"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.7",

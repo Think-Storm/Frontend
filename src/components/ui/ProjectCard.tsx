@@ -15,11 +15,19 @@ import ProjectCardSkeleton from './ProjectCardSkeleton'
 import type { TProjects, ProjectCardProps } from '@/lib/utils/types'
 import StackIcon from 'tech-stack-icons'
 import { goalIcons, type GoalType } from '@/lib/constants/common'
+import { NotificationType, LoginUser } from '@think-storm/contracts'
+
 
 const ProjectCard = ({ projects = [], isLoading, error }: ProjectCardProps) => {
+
+  type LoginUser = {
+    name: string;
+    password: string
+  }
+
   const GoalIcon = (goal: string) => {
     const Icon = goalIcons[goal as GoalType] || goalIcons.Other
-    return <Icon className="w-4 h-4 incline-block mr-1"/>
+    return <Icon className="w-4 h-4 incline-block mr-1" />
   }
   if (isLoading) {
     return (
@@ -42,7 +50,8 @@ const ProjectCard = ({ projects = [], isLoading, error }: ProjectCardProps) => {
         >
           <div className="flex flex-row justify-between items-center">
             <span className="flex flex-row items-center text-sm font-medium bg-gray-200 p-1 rounded">
-              {GoalIcon(project.goal)}{project.goal}
+              {GoalIcon(project.goal)}
+              {project.goal}
             </span>
             <Menubar className="w-[40px] border border-gray-200">
               <MenubarMenu>
