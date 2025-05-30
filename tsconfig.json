@@ -18,7 +18,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@think-storm/contracts": ["./node_modules/@think-storm/contracts/dist"]
     },
     "target": "ES2017",
     "types": ["vitest/globals", "@testing-library/jest-dom"]

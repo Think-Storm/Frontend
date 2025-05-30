@@ -27,6 +27,7 @@
     "@tailwindcss/postcss": "^4.0.14",
     "@tanstack/react-query": "^5.74.0",
     "@tanstack/react-query-devtools": "^5.68.0",
+    "@think-storm/contracts": "github:Think-Storm/Contracts",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "husky": "^9.1.7",
