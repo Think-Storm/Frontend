@@ -1,29 +1,29 @@
-import { useDispatch, useSelector, useStore } from 'react-redux'
-import type { RootState, AppDispatch, AppStore } from './store'
-import { useEffect, useRef } from 'react'
-import { getProjects } from '@/lib/utils/thinkstorm-api'
-import type { TProjects } from '../lib/utils/types'
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
+import { useDispatch, useSelector, useStore } from 'react-redux';
+import type { RootState, AppDispatch, AppStore } from './store';
+import { useEffect, useRef } from 'react';
+import { getProjects } from '@/lib/utils/thinkstorm-api';
+import type { TProjects } from '../lib/utils/types';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
-export const useAppSelector = useSelector.withTypes<RootState>()
-export const useAppStore = useStore.withTypes<AppStore>()
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector = useSelector.withTypes<RootState>();
+export const useAppStore = useStore.withTypes<AppStore>();
 
 export function useOutsideClick<T extends HTMLElement>(callback: () => void) {
-  const ref = useRef<T | null>(null)
+  const ref = useRef<T | null>(null);
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback()
+        callback();
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [callback])
-  return ref
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [callback]);
+  return ref;
 }
 
 export function useFetchProjects(page = 1, limit = 9) {
@@ -31,7 +31,7 @@ export function useFetchProjects(page = 1, limit = 9) {
     queryKey: ['projects', page, limit],
     queryFn: () => getProjects(page, limit),
     staleTime: 1000 * 60 * 15,
-  })
+  });
 }
 
 export function useFetchInfiniteProjects(limit = 9) {
@@ -39,8 +39,8 @@ export function useFetchInfiniteProjects(limit = 9) {
     queryKey: ['infiniteProjects'],
     queryFn: ({ pageParam = 1 }) => getProjects(pageParam, limit),
     getNextPageParam: (lastPage) => {
-      return lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined
+      return lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined;
     },
     initialPageParam: 1,
-  })
+  });
 }

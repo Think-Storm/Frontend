@@ -1,11 +1,7 @@
-import React from 'react'
-import { BackgroundHeaderProps } from '@/lib/utils/types'
+import React from 'react';
+import { BackgroundHeaderProps } from '@/lib/utils/types';
 
-const BackgroundHeader = ({
-  bgImage,
-  height = 'h-[384px]',
-  children,
-}: BackgroundHeaderProps) => {
+const BackgroundHeader = ({ bgImage, height = 'h-[384px]', children }: BackgroundHeaderProps) => {
   return (
     <div
       className={`relative w-full ${height}`}
@@ -18,7 +14,7 @@ const BackgroundHeader = ({
     >
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default BackgroundHeader
+export default BackgroundHeader;

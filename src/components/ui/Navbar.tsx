@@ -1,29 +1,29 @@
-'use client'
+'use client';
 
-import { Menubar, MenubarMenu, MenubarTrigger } from './menubar'
+import { Menubar, MenubarMenu, MenubarTrigger } from './menubar';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import Image from 'next/image'
-import iconMenu from '../../../public/images/iconMenu.png'
-import iconWorld from '../../../public/images/iconWorld.png'
-import notificationIcon from '../../../public/images/notificationIcon.png'
-import avatarImage from '../../../public/images/avatarImage.png'
-import logoGradient from '../../../public/images/logoGradient.png'
-import React, { ReactNode, useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+} from '@/components/ui/select';
+import Image from 'next/image';
+import iconMenu from '../../../public/images/iconMenu.png';
+import iconWorld from '../../../public/images/iconWorld.png';
+import notificationIcon from '../../../public/images/notificationIcon.png';
+import avatarImage from '../../../public/images/avatarImage.png';
+import logoGradient from '../../../public/images/logoGradient.png';
+import React, { ReactNode, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 
 type NavbarProps = {
-  children?: ReactNode
-}
+  children?: ReactNode;
+};
 
 const Navbar: React.FC<NavbarProps> = ({ children }) => {
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <Menubar className="border-none flex flex-row justify-between gap-2 bg-[#F3F4F6] w-full h-[74px] px-[25px]">
@@ -62,23 +62,13 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
         <div className="flex flex-row items-center gap-[18px] ">
           <div className="flex items-center justify-center h-[40px] w-[40px]">
             <button>
-              <Image
-                src={notificationIcon}
-                alt="Notification Icon Button"
-                width={18}
-                height={20}
-              />
+              <Image src={notificationIcon} alt="Notification Icon Button" width={18} height={20} />
             </button>
           </div>
           <div>
             <Select>
               <SelectTrigger className="border-2 flex items-center border-none shadow-none rounded-full overflow-hidden">
-                <Image
-                  src={avatarImage}
-                  alt="avatar Image Buttom"
-                  width={40}
-                  height={40}
-                />
+                <Image src={avatarImage} alt="avatar Image Buttom" width={40} height={40} />
                 {/* <SelectValue placeholder="Recent" /> */}
               </SelectTrigger>
               <SelectContent className="border-none">
@@ -98,7 +88,7 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
         </div>
       </MenubarMenu>
     </Menubar>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

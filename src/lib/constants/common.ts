@@ -1,13 +1,13 @@
-import { Target, GraduationCap, Heart, DollarSign, Gamepad } from 'lucide-react'
+import { Target, GraduationCap, Heart, DollarSign, Gamepad } from 'lucide-react';
 
-export const BASE_URL = 'https://thinkstorm.app'
+export const BASE_URL = 'https://thinkstorm.app';
 
-export const BASE_API_URL = 'http://localhost:3001'
+export const BASE_API_URL = 'http://localhost:3001';
 
-export const TITLE = 'ThinkStorm'
+export const TITLE = 'ThinkStorm';
 
 export const DESCRIPTION =
-  'ThinkStorm is a unique collaborative platform to connect all tech professionals, learners and innovators.'
+  'ThinkStorm is a unique collaborative platform to connect all tech professionals, learners and innovators.';
 
 export const KEYWORDS = [
   'ThinkStorm',
@@ -24,16 +24,16 @@ export const KEYWORDS = [
   'Learning Tech',
   'Tech Stacks',
   'Student Projects',
-]
+];
 
-export const AUTHOR = 'ThinkStorm'
+export const AUTHOR = 'ThinkStorm';
 
 export const OG_IMAGE = {
   url: '/images/og-image.png',
   width: 1200,
   height: 630,
   alt: 'ThinkStorm',
-}
+};
 
 export const FILTERS = [
   {
@@ -75,7 +75,7 @@ export const FILTERS = [
       { label: 'Popular', value: 'popular' },
     ],
   },
-]
+];
 
 export const goalIcons = {
   Profitable: DollarSign,
@@ -83,6 +83,6 @@ export const goalIcons = {
   Fun: Gamepad,
   OpenSource: Heart,
   Other: Target,
-}
+};
 
-export type GoalType = keyof typeof goalIcons
+export type GoalType = keyof typeof goalIcons;

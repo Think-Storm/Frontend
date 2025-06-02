@@ -1,44 +1,34 @@
-'use client'
+'use client';
 
-import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
-import iconSearch from '../../../../../public/images/iconSearch.png'
-import FilterSelect from '@/components/ui/FilterSelect'
-import { FILTERS } from '@/lib/constants/common'
-import ProjectCard from '@/components/ui/ProjectCard'
-import Navbar from '@/components/ui/Navbar'
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import iconSearch from '../../../../../public/images/iconSearch.png';
+import FilterSelect from '@/components/ui/FilterSelect';
+import { FILTERS } from '@/lib/constants/common';
+import ProjectCard from '@/components/ui/ProjectCard';
+import Navbar from '@/components/ui/Navbar';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import {
-  useFetchInfiniteProjects,
-  useFetchProjects,
-  useOutsideClick,
-} from '@/store/hooks'
-import BackgroundHeader from '@/components/ui/BackroundHeader'
-import bgExplore from '../../../../../public/images/bg-explore.png'
-import { useInView } from 'react-intersection-observer'
-import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
+} from '@/components/ui/select';
+import { useFetchInfiniteProjects, useFetchProjects, useOutsideClick } from '@/store/hooks';
+import BackgroundHeader from '@/components/ui/BackroundHeader';
+import bgExplore from '../../../../../public/images/bg-explore.png';
+import { useInView } from 'react-intersection-observer';
+import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin';
 
 export default function ExplorePage() {
   // const [filter, setFilter] = useState('All')
-  const [page, setPage] = useState(1)
-  const limit = 9
+  const [page, setPage] = useState(1);
+  const limit = 9;
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    error,
-  } = useFetchInfiniteProjects()
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } =
+    useFetchInfiniteProjects();
 
-  const allProjects = data?.pages.flatMap((page) => page.projects) || []
+  const allProjects = data?.pages.flatMap((page) => page.projects) || [];
 
   return (
     <div className="flex w-full relative items-center justify-center ">
@@ -104,11 +94,7 @@ export default function ExplorePage() {
 
           {/* Projects & pagination container */}
           <div className="">
-            <ProjectCard
-              projects={allProjects}
-              isLoading={isLoading}
-              error={error}
-            />
+            <ProjectCard projects={allProjects} isLoading={isLoading} error={error} />
             {/* Infinite scroll animation */}
             <InfiniteScrollSpin
               hasNextPage={hasNextPage}
@@ -119,5 +105,5 @@ export default function ExplorePage() {
         </div>
       </BackgroundHeader>
     </div>
-  )
+  );
 }

@@ -1,45 +1,35 @@
-'use client'
+'use client';
 
-import { Button } from '@/components/ui/button'
-import Navbar from '@/components/ui/Navbar'
+import { Button } from '@/components/ui/button';
+import Navbar from '@/components/ui/Navbar';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { useState, useEffect } from 'react'
-import {
-  useFetchInfiniteProjects,
-  useFetchProjects,
-  useOutsideClick,
-} from '@/store/hooks'
-import ProjectCard from '@/components/ui/ProjectCard'
-import BackgroundHeader from '@/components/ui/BackroundHeader'
-import bgExplore from '../../../../../public/images/bg-explore.png'
-import { useInView } from 'react-intersection-observer'
-import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
+} from '@/components/ui/select';
+import { useState, useEffect } from 'react';
+import { useFetchInfiniteProjects, useFetchProjects, useOutsideClick } from '@/store/hooks';
+import ProjectCard from '@/components/ui/ProjectCard';
+import BackgroundHeader from '@/components/ui/BackroundHeader';
+import bgExplore from '../../../../../public/images/bg-explore.png';
+import { useInView } from 'react-intersection-observer';
+import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin';
 
-const projectFilters = ['Created', 'Saved', 'Joined', 'Requested']
+const projectFilters = ['Created', 'Saved', 'Joined', 'Requested'];
 
 export default function MyProjectPage() {
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    error,
-  } = useFetchInfiniteProjects()
-  const [activeFilter, setActiveFilter] = useState<string | null>(null)
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } =
+    useFetchInfiniteProjects();
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const containerRef = useOutsideClick<HTMLDivElement>(() => {
-    setActiveFilter(null)
-  })
+    setActiveFilter(null);
+  });
 
-  const [page, setPage] = useState(1)
-  const limit = 9
-  const allProjects = data?.pages.flatMap((page) => page.projects) || []
+  const [page, setPage] = useState(1);
+  const limit = 9;
+  const allProjects = data?.pages.flatMap((page) => page.projects) || [];
 
   return (
     <div className="w-full relative">
@@ -57,10 +47,7 @@ export default function MyProjectPage() {
           </div>
           {/* filters container */}
           <div className="flex items-center justify-between h-full  ">
-            <div
-              className="flex flex-wrap sm:flex-row gap-2 text-black"
-              ref={containerRef}
-            >
+            <div className="flex flex-wrap sm:flex-row gap-2 text-black" ref={containerRef}>
               {projectFilters.map((label) => (
                 <Button
                   key={label}
@@ -91,11 +78,7 @@ export default function MyProjectPage() {
             </div>
           </div>
           {/* Projects grid */}
-          <ProjectCard
-            projects={allProjects}
-            isLoading={isLoading}
-            error={error}
-          />
+          <ProjectCard projects={allProjects} isLoading={isLoading} error={error} />
           {/* Infinite scroll animation */}
           <InfiniteScrollSpin
             hasNextPage={hasNextPage}
@@ -105,5 +88,5 @@ export default function MyProjectPage() {
         </div>
       </BackgroundHeader>
     </div>
-  )
+  );
 }

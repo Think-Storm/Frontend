@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run",
+    "prepare": "husky"
   },
   "dependencies": {
     "@radix-ui/react-menubar": "^1.1.6",
@@ -18,7 +19,6 @@
     "@tailwindcss/postcss": "^4.0.14",
     "@tanstack/react-query": "^5.72.2",
     "@tanstack/react-query-devtools": "^5.68.0",
-    "@think-storm/contracts": "github:Think-Storm/Contracts",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cypress": "^14.4.0",
@@ -33,18 +33,36 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.14",
     "tailwindcss-animate": "^1.0.7",
-    "tech-stack-icons": "^2.1.0",
-    "think-storm-contracts": "git+https://github.com/Think-Storm/Contracts.git"
+    "tech-stack-icons": "^2.1.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@flydotio/dockerfile": "^0.5.7",
     "@tanstack/eslint-plugin-query": "^5.68.0",
+    "@think-storm/contracts": "^1.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.4",
     "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "husky": "^9.1.7",
+    "prettier": "^3.2.5",
     "typescript": "^5.8.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix --max-warnings=0"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

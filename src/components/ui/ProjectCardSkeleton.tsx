@@ -1,4 +1,4 @@
-import { Skeleton } from './skeleton'
+import { Skeleton } from './skeleton';
 
 const ProjectCardSkeleton = () => {
   return (
@@ -15,8 +15,7 @@ const ProjectCardSkeleton = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ProjectCardSkeleton;
-
