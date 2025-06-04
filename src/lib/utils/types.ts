@@ -1,5 +1,11 @@
 import React from 'react'
 
+export interface TechStackInputProps {
+  selectedTechs: TechStack[]
+  onSelect: (tech: TechStack) => void
+  onRemove: (techId: number) => void
+}
+
 export interface TProjectsResponseTest {
   projects: Array<{
     id: number
@@ -102,11 +108,13 @@ export type InfiniteScrollSpinProps = {
   className?: string
 }
 
+export interface TechStack {
+  id: number
+  labelName: string
+}
+
 // These types don't match the current API response but could be useful
 // if needed for the application's internal data model
-export type TTechnicalLabels = {
-  name: string
-}
 
 export type TDomainLabels = {
   name: string

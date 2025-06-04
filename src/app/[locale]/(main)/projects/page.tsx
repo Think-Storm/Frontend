@@ -20,10 +20,12 @@ import BackgroundHeader from '@/components/ui/BackroundHeader'
 import bgExplore from '../../../../../public/images/bg-explore.png'
 import { useInView } from 'react-intersection-observer'
 import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
+import { useRouter } from 'next/navigation'
 
 const projectFilters = ['Created', 'Saved', 'Joined', 'Requested']
 
 export default function MyProjectPage() {
+  const router = useRouter()
   const {
     data,
     fetchNextPage,
@@ -51,7 +53,10 @@ export default function MyProjectPage() {
           {/* header and button container */}
           <div className="flex flex-row items-center justify-between ">
             <h1 className="text-3xl font-semibold">My Projects</h1>
-            <button className="rounded-md bg-black text-white w-[164px] h-[48px]">
+            <button
+              className="rounded-md bg-black text-white w-[164px] h-[48px] hover:bg-gray-800 active:bg-gray-700 transition-colors"
+              onClick={() => router.push('/create-project')}
+            >
               + Create project
             </button>
           </div>

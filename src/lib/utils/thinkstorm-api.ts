@@ -1,4 +1,10 @@
-import { TProjects, TProjectsResponse, TProjectsResponseTest } from './types'
+import {
+  TechnicalLabel,
+  TechStack,
+  TProjects,
+  TProjectsResponse,
+  TProjectsResponseTest,
+} from './types'
 import { BASE_API_URL } from '../constants/common'
 
 const checkResponse = <T>(res: Response): Promise<T> =>
@@ -50,12 +56,11 @@ export const getProjects = async (
 
     return json as TProjectsResponse
   } catch (error) {
-    
     console.error(
       'Error fetching projects:',
       error instanceof Error ? error.message : 'Unknown error',
     )
-   
+
     throw new Error('Failed to fetch projects. Please try again later.')
   }
 }
@@ -69,4 +74,29 @@ export const getProjectById = async (id: number): Promise<TProjects> => {
   }>(res)
   if (data.success) return data.data
   throw new Error(data.message || 'Failed to fetch projects')
+}
+
+export const getTechStacks = async (): Promise<TechStack[]> => {
+  try {
+    const projectsData = await getProjects(1, 100)
+
+    const techStacksSet = new Set<string>()
+    const techStacks: TechStack[] = []
+
+    projectsData.projects.forEach((project) => {
+      project.technicalLabels.forEach((label) => {
+        if (!techStacksSet.has(label.labelName)) {
+          techStacksSet.add(label.labelName)
+          techStacks.push({
+            id: label.projectId,
+            labelName: label.labelName,
+          })
+        }
+      })
+    })
+    return techStacks.sort((a, b) => a.labelName.localeCompare(b.labelName))
+  } catch (error) {
+    console.error('Error fetching tech stacks:', error)
+    throw new Error('Failed to fetch tech stack')
+  }
 }

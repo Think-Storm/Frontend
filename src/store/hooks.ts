@@ -1,8 +1,8 @@
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import type { RootState, AppDispatch, AppStore } from './store'
 import { useEffect, useRef } from 'react'
-import { getProjects } from '@/lib/utils/thinkstorm-api'
-import type { TProjects } from '../lib/utils/types'
+import { getProjects, getTechStacks } from '@/lib/utils/thinkstorm-api'
+import type { TechStackInputProps, TProjects } from '../lib/utils/types'
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
@@ -42,5 +42,13 @@ export function useFetchInfiniteProjects(limit = 9) {
       return lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined
     },
     initialPageParam: 1,
+  })
+}
+
+export function useTechStacks() {
+  return useQuery({
+    queryKey: ['techStacks'],
+    queryFn: getTechStacks,
+    staleTime: 1000 * 60 * 5,
   })
 }

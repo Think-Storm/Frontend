@@ -20,12 +20,16 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
 }) => {
   return (
     <Select>
-      <SelectTrigger className="w-[254px] h-full">
+      <SelectTrigger className="w-[212px] h-full min-h-[48px]">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="border-gray-300">
         {options.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
+          <SelectItem
+            key={option.value}
+            value={option.value}
+            className="cursor-pointer"
+          >
             {option.label}
           </SelectItem>
         ))}

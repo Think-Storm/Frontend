@@ -23,6 +23,9 @@ import BackgroundHeader from '@/components/ui/BackroundHeader'
 import bgExplore from '../../../../../public/images/bg-explore.png'
 import { useInView } from 'react-intersection-observer'
 import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
+import { Search } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 export default function ExplorePage() {
   // const [filter, setFilter] = useState('All')
@@ -62,35 +65,37 @@ export default function ExplorePage() {
             </div>
             <div className="flex flex-col gap-4">
               {/* Search Bar & sort by filter*/}
-              <div className="flex flex-row justify-between ">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="w-full max-w-[524px] h-[48px] p-2 border rounded-md border-[#EEE] bg-no-repeat bg-left pl-10 focus:outline-gray-300"
-                  style={{
-                    backgroundImage: `url(${iconSearch.src})`,
-                    backgroundSize: '19px 19px',
-                    backgroundPosition: '10px center',
-                  }}
-                />
-                <div className="flex flex-row justify-center items-center gap-2 h-[48px] ">
-                  <div className="text-sm font-bold ">Sort by:</div>
-                  <div className="h-full ">
-                    <Select>
-                      <SelectTrigger className="w-[113px]">
-                        <SelectValue placeholder="Recent" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="recent">Recent</SelectItem>
-                        <SelectItem value="popular">Popular</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+              <div className="flex flex-row justify-between">
+                <div className="relative 2-full flex-1 ">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-[19px] h-[19px] pointer-events-none" />
+                  <Input
+                    type="search"
+                    id="search"
+                    placeholder="Search"
+                    className="pl-10 h-[48px] max-w-[524px]"
+                  />
+                </div>
+
+                <div className="flex flex-1 flex-row justify-end items-center gap-2 h-[48px]">
+                  <Label>Sort by:</Label>
+                  <Select>
+                    <SelectTrigger className="w-[113px] h-full min-h-[48px]">
+                      <SelectValue placeholder="Recent" />
+                    </SelectTrigger>
+                    <SelectContent className="border-gray-300 cursor-pointer ">
+                      <SelectItem value="recent" className="cursor-pointer">
+                        Recent
+                      </SelectItem>
+                      <SelectItem value="popular" className="cursor-pointer">
+                        Popular
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
               {/* filters */}
-              <div className="flex justify-between gap-2 sm:gap-4 md:gap-6 lg:gap-8 h-[48px]">
+              <div className="flex justify-between gap-2 sm:gap-4 md:gap-6 lg:gap-6 h-[48px] ">
                 {FILTERS.slice(0, 4).map((filter, index) => (
                   <FilterSelect
                     key={index}
