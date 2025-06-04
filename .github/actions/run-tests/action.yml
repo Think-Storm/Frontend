@@ -1,65 +1,65 @@
-name: 'Run Tests and Upload Logs'
-description: 'Runs Docker Compose tests and captures logs from containers'
+name: "Run Tests and Upload Logs"
+description: "Runs Docker Compose tests and captures logs from containers"
 
 # Define inputs to customize the test process
 inputs:
   compose-file-app:
-    description: 'Path to the base Docker Compose file'
+    description: "Path to the base Docker Compose file"
     required: false
-    default: 'docker/docker-compose.app.yml'
+    default: "docker/docker-compose.app.yml"
   compose-file-db:
-    description: 'Path to the database Docker Compose file'
+    description: "Path to the database Docker Compose file"
     required: false
-    default: 'docker/docker-compose.db.yml'
+    default: "docker/docker-compose.db.yml"
   compose-file-test:
-    description: 'Path to the test Docker Compose file'
+    description: "Path to the test Docker Compose file"
     required: false
-    default: 'docker/docker-compose.test.yml'
+    default: "docker/docker-compose.test.yml"
   image-name:
-    description: 'Name of the pre-built Docker image to use for tests'
+    description: "Name of the pre-built Docker image to use for tests"
     required: false
-    default: 'thinkstorm-backend-prod:latest'
+    default: "thinkstorm-backend-prod:latest"
   logs-directory:
-    description: 'Directory where logs should be stored'
+    description: "Directory where logs should be stored"
     required: false
-    default: 'logs'
+    default: "logs"
   artifact-name:
-    description: 'Name for the uploaded artifact'
+    description: "Name for the uploaded artifact"
     required: false
-    default: 'docker-logs'
+    default: "docker-logs"
   retention-days:
-    description: 'Number of days to retain the artifact'
+    description: "Number of days to retain the artifact"
     required: false
-    default: '2'
+    default: "2"
   services:
-    description: 'Services to collect logs from (comma-separated)'
+    description: "Services to collect logs from (comma-separated)"
     required: false
-    default: 'postgres_db,redis_db,unit,e2e,cov'
+    default: "postgres_db,redis_db,unit,e2e,cov"
   build-image:
-    description: 'Whether to build the image during test (set to false if using pre-built image)'
+    description: "Whether to build the image during test (set to false if using pre-built image)"
     required: false
     default: true
   build-args:
-    description: 'Additional build arguments to pass to Docker Compose build'
+    description: "Additional build arguments to pass to Docker Compose build"
     required: false
-    default: ''
+    default: ""
   env-variables:
-    description: 'Path to the environment file'
+    description: "Path to the environment file"
     required: true
-    default: '.env'
+    default: ".env"
 
 # Define outputs from the test process
 outputs:
   test-success:
-    description: 'Whether the tests completed successfully'
+    description: "Whether the tests completed successfully"
     value: ${{ steps.check-tests.outputs.success }}
   failed_tests:
-    description: 'Whether the tests failed'
+    description: "Whether the tests failed"
     value: ${{ steps.check-tests.outputs.failed_tests }}
 
 # Define how the action runs
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     # Step 1: Set image name environment variable
     - name: Configure image name
