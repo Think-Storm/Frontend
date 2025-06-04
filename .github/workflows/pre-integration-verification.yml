@@ -1,63 +1,31 @@
 name: Pre Integration Verification Pipeline
 
+permissions:
+  contents: read
+  packages: read
+  id-token: write # Required for requesting the JWT
+
 on:
   pull_request:
     branches:
       - 'develop'
-
+  workflow_dispatch:
 jobs:
-  setup:
+  pre-integration:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - name: Cache Node.js modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Install dependencies
-        run: npm install
 
-  commitlint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: wagoid/commitlint-github-action@v6
-
-  lint:
-    runs-on: ubuntu-latest
-    needs: [setup, commitlint]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Setup
+        uses: ./.github/actions/setup
         with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm install
-      - name: Run linter
-        run: npm run lint
+          contract-access-token: ${{ secrets.NPM_TOKEN }}
 
-  build:
-    runs-on: ubuntu-latest
-    needs: [setup, lint]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Lint
+        uses: ./.github/actions/lint
+
+      - name: Build
+        uses: ./.github/actions/build
         with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build application
-        run: npm run build
+          build-args: '--build-arg CONTRACT_ACCESS_TOKEN=${{ secrets.NPM_TOKEN }}'

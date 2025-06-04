@@ -1,0 +1,133 @@
+name: 'Run Tests and Upload Logs'
+description: 'Runs Docker Compose tests and captures logs from containers'
+
+# Define inputs to customize the test process
+inputs:
+  compose-file-app:
+    description: 'Path to the base Docker Compose file'
+    required: false
+    default: 'docker/docker-compose.app.yml'
+  compose-file-db:
+    description: 'Path to the database Docker Compose file'
+    required: false
+    default: 'docker/docker-compose.db.yml'
+  compose-file-test:
+    description: 'Path to the test Docker Compose file'
+    required: false
+    default: 'docker/docker-compose.test.yml'
+  image-name:
+    description: 'Name of the pre-built Docker image to use for tests'
+    required: false
+    default: 'thinkstorm-backend-prod:latest'
+  logs-directory:
+    description: 'Directory where logs should be stored'
+    required: false
+    default: 'logs'
+  artifact-name:
+    description: 'Name for the uploaded artifact'
+    required: false
+    default: 'docker-logs'
+  retention-days:
+    description: 'Number of days to retain the artifact'
+    required: false
+    default: '2'
+  services:
+    description: 'Services to collect logs from (comma-separated)'
+    required: false
+    default: 'postgres_db,redis_db,unit,e2e,cov'
+  build-image:
+    description: 'Whether to build the image during test (set to false if using pre-built image)'
+    required: false
+    default: true
+  build-args:
+    description: 'Additional build arguments to pass to Docker Compose build'
+    required: false
+    default: ''
+  env-variables:
+    description: 'Path to the environment file'
+    required: true
+    default: '.env'
+
+# Define outputs from the test process
+outputs:
+  test-success:
+    description: 'Whether the tests completed successfully'
+    value: ${{ steps.check-tests.outputs.success }}
+  failed_tests:
+    description: 'Whether the tests failed'
+    value: ${{ steps.check-tests.outputs.failed_tests }}
+
+# Define how the action runs
+runs:
+  using: 'composite'
+  steps:
+    # Step 1: Set image name environment variable
+    - name: Configure image name
+      shell: bash
+      run: |
+        # This will be used by Docker Compose
+        echo "DOCKER_IMAGE=${{ inputs.image-name }}" >> $GITHUB_ENV
+        echo "Using Docker image: ${{ inputs.image-name }}"
+
+    # Step 2: Start the Next.js application
+    - name: Start Next.js Application
+      shell: bash
+      env:
+        ENV_VARIABLES: ${{ inputs.env-variables }}
+      run: |
+        echo "$ENV_VARIABLES" > .env
+        npm run build
+        npm run start &
+        # Wait for the application to be ready
+        echo "Waiting for Next.js application to start..."
+        timeout=60
+        while ! curl -s http://localhost:3000 > /dev/null; do
+          if [ $timeout -le 0 ]; then
+            echo "Timeout waiting for Next.js application"
+            exit 1
+          fi
+          sleep 1
+          timeout=$((timeout-1))
+        done
+        echo "Next.js application is ready"
+
+    # Step 3: Create logs directory
+    - name: Create logs directory
+      shell: bash
+      run: |
+        mkdir -p ${{ inputs.logs-directory }}
+
+    # Step 4: Run Cypress tests
+    - name: Run Cypress Tests
+      id: run-cypress
+      shell: bash
+      run: |
+        # Start capturing logs
+        npm run start > ${{ inputs.logs-directory }}/nextjs.log 2>&1 &
+
+        # Run Cypress tests
+        npm run test:e2e > ${{ inputs.logs-directory }}/cypress.log 2>&1
+        CYPRESS_EXIT_CODE=$?
+
+        # Check if tests passed
+        if [ $CYPRESS_EXIT_CODE -eq 0 ]; then
+          echo "success=true" >> $GITHUB_OUTPUT
+        else
+          echo "success=false" >> $GITHUB_OUTPUT
+          echo "failed_tests=cypress" >> $GITHUB_OUTPUT
+        fi
+
+    # Step 5: Upload logs as artifacts
+    - name: Upload Test Logs
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.logs-directory }}/
+        retention-days: ${{ inputs.retention-days }}
+
+    # Step 6: Cleanup
+    - name: Cleanup
+      shell: bash
+      run: |
+        # Kill any remaining processes
+        pkill -f "node" || true

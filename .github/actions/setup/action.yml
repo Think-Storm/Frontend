@@ -1,0 +1,72 @@
+name: 'Setup Environment'
+description: 'Sets up Node.js and caches dependencies'
+
+# Define inputs (optional parameters)
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '20'
+  cache-key-suffix:
+    description: 'Optional suffix for cache key customization'
+    required: false
+    default: ''
+  contract-access-token:
+    description: 'Contract access token'
+    required: true
+
+# Define outputs that can be used by workflows
+outputs:
+  cache-hit:
+    description: 'Whether there was a cache hit for node_modules'
+    value: ${{ steps.cache-modules.outputs.cache-hit }}
+
+# Define how the action runs
+runs:
+  using: 'composite' # Composite action combines multiple steps
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Cache Node.js modules
+      id: cache-modules
+      uses: actions/cache@v4
+      with:
+        path: |
+          node_modules
+          .npmrc
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}${{ inputs.cache-key-suffix }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Create .npmrc file
+      shell: bash
+      env:
+        NPM_TOKEN: ${{ inputs.contract-access-token }}
+      run: |
+        # Create .npmrc in the project root with the correct format
+        echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
+        echo "@think-storm:registry=https://npm.pkg.github.com" >> .npmrc
+        # Also create in home directory for global npm config
+        echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+        echo "@think-storm:registry=https://npm.pkg.github.com" >> ~/.npmrc
+        # Set proper permissions
+        chmod 600 .npmrc
+        chmod 600 ~/.npmrc
+        # Debug: Check if .npmrc files exist and have correct permissions
+        ls -la .npmrc ~/.npmrc
+        cat .npmrc
+        cat ~/.npmrc
+
+    - name: Install dependencies
+      if: steps.cache-modules.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        CONTRACT_ACCESS_TOKEN: ${{ inputs.contract-access-token }}
+      run: |
+        npm config set @think-storm:registry https://npm.pkg.github.com
+        npm config set //npm.pkg.github.com/:_authToken ${{ inputs.contract-access-token }}
+
+        npm install
