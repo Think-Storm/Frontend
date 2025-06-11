@@ -5,11 +5,11 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
-import AuthForm from "@/components/common/form/AuthForm";
-import AuthFormField from "@/components/common/form/AuthFormField";
+import AuthForm from "@/components/features/auth/components/AuthForm";
+import AuthFormField from "@/components/features/auth/components/AuthFormField";
 import { Button } from "@/components/ui/button";
 import { signupSchema } from "@/schemas/authSchemas";
-import useSignUp from "@/hooks/auth/useSignUp";
+import useSignUp from "@/components/features/auth/hooks/useSignUp";
 import { SignUpData } from "@/types/user";
 import { Spinner } from "@/components/ui/spinner";
 

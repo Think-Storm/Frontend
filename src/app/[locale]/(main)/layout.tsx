@@ -1,7 +1,3 @@
-import React from "react";
-
-const MainLayout = () => {
-  return <></>;
-};
-
-export default MainLayout;
+export default function MainLayout() {
+  return <div></div>;
+}

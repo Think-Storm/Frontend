@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import LanguageSelector from "@/components/common/LanguageSelector";
+import LanguageSelector from "@/components/common/locale/LanguageSelector";
 
 export default function LandingPage() {
   const t = useTranslations("landing");
