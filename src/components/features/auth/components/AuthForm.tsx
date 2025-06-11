@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 export default function AuthForm({ children }: { children: ReactNode }) {
   return (

@@ -6,10 +6,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import AuthForm from "@/components/common/form/AuthForm";
-import AuthFormField from "@/components/common/form/AuthFormField";
+import AuthForm from "@/components/features/auth/components/AuthForm";
+import AuthFormField from "@/components/features/auth/components/AuthFormField";
 import { loginSchema } from "@/schemas/authSchemas";
-import useSignIn from "@/hooks/auth/useSignIn";
+import useSignIn from "@/components/features/auth/hooks/useSignIn";
 import { SignInData } from "@/types/user";
 import { Spinner } from "@/components/ui/spinner";
 

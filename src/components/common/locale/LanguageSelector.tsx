@@ -37,15 +37,13 @@ export default function LanguageSelector() {
       </SelectTrigger>
       <SelectContent>
         {languages.map((language) => (
-          <SelectItem
-            key={language.code}
-            value={language.code}
-            className="flex items-center gap-2"
-          >
-            <span className="text-base" aria-hidden="true">
-              {language.flag}
-            </span>
-            <span className="text-sm">{language.name}</span>
+          <SelectItem key={language.code} value={language.code}>
+            <div className="flex items-center gap-1">
+              <span className="text-base" aria-hidden="true">
+                {language.flag}
+              </span>
+              <span className="text-sm">{language.name}</span>
+            </div>
           </SelectItem>
         ))}
       </SelectContent>
