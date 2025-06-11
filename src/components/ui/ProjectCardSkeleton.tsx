@@ -18,5 +18,4 @@ const ProjectCardSkeleton = () => {
   )
 }
 
-export default ProjectCardSkeleton;
-
+export default ProjectCardSkeleton

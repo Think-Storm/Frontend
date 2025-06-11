@@ -17,23 +17,22 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
+    "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-menubar": "^1.1.6",
+    "@radix-ui/react-navigation-menu": "^1.2.5",
+    "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-select": "^2.2.4",
     "@radix-ui/react-slot": "^1.2.0",
     "@radix-ui/react-toast": "^1.2.7",
-    "@radix-ui/react-menubar": "^1.1.6",
-    "@radix-ui/react-navigation-menu": "^1.2.5",
-    "@radix-ui/react-dialog": "^1.1.14",
-    "@radix-ui/react-popover": "^1.1.14",
     "@reduxjs/toolkit": "^2.6.1",
     "@tailwindcss/postcss": "^4.0.14",
     "@tanstack/react-query": "^5.74.0",
     "@tanstack/react-query-devtools": "^5.68.0",
-    "@think-storm/contracts": "github:Think-Storm/Contracts",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "husky": "^9.1.7",
     "cmdk": "^1.1.1",
+    "husky": "^9.1.7",
     "lucide-react": "^0.483.0",
     "next": "^15.2.2",
     "next-intl": "^4.0.2",
@@ -47,8 +46,8 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.14",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.24.2",
-    "tech-stack-icons": "^2.1.0"
+    "tech-stack-icons": "^2.1.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.0",
@@ -63,6 +62,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
+    "@think-storm/contracts": "^1.0.6",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -73,6 +73,7 @@
     "cypress": "^14.4.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "^15.2.2",
+    "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-storybook": "^9.0.8",
     "jest": "^30.0.0",
     "jest-environment-jsdom": "^30.0.0",
@@ -82,7 +83,6 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",
     "vite-tsconfig-paths": "^5.1.4",
-    "eslint-config-prettier": "^10.1.1",
     "vitest": "^3.2.3"
   }
 }

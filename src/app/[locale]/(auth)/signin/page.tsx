@@ -1,30 +1,30 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import AuthForm from "@/components/features/auth/components/AuthForm";
-import AuthFormField from "@/components/features/auth/components/AuthFormField";
-import { loginSchema } from "@/schemas/authSchemas";
-import useSignIn from "@/components/features/auth/hooks/useSignIn";
-import { SignInData } from "@/types/user";
-import { Spinner } from "@/components/ui/spinner";
+import Link from 'next/link'
+import Image from 'next/image'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Form } from '@/components/ui/form'
+import { Button } from '@/components/ui/button'
+import AuthForm from '@/components/features/auth/components/AuthForm'
+import AuthFormField from '@/components/features/auth/components/AuthFormField'
+import { loginSchema } from '@/schemas/authSchemas'
+import useSignIn from '@/components/features/auth/hooks/useSignIn'
+import { SignInData } from '@/types/user'
+import { Spinner } from '@/components/ui/spinner'
 
 export default function SignInPage() {
-  const { signIn, isPending, error } = useSignIn();
+  const { signIn, isPending, error } = useSignIn()
   const form = useForm<SignInData>({
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     resolver: zodResolver(loginSchema),
-  });
+  })
 
   function onSubmit(FormValues: SignInData) {
-    signIn(FormValues);
+    signIn(FormValues)
   }
 
   return (
@@ -72,7 +72,7 @@ export default function SignInPage() {
                     <span aria-hidden="true">Signing in...</span>
                   </>
                 ) : (
-                  "Sign In"
+                  'Sign In'
                 )}
               </Button>
               <div
@@ -117,5 +117,5 @@ export default function SignInPage() {
         </Form>
       </AuthForm.Content>
     </AuthForm>
-  );
+  )
 }

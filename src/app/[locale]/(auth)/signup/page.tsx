@@ -1,31 +1,31 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
-import AuthForm from "@/components/features/auth/components/AuthForm";
-import AuthFormField from "@/components/features/auth/components/AuthFormField";
-import { Button } from "@/components/ui/button";
-import { signupSchema } from "@/schemas/authSchemas";
-import useSignUp from "@/components/features/auth/hooks/useSignUp";
-import { SignUpData } from "@/types/user";
-import { Spinner } from "@/components/ui/spinner";
+import Link from 'next/link'
+import Image from 'next/image'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Form } from '@/components/ui/form'
+import AuthForm from '@/components/features/auth/components/AuthForm'
+import AuthFormField from '@/components/features/auth/components/AuthFormField'
+import { Button } from '@/components/ui/button'
+import { signupSchema } from '@/schemas/authSchemas'
+import useSignUp from '@/components/features/auth/hooks/useSignUp'
+import { SignUpData } from '@/types/user'
+import { Spinner } from '@/components/ui/spinner'
 
 export default function SignUpPage() {
-  const { signUp, isPending } = useSignUp();
+  const { signUp, isPending } = useSignUp()
   const form = useForm<SignUpData>({
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
+      username: '',
+      email: '',
+      password: '',
     },
     resolver: zodResolver(signupSchema),
-  });
+  })
 
   function onSubmit(FormValues: SignUpData) {
-    signUp(FormValues);
+    signUp(FormValues)
   }
 
   return (
@@ -79,7 +79,7 @@ export default function SignUpPage() {
                     <span aria-hidden="true">Creating account...</span>
                   </>
                 ) : (
-                  "Sign Up"
+                  'Sign Up'
                 )}
               </Button>
               <div
@@ -124,5 +124,5 @@ export default function SignUpPage() {
         </Form>
       </AuthForm.Content>
     </AuthForm>
-  );
+  )
 }

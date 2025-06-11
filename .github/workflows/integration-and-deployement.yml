@@ -29,8 +29,8 @@ jobs:
       - name: Build
         uses: ./.github/actions/build
         with:
-          build-args: "--build-arg CONTRACT_ACCESS_TOKEN=${{ secrets.NPM_TOKEN }}"
-          env-variables: "NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}"
+          build-args: '--build-arg CONTRACT_ACCESS_TOKEN=${{ secrets.NPM_TOKEN }}'
+          env-variables: 'NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}'
 
   deploy:
     runs-on: ubuntu-latest

@@ -1,27 +1,27 @@
-"use client";
+'use client'
 
-import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useRouter } from 'next/navigation'
+import { useLocale } from 'next-intl'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { languages } from "@/constants/language";
+} from '@/components/ui/select'
+import { languages } from '@/constants/language'
 
 export default function LanguageSelector() {
-  const router = useRouter();
-  const currentLocale = useLocale();
+  const router = useRouter()
+  const currentLocale = useLocale()
 
   const handleLanguageChange = (locale: string) => {
-    router.push(`/${locale}`);
-  };
+    router.push(`/${locale}`)
+  }
 
   const currentLanguage = languages.find(
-    (language) => language.code === currentLocale
-  );
+    (language) => language.code === currentLocale,
+  )
 
   return (
     <Select value={currentLocale} onValueChange={handleLanguageChange}>
@@ -48,5 +48,5 @@ export default function LanguageSelector() {
         ))}
       </SelectContent>
     </Select>
-  );
+  )
 }

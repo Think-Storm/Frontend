@@ -17,11 +17,9 @@ import StackIcon from 'tech-stack-icons'
 import { goalIcons, type GoalType } from '@/lib/constants/common'
 import { NotificationType, LoginUser } from '@think-storm/contracts'
 
-
 const ProjectCard = ({ projects = [], isLoading, error }: ProjectCardProps) => {
-
   type LoginUser = {
-    name: string;
+    name: string
     password: string
   }
 

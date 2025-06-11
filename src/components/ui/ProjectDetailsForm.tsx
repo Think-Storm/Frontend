@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { TechStack } from '@/lib/utils/types'
 import { Button } from './button'

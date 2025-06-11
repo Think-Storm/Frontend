@@ -1,9 +1,9 @@
 import { useDispatch, useSelector, useStore } from 'react-redux'
-import type { RootState, AppDispatch, AppStore } from './store'
 import { useEffect, useRef } from 'react'
 import { getProjects, getTechStacks } from '@/lib/utils/thinkstorm-api'
 import type { TechStackInputProps, TProjects } from '../lib/utils/types'
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
+import { AppDispatch, AppStore, RootState } from '.'
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 export const useAppSelector = useSelector.withTypes<RootState>()

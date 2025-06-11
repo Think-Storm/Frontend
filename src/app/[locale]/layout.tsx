@@ -14,13 +14,14 @@ import {
   OG_IMAGE,
 } from '@/lib/constants/common'
 import QueryProvider from '@/providers/query-provider'
+import { Toaster } from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
-  title,
-  description,
-  keywords,
-  authors: { name: author },
+  metadataBase: new URL(BASE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  keywords: KEYWORDS,
+  authors: { name: AUTHOR },
   icons: {
     icon: '/images/favicon.ico',
   },

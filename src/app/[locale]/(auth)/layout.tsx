@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import { ReactNode } from "react";
-import Image from "next/image";
+import { ReactNode } from 'react'
+import Image from 'next/image'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
@@ -64,5 +64,5 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         </section>
       </main>
     </div>
-  );
+  )
 }

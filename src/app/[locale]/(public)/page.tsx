@@ -1,12 +1,12 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import Image from "next/image";
-import { useTranslations } from "next-intl";
-import LanguageSelector from "@/components/common/locale/LanguageSelector";
+import Link from 'next/link'
+import Image from 'next/image'
+import { useTranslations } from 'next-intl'
+import LanguageSelector from '@/components/common/locale/LanguageSelector'
 
 export default function LandingPage() {
-  const t = useTranslations("landing");
+  const t = useTranslations('landing')
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -28,11 +28,11 @@ export default function LandingPage() {
         <div className="flex-1 flex flex-col items-center justify-center text-center px-4">
           <div className="max-w-4xl space-y-6 sm:space-y-8">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight">
-              {t("welcome")}
+              {t('welcome')}
             </h1>
 
             <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-              {t("subtitle")}
+              {t('subtitle')}
             </p>
 
             <nav
@@ -43,18 +43,18 @@ export default function LandingPage() {
                 href="/signin"
                 className="px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-black rounded-full text-base sm:text-lg font-medium hover:bg-white/90 transition-colors shadow-lg hover:shadow-xl"
               >
-                {t("signIn")}
+                {t('signIn')}
               </Link>
               <Link
                 href="/signup"
                 className="px-6 sm:px-8 py-2.5 sm:py-3 border-2 border-white text-white rounded-full text-base sm:text-lg font-medium hover:bg-white/10 transition-colors shadow-lg hover:shadow-xl"
               >
-                {t("signUp")}
+                {t('signUp')}
               </Link>
             </nav>
           </div>
         </div>
       </main>
     </div>
-  );
+  )
 }
