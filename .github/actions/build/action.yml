@@ -39,6 +39,10 @@ inputs:
     description: "Whether to run npm build before Docker build"
     required: false
     default: "true"
+  env-variables:
+    description: "Environment variables to set in the build process"
+    required: false
+    default: ""
 
 # Define outputs from the build process
 outputs:
@@ -62,6 +66,8 @@ runs:
       shell: bash
       run: |
         echo "Running npm build..."
+        echo "Environment variables: ${{ inputs.env-variables }}"
+        export ${{ inputs.env-variables }}
         npm install
         npm run build
         if [ $? -eq 0 ]; then
