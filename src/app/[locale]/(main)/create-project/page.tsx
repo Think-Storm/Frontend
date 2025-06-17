@@ -1,7 +1,9 @@
-import BackgroundHeader from '@/components/ui/BackroundHeader'
+"use client"
+
+import BackgroundHeader from '@/components/ui/BackgroundHeader'
 import bgExplore from '../../../../../public/images/bg-explore.png'
 import Navbar from '@/components/ui/Navbar'
-import ProjectDetailsForm from '@/components/ui/ProjectDetailsForm'
+import ProjectDetailsForm from '@/components/features/auth/components/ProjectDetailsForm'
 
 export default function CreateProject() {
   return (

@@ -13,12 +13,13 @@ const checkResponse = <T>(res: Response): Promise<T> =>
 export const getProjects = async (
   page = 1,
   limit = 9,
+  search?: string,
 ): Promise<TProjectsResponseTest> => {
   try {
     const url = new URL(`${BASE_API_URL}/projects/search`)
     url.searchParams.append('page', page.toString())
     url.searchParams.append('limit', limit.toString())
-
+    if (search) url.searchParams.append('search', search)
     const res = await fetch(url.toString(), {
       method: 'GET',
       headers: {

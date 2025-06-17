@@ -37,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
         <div className="flex flex-row items-center gap-2 text-base">
           <div className="flex flex-row items-center">
             <MenubarTrigger
-              className={`gap-2 ${pathname === 'projects' ? 'bg-gray-300' : ''}`}
+              className={`cursor-pointer hover:text-gray-700 gap-2 ${pathname === 'projects' ? 'bg-gray-300' : ''}`}
               onClick={() => router.push('/projects')}
             >
               <FolderKanban />
@@ -47,7 +47,7 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
 
           <div className="flex flex-row items-center ">
             <MenubarTrigger
-              className={`gap-2 ${pathname === 'explore' ? 'bg-gray-300' : ''}`}
+              className={`hover:text-gray-700 gap-2 ${pathname === 'explore' ? 'bg-gray-300' : ''}`}
               onClick={() => router.push('/explore')}
             >
               <Telescope />

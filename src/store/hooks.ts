@@ -34,10 +34,10 @@ export function useFetchProjects(page = 1, limit = 9) {
   })
 }
 
-export function useFetchInfiniteProjects(limit = 9) {
+export function useFetchInfiniteProjects(search: string = '') {
   return useInfiniteQuery({
-    queryKey: ['infiniteProjects'],
-    queryFn: ({ pageParam = 1 }) => getProjects(pageParam, limit),
+    queryKey: ['infiniteProjects', search],
+    queryFn: ({ pageParam = 1 }) => getProjects(pageParam , 9, search), 
     getNextPageParam: (lastPage) => {
       return lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined
     },

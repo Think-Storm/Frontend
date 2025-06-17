@@ -1,21 +1,23 @@
 'use client'
 
 import { TechStack } from '@/lib/utils/types'
-import { Button } from './button'
-import { Input } from './input'
-import { Label } from './label'
+import { Button } from '../../../ui/button'
+import { Input } from '../../../ui/input'
+import { Label } from '../../../ui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './select'
+} from '../../../ui/select'
 import { TechStackInput } from './TechStackInput'
-import { Textarea } from './textarea'
+import { Textarea } from '../../../ui/textarea'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const ProjectDetailsForm = () => {
+  const router = useRouter()
   const [selectedTechs, setSelectedTechs] = useState<TechStack[]>([])
   const handleTechSelect = (tech: TechStack) => {
     if (!selectedTechs.find((t) => t.id === tech.id)) {
@@ -79,7 +81,11 @@ const ProjectDetailsForm = () => {
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="skills">Skills *</Label>
-          <Input type="email" id="email" placeholder="Email" />
+          <TechStackInput
+            selectedTechs={selectedTechs}
+            onSelect={handleTechSelect}
+            onRemove={handleTechRemove}
+          />
         </div>
 
         <div className="flex flex-col gap-2">
@@ -89,12 +95,15 @@ const ProjectDetailsForm = () => {
             onSelect={handleTechSelect}
             onRemove={handleTechRemove}
           />
-          <Input type="tech stack" id="tech stack" placeholder="Tech stack" />
         </div>
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="field">Field *</Label>
-          <Input type="email" id="email" placeholder="Email" />
+          <TechStackInput
+            selectedTechs={selectedTechs}
+            onSelect={handleTechSelect}
+            onRemove={handleTechRemove}
+          />
         </div>
 
         <div className="flex justify-end gap-4">
@@ -104,7 +113,14 @@ const ProjectDetailsForm = () => {
           >
             Save as Draft
           </Button>
-          <Button type="submit">Create Project</Button>
+          <Button
+            type="submit"
+            onClick={() => {
+              router.push('/project-created')
+            }}
+          >
+            Create Project
+          </Button>
         </div>
       </div>
     </div>

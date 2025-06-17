@@ -16,6 +16,7 @@ import {
 import QueryProvider from '@/providers/query-provider'
 import { Toaster } from '@/components/ui/toaster'
 
+
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: TITLE,
@@ -54,12 +55,12 @@ export default async function RootLayout({
     <html lang={locale}>
       <body
         className={`${satoshi.variable} ${nippo.variable}`}
-        suppressHydrationWarning
       >
         <NextIntlClientProvider>
           <QueryProvider>
             <Provider>
-              <main>{children}</main>
+              <main>{children}
+              </main>
             </Provider>
           </QueryProvider>
         </NextIntlClientProvider>

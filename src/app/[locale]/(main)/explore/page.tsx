@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import iconSearch from '../../../../../public/images/iconSearch.png'
 import FilterSelect from '@/components/ui/FilterSelect'
 import { FILTERS } from '@/lib/constants/common'
 import ProjectCard from '@/components/ui/ProjectCard'
@@ -19,7 +18,7 @@ import {
   useFetchProjects,
   useOutsideClick,
 } from '@/store/hooks'
-import BackgroundHeader from '@/components/ui/BackroundHeader'
+import BackgroundHeader from '@/components/ui/BackgroundHeader'
 import bgExplore from '../../../../../public/images/bg-explore.png'
 import { useInView } from 'react-intersection-observer'
 import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
@@ -28,9 +27,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export default function ExplorePage() {
-  // const [filter, setFilter] = useState('All')
-  const [page, setPage] = useState(1)
-  const limit = 9
+  const [searchQuery, setSearchQuery] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
 
   const {
     data,
@@ -42,6 +40,26 @@ export default function ExplorePage() {
   } = useFetchInfiniteProjects()
 
   const allProjects = data?.pages.flatMap((page) => page.projects) || []
+
+  // Debounce search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery)
+    }, 300)
+
+    return () => clearTimeout(timer)
+  }, [searchQuery])
+
+  const filteredProjects = allProjects.filter(
+    (project) =>
+      project.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      project.description
+        .toLowerCase()
+        .includes(debouncedSearch.toLowerCase()) ||
+      project.technicalLabels.some((tech) =>
+        tech.labelName.toLowerCase().includes(debouncedSearch.toLowerCase()),
+      ),
+  )
 
   return (
     <div className="flex w-full relative items-center justify-center ">
@@ -73,6 +91,8 @@ export default function ExplorePage() {
                     id="search"
                     placeholder="Search"
                     className="pl-10 h-[48px] max-w-[524px]"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
 
@@ -109,17 +129,25 @@ export default function ExplorePage() {
 
           {/* Projects & pagination container */}
           <div className="">
-            <ProjectCard
-              projects={allProjects}
-              isLoading={isLoading}
-              error={error}
-            />
-            {/* Infinite scroll animation */}
-            <InfiniteScrollSpin
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-              fetchNextPage={fetchNextPage}
-            />
+            {filteredProjects.length > 0 ? (
+              <>
+                <ProjectCard
+                  projects={filteredProjects}
+                  isLoading={isLoading}
+                  error={error}
+                />
+                {/* Infinite scroll animation */}
+                <InfiniteScrollSpin
+                  hasNextPage={hasNextPage}
+                  isFetchingNextPage={isFetchingNextPage}
+                  fetchNextPage={fetchNextPage}
+                />
+              </>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-[50vh] mt-20 ">
+                <p className="text-md font-semibold">No results found</p>
+              </div>
+            )}
           </div>
         </div>
       </BackgroundHeader>

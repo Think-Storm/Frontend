@@ -16,11 +16,12 @@ import {
   useOutsideClick,
 } from '@/store/hooks'
 import ProjectCard from '@/components/ui/ProjectCard'
-import BackgroundHeader from '@/components/ui/BackroundHeader'
+import BackgroundHeader from '@/components/ui/BackgroundHeader'
 import bgExplore from '../../../../../public/images/bg-explore.png'
 import { useInView } from 'react-intersection-observer'
 import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
 import { useRouter } from 'next/navigation'
+import { Label } from '@/components/ui/label'
 
 const projectFilters = ['Created', 'Saved', 'Joined', 'Requested']
 
@@ -61,7 +62,7 @@ export default function MyProjectPage() {
             </button>
           </div>
           {/* filters container */}
-          <div className="flex items-center justify-between h-full  ">
+          <div className="flex items-center justify-between h-full ">
             <div
               className="flex flex-wrap sm:flex-row gap-2 text-black"
               ref={containerRef}
@@ -80,19 +81,21 @@ export default function MyProjectPage() {
                 </Button>
               ))}
             </div>
-            <div className="flex flex-wrap sm:flex-row  items-center gap-2 h-[48px] ">
-              <div className="text-sm font-bold ">Sort by:</div>
-              <div className="h-full ">
-                <Select>
-                  <SelectTrigger className="w-[113px]">
-                    <SelectValue placeholder="Recent" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="recent">Recent</SelectItem>
-                    <SelectItem value="popular">Popular</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="flex flex-1 flex-row justify-end items-center gap-2 h-[48px]">
+              <Label>Sort by:</Label>
+              <Select>
+                <SelectTrigger className="w-[113px] h-full min-h-[48px]">
+                  <SelectValue placeholder="Recent" />
+                </SelectTrigger>
+                <SelectContent className="border-gray-300 cursor-pointer ">
+                  <SelectItem value="recent" className="cursor-pointer">
+                    Recent
+                  </SelectItem>
+                  <SelectItem value="popular" className="cursor-pointer">
+                    Popular
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           {/* Projects grid */}
