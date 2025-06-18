@@ -1,5 +1,8 @@
 import { X } from 'lucide-react'
-import { TechStackInputProps, TechnicalLabel } from '../../../../lib/utils/types'
+import {
+  TechStackInputProps,
+  TechnicalLabel,
+} from '../../../../lib/utils/types'
 import { Popover, PopoverTrigger } from '../../../ui/popover'
 import { Input } from '../../../ui/input'
 import { PopoverContent } from '@radix-ui/react-popover'

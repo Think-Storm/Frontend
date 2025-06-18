@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import BackgroundHeader from '@/components/ui/BackgroundHeader'
 import bgExplore from '../../../../../public/images/bg-explore.png'
