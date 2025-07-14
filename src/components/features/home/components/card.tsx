@@ -16,7 +16,7 @@ export default function Card({
             <div className="text-2xl">{emoji}</div>
             <h4 className="text-xl font-semibold">{title}</h4>
             <p className="text-gray-600 leading-[30px]">{description}</p>
-            <Button href={learnmoreLink} variant="white" size="lg">
+            <Button href={learnmoreLink} variant="secondary" size="lg">
                 Learn more <span>&gt;</span>
             </Button>
         </div>
