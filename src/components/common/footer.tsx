@@ -1,0 +1,114 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubscriptionData } from "@/types/user";
+import { subscriptionSchema } from "@/schemas/userSchema";
+import FooterFormField from "../features/footer/components/footerFormField";
+import { Spinner } from "../ui/spinner";
+import useSubscribe from "../features/footer/hooks/useSubscribe";
+import FooterForm from "../features/footer/components/FooterForm";
+
+export default function Footer() {
+    const { subscribe, isPending } = useSubscribe();
+    const form = useForm<SubscriptionData>({
+        defaultValues: {
+            email: "",
+        },
+        resolver: zodResolver(subscriptionSchema),
+    });
+
+    function onSubmit(FormValues: SubscriptionData) {
+        subscribe(FormValues);
+    }
+
+    return (
+        <footer className="mt-24 px-6 pt-12 pb-6 bg-white">
+            <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-between items-start gap-10">
+                {/* Left: Logo and Socials */}
+                <div>
+                    <div className="flex items-center gap-2 mb-4">
+                        <Image src="/images/logo-gradient.png" alt="ThinkStorm Logo" width={28} height={28} />
+                        <span className="text-xl font-semibold">ThinkStorm</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                        <span>Our Linkedin</span>
+                        <Link
+                            href="https://www.linkedin.com/company/think-storm"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block"
+                        >
+                            <Image src="/icons/linkedin.svg" alt="LinkedIn" width={16} height={16} />
+                        </Link>
+                    </div>
+                </div>
+
+                {/* Right: Subscribe */}
+                <FooterForm>
+                    <h4 className="text-sm font-semibold mb-2">Subscribe</h4>
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="flex flex-between justify-center items-start gap-2 "
+                        >
+                            <FooterFormField
+                                control={form.control}
+                                name="email"
+                                type="email"
+                                aria-required="true"
+                                autoComplete="email"
+                            />
+                            <Button
+                                type="submit"
+                                aria-busy={isPending}
+                                disabled={isPending}
+                                variant="secondary"
+                                size="lg"
+                                className="rounded-md text-lg px-6 py-3 shadow transition transform duration-200 hover:bg-secondary/80"
+                            >
+                                {isPending ? (
+                                    <>
+                                        <Spinner size="small" />
+                                        <span aria-hidden="true">Subscribing...</span>
+                                    </>
+                                ) : (
+                                    "Subscribe"
+                                )}
+                            </Button>
+                        </form>
+                    </Form>
+                    <p className="text-xs text-gray-500 mt-2 text-right">
+                        By subscribing you agree to with our{" "}
+                        <Link href="/privacy-policy" className="underline hover:text-black">
+                            Privacy Policy
+                        </Link>
+                    </p>
+                </FooterForm>
+            </div>
+
+            {/* Divider */}
+            <div className="my-6 border-t border-gray-200"></div>
+
+            {/* Bottom Links + Copyright */}
+            <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-between items-center text-sm text-gray-600 gap-2">
+                <div className="flex flex-wrap gap-4">
+                    <Link href="/privacy-policy" className="hover:underline">
+                        Privacy Policy
+                    </Link>
+                    <Link href="/terms" className="hover:underline">
+                        Terms of Service
+                    </Link>
+                    <Link href="/cookies" className="hover:underline">
+                        Cookies Settings
+                    </Link>
+                </div>
+                <span className="text-xs">&copy; 2025 ThinkStorm. All rights reserved.</span>
+            </div>
+        </footer>
+    );
+}
