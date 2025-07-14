@@ -1,3 +1,16 @@
-export default function MainLayout() {
-  return <div></div>;
+import Footer from "@/components/common/footer";
+import Header from "@/components/common/header";
+
+export default function MainLayout({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
+    return (
+        <>
+            <Header/>
+            {children}
+            <Footer />
+        </>
+    );
 }
