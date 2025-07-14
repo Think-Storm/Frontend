@@ -8,7 +8,7 @@ import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubscriptionData } from "@/types/user";
 import { subscriptionSchema } from "@/schemas/userSchema";
-import FooterFormField from "../features/footer/components/footerFormField";
+import FooterFormField from "../features/footer/components/FooterFormField";
 import { Spinner } from "../ui/spinner";
 import useSubscribe from "../features/footer/hooks/useSubscribe";
 import FooterForm from "../features/footer/components/FooterForm";
