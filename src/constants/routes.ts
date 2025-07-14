@@ -9,7 +9,7 @@ export const apiRoutes = {
 };
 
 export const pageRoutes = {
-    home: "/",
+    home: "/home",
     signup: "/signup",
     signin: "/signin",
     resetPassword: "/reset-password",
