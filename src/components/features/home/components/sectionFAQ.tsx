@@ -1,7 +1,8 @@
 import { GradientButton } from "@/components/ui/button";
-import FadeInStagger from "@/components/ui/FadeInStagger";
+import FadeInStagger, { itemVariants } from "@/components/ui/FadeInStagger";
 import FadeInWhenVisible from "@/components/ui/FadeInWhenVisible";
 import { faqList } from "@/constants/home";
+import { motion } from "framer-motion";
 
 export default function SectionFAQ() {
     return (
@@ -20,15 +21,14 @@ export default function SectionFAQ() {
                 <FadeInStagger>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 text-center max-w-6xl mx-auto mb-16">
                         {faqList.map((faq, idx) => (
-                            <div key={idx}>
+                            <motion.div key={idx} variants={itemVariants}>
                                 <div className="text-3xl mb-2">❓</div>
                                 <h4 className="font-semibold mb-3">{faq.question}</h4>
                                 <p className="text-gray-600">{faq.answer}</p>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 </FadeInStagger>
-
                 {/* Still have questions */}
                 <FadeInWhenVisible>
                     <div className="max-w-2xl mx-auto text-center">
