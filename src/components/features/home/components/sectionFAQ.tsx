@@ -30,7 +30,7 @@ export default function SectionFAQ() {
                     </div>
                 </FadeInStagger>
                 {/* Still have questions */}
-                <FadeInWhenVisible delay={0.5}>
+                <FadeInWhenVisible delay={0.56}>
                     <div className="max-w-2xl mx-auto text-center">
                         <h3 className="text-xl md:text-2xl font-semibold mb-4">Still have a questions?</h3>
                         <p className="text-gray-600 mb-6 text-md">
