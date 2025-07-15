@@ -31,7 +31,7 @@ export default function Home() {
                         filter: useTransform(
                             scrollY,
                             [0, 300, 600],
-                            ["blur(0px) brightness(1)", "blur(6px) brightness(0.9)", "blur(14px) brightness(0.8)"]
+                            ["brightness(1)", "brightness(0.9)", "brightness(0.8)"]
                         ),
                         opacity: useTransform(scrollY, [0, 300, 500], [1, 0.6, 0]),
                     }}
@@ -137,7 +137,7 @@ export default function Home() {
                             Learn more
                         </Button>
                     </div>
-                    <div className="order-first lg:order-none lg:max-w-2xl max-w-xl">
+                    <div className="order-first lg:order-none lg:max-w-2xl max-w-xl lg:block hidden">
                         <Image
                             src="/images/home-project-illustration.png"
                             alt="Project illustration"
