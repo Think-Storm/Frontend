@@ -69,24 +69,28 @@ function Button({
     );
 }
 
-interface GradientButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type BaseProps = {
     children: React.ReactNode;
     className?: string;
     textClassName?: string;
-}
+    href?: string;
+};
 
-const GradientButton: React.FC<GradientButtonProps> = ({ children, className, textClassName, ...props }) => {
-    return (
-        <button
-            {...props}
-            className={clsx(
-                "relative inline-flex items-center justify-center",
-                "p-[2px] rounded-[12px] bg-black",
-                "transition-all duration-300 ease-out",
-                "hover:animate-glowScale transform",
-                className
-            )}
-        >
+type ButtonProps = BaseProps &
+    React.ButtonHTMLAttributes<HTMLButtonElement> & {
+        href?: undefined;
+    };
+
+type AnchorProps = BaseProps &
+    React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+        href?: string;
+    };
+
+type GradientButtonProps = ButtonProps | AnchorProps;
+
+const GradientButton: React.FC<GradientButtonProps> = ({ children, className, textClassName, href, ...props }) => {
+    const content = (
+        <>
             <div className="absolute inset-0 rounded-[12px] bg-[conic-gradient(from_0deg,_#ec4899,_#a855f7,_#fb923c,_#ec4899)] hover:animate-[spinGradient_3s_linear_infinite]" />
             <span
                 className={clsx(
@@ -100,6 +104,28 @@ const GradientButton: React.FC<GradientButtonProps> = ({ children, className, te
             >
                 {children}
             </span>
+        </>
+    );
+
+    const baseClass = clsx(
+        "relative inline-flex items-center justify-center",
+        "p-[2px] rounded-[12px] bg-black",
+        "transition-all duration-300 ease-out",
+        "hover:animate-glowScale transform",
+        className
+    );
+
+    if (href) {
+        return (
+            <Link href={href} className={baseClass} {...(props as AnchorProps)}>
+                {content}
+            </Link>
+        );
+    }
+
+    return (
+        <button className={baseClass} {...(props as ButtonProps)}>
+            {content}
         </button>
     );
 };

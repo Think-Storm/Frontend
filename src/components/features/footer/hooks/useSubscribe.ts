@@ -17,7 +17,7 @@ export default function useSubscribe() {
                 message: "Subscription Successful",
                 description: "You will be redirected to the home page.",
             });
-            router.push(pageRoutes.home);
+            router.push(pageRoutes.landing);
         },
         onError: (error: Error) => {
             console.log("Subscription error:", error);
