@@ -7,20 +7,42 @@ import Card from "@/components/features/home/components/card";
 import { useScroll, motion, useTransform } from "framer-motion";
 import SectionFAQ from "@/components/features/home/components/sectionFAQ";
 import FadeInWhenVisible from "@/components/ui/FadeInWhenVisible";
+import { useEffect, useState } from "react";
 
 export default function Home() {
     const { scrollY } = useScroll();
 
-    const whiteToTransparent = useTransform(scrollY, [0, 300], [1, 0]);
-    const showGradient = useTransform(scrollY, [100, 300], [0, 1]);
+    const [scrollLimits, setScrollLimits] = useState({
+        section2Start: 800,
+        maxScale: 1.5,
+        maxY: 400,
+    });
 
-    const scale = useTransform(scrollY, [0, 300, 600], [1, 1.3, 1.5]);
-    const y = useTransform(
-        scrollY,
-        [0, 50, 100, 200, 250, 300, 400, 500, 600],
-        [0, 60, 90, 240, 280, 310, 350, 390, 450]
-    );
-    const opacity = useTransform(scrollY, [0, 400, 700], [1, 0.6, 0]);
+    useEffect(() => {
+        const updateScrollLimits = () => {
+            const height = window.innerHeight;
+            const width = window.innerWidth;
+
+            const section2Start = height * 0.98;
+
+            const maxScale = width < 640 ? 1.2 : width < 1024 ? 1.3 : 1.5;
+            const maxY = height * 0.71;
+            console.log(height, width);
+            console.log(section2Start, maxScale, maxY);
+
+            setScrollLimits({
+                section2Start,
+                maxScale,
+                maxY,
+            });
+        };
+
+        updateScrollLimits();
+        window.addEventListener("resize", updateScrollLimits);
+
+        return () => window.removeEventListener("resize", updateScrollLimits);
+    }, []);
+
     return (
         <>
             {/* Section1 */}
@@ -47,15 +69,36 @@ export default function Home() {
                 </motion.div>
 
                 <motion.div
-                    className="relative z-50 px-4 text-center"
+                    className="relative z-50 px-4 text-center w-full"
                     style={{
-                        y: useTransform(scrollY, [0, 300, 900], [0, 250, 570]),
-                        scale: useTransform(scrollY, [0, 300, 900], [1, 1.5, 2]),
-                        opacity: useTransform(scrollY, [0, 800, 950], [1, 1, 0]),
+                        y: useTransform(scrollY, [0, scrollLimits.section2Start], [0, scrollLimits.maxY]),
+                        scale: useTransform(scrollY, [0, scrollLimits.section2Start], [1, scrollLimits.maxScale]),
+                        opacity: useTransform(
+                            scrollY,
+                            [0, scrollLimits.section2Start * 0.8, scrollLimits.section2Start],
+                            [1, 0.8, 0.2]
+                        ),
                     }}
                 >
                     <motion.h1
-                        className="text-5xl md:text-6xl font-extrabold tracking-tight text-white absolute left-1/2 -translate-x-1/2 w-full"
+                        className="font-extrabold tracking-tight text-white absolute left-1/2 -translate-x-1/2 w-full
+                                    text-[35px]
+                                    min-[1887px]:text-[80px]
+                                    min-[1720px]:text-[75px]
+                                    min-[1520px]:text-[70px]
+                                    min-[1400px]:text-[65px]
+                                    min-[1280px]:text-[60px]
+                                    min-[1024px]:text-[55px]
+                                    min-[880px]:text-[50px]
+                                    min-[768px]:text-[45px]
+                                    min-[640px]:text-[40px] 
+                                    max-w-[75%]
+                                    min-[1520px]:max-w-[100%]
+                                    min-[1400px]:max-w-[60%]
+                                    min-[1280px]:max-w-[60%]
+                                    min-[1024px]:max-w-[60%]
+                                    min-[755px]:max-w-[60%]
+                                    min-[640px]:max-w-[75%]"
                         style={{
                             opacity: useTransform(scrollY, [0, 150], [1, 0]),
                         }}
@@ -64,7 +107,27 @@ export default function Home() {
                     </motion.h1>
 
                     <motion.h1
-                        className="overflow-visible text-4xl md:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-pink-400 via-purple-500 to-orange-400 bg-clip-text text-transparent absolute left-1/2 -translate-x-1/2 w-full"
+                        className="font-extrabold tracking-tight bg-gradient-to-r from-pink-400 via-purple-500 to-orange-400 bg-clip-text text-transparent absolute left-1/2 -translate-x-1/2 text-center px-4 break-words
+                                    text-[20px]
+                                    min-[1887px]:text-[80px]
+                                    min-[1720px]:text-[75px]
+                                    min-[1520px]:text-[60px]
+                                    min-[1400px]:text-[55px]
+                                    min-[1280px]:text-[50px]
+                                    min-[1024px]:text-[45px]
+                                    min-[880px]:text-[35px]
+                                    min-[768px]:text-[30px]
+                                    min-[640px]:text-[25px]
+                                    max-w-[70%]
+                                    min-[1887px]:max-w-[70%]
+                                    min-[1720px]:max-w-[70%]
+                                    min-[1520px]:max-w-[65%]
+                                    min-[1400px]:max-w-[50%]
+                                    min-[1280px]:max-w-[45%]
+                                    min-[1024px]:max-w-[50%]
+                                    min-[768px]:max-w-[45%]
+                                    min-[640px]:max-w-[60%]
+  "
                         style={{
                             opacity: useTransform(scrollY, [150, 300], [0, 1]),
                         }}
@@ -73,10 +136,19 @@ export default function Home() {
                     </motion.h1>
 
                     <motion.p
-                        className="text-md md:text-xl max-w-3xl mx-auto text-white/90 mt-[170px] mb-[60px]"
+                        className="mx-auto text-white/90 mt-[26vh] mb-[60px]
+                                    text-[20px]
+                                    min-[1520px]:text-[30px]
+                                    min-[1400px]:text-[24px]
+                                    min-[1024px]:text-[22px]
+                                    min-[640px]:text-[20px]
+                                    max-w-[70%]
+                                    min-[1520px]:max-w-[100%]
+                                    min-[1024px]:max-w-[100%]
+                                    min-[768px]:max-w-[60%]
+                                    min-[640px]:max-w-[60%]"
                         style={{
-                            y: useTransform(scrollY, [0, 300, 600], [0, 80, 150]),
-                            opacity: useTransform(scrollY, [0, 400, 650], [1, 0.6, 0]),
+                            opacity: useTransform(scrollY, [0, 100, 200], [1, 0.7, 0]),
                         }}
                     >
                         The leading collaboration platform to grow your career and shape your future.
@@ -90,7 +162,16 @@ export default function Home() {
                             scale: useTransform(scrollY, [0, 300, 600], [1, 1.05, 1.1]),
                         }}
                     >
-                        <GradientButton>Join The Waitlist</GradientButton>
+                        <GradientButton
+                            textClassName="text-[20px]
+                                    min-[1720px]:text-[27px] min-[1720px]:py-6
+                                    min-[1400px]:text-[23px] min-[1400px]:py-5
+                                    min-[1024px]:text-[21px] min-[1024px]:py-4
+                                    min-[640px]:text-[20px] min-[640px]:py-3
+                                    "
+                        >
+                            Join The Waitlist
+                        </GradientButton>
                     </motion.div>
                 </motion.div>
             </section>
@@ -102,7 +183,17 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     viewport={{ once: true, amount: 0.3 }}
-                    className="z-10 px-6 pt-20 flex flex-col lg:flex-row items-center justify-center gap-10 bg-white"
+                    className="z-10 px-6 flex flex-col lg:flex-row items-center justify-center gap-10 bg-white
+                        pt-[4vh]
+                        min-[1887px]:pt-[28vh]
+                        min-[1720px]:pt-[25vh]
+                        min-[1520px]:pt-[18vh]
+                        min-[1400px]:pt-[16vh]
+                        min-[1280px]:pt-[15vh]
+                        min-[1024px]:pt-[11vh]
+                        min-[880px]:pt-[7vh]
+                        min-[768px]:pt-[6vh]
+                        min-[640px]:pt-[5vh]"
                 >
                     {/* Text Contents */}
                     <div className="order-last lg:order-none max-w-2xl">
