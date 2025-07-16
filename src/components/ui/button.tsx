@@ -72,9 +72,10 @@ function Button({
 interface GradientButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     className?: string;
+    textClassName?: string;
 }
 
-const GradientButton: React.FC<GradientButtonProps> = ({ children, className, ...props }) => {
+const GradientButton: React.FC<GradientButtonProps> = ({ children, className, textClassName, ...props }) => {
     return (
         <button
             {...props}
@@ -90,10 +91,11 @@ const GradientButton: React.FC<GradientButtonProps> = ({ children, className, ..
             <span
                 className={clsx(
                     "relative z-10 flex items-center justify-center gap-2",
-                    "px-6 py-3 w-[180px] h-[48px]",
+                    "px-6 py-3",
                     "text-white text-[16px] font-normal font-['Open_Sans'] leading-[24px]",
                     "rounded-[10px]",
-                    "bg-[radial-gradient(56.62%_137.93%_at_80%_-50%,_#777777_0%,_#0F1111_100%)] bg-black"
+                    "bg-[radial-gradient(56.62%_137.93%_at_80%_-50%,_#777777_0%,_#0F1111_100%)] bg-black",
+                    textClassName
                 )}
             >
                 {children}
