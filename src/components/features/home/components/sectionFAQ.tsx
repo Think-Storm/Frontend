@@ -2,6 +2,7 @@ import { GradientButton } from "@/components/ui/button";
 import FadeInStagger, { itemVariants } from "@/components/ui/FadeInStagger";
 import FadeInWhenVisible from "@/components/ui/FadeInWhenVisible";
 import { faqList } from "@/constants/home";
+import { siteMetadata } from "@/constants/metadata";
 import { motion } from "framer-motion";
 
 export default function SectionFAQ() {
@@ -39,7 +40,7 @@ export default function SectionFAQ() {
                             features, need guidance on getting started, or just want to share feedback, we’re only a
                             click away.
                         </p>
-                        <GradientButton>Contact Us</GradientButton>
+                        <GradientButton href={`mailto:${siteMetadata.email}`}>Contact Us</GradientButton>
                     </div>
                 </FadeInWhenVisible>
             </section>

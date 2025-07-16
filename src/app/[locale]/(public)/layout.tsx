@@ -2,15 +2,15 @@ import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 
 export default function MainLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <>
-            <Header/>
-            {children}
-            <Footer />
-        </>
-    );
+  return (
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
+  );
 }
