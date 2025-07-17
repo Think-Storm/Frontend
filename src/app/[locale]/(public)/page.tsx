@@ -44,7 +44,7 @@ export default function Landing() {
     return (
         <div>
             {/* Section1 */}
-            <section className="pt-[64px] relative isolate z-[50] min-h-[100vh] flex items-center justify-center overflow-visible">
+            <section className="pt-[64px] relative isolate z-[50] min-h-[900px] flex items-center justify-center overflow-visible">
                 <motion.div
                     className="absolute inset-0 -z-10"
                     style={{
