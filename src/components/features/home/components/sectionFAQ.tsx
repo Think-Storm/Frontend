@@ -40,7 +40,7 @@ export default function SectionFAQ() {
                             features, need guidance on getting started, or just want to share feedback, we’re only a
                             click away.
                         </p>
-                        <GradientButton href={`mailto:${siteMetadata.email}`}>Contact Us</GradientButton>
+                        <GradientButton target="_blank" href={`mailto:${siteMetadata.email}`}>Contact Us</GradientButton>
                     </div>
                 </FadeInWhenVisible>
             </section>

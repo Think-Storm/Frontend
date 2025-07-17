@@ -23,10 +23,10 @@ export default function Landing() {
             const height = window.innerHeight;
             const width = window.innerWidth;
 
-            const section2Start = height * 0.98;
+            const section2Start = height * 0.8;
 
             const maxScale = width < 640 ? 1.2 : width < 1024 ? 1.3 : 1.5;
-            const maxY = height * 0.73;
+            const maxY = height * 0.7;
 
             setScrollLimits({
                 section2Start,
@@ -42,9 +42,9 @@ export default function Landing() {
     }, []);
 
     return (
-        <>
+        <div>
             {/* Section1 */}
-            <section className="relative isolate z-[50] min-h-[100vh] flex items-center justify-center overflow-visible">
+            <section className="pt-[64px] relative isolate z-[50] min-h-[100vh] flex items-center justify-center overflow-visible">
                 <motion.div
                     className="absolute inset-0 -z-10"
                     style={{
@@ -67,7 +67,7 @@ export default function Landing() {
                 </motion.div>
 
                 <motion.div
-                    className="relative z-10 px-4 text-center w-full pointer-events-none"
+                    className=" relative z-10 px-4 text-center w-full pointer-events-none"
                     style={{
                         y: useTransform(scrollY, [0, scrollLimits.section2Start], [0, scrollLimits.maxY]),
                         scale: useTransform(scrollY, [0, scrollLimits.section2Start], [1, scrollLimits.maxScale]),
@@ -79,8 +79,8 @@ export default function Landing() {
                     }}
                 >
                     <motion.h1
-                        className="font-extrabold tracking-tight text-white absolute left-1/2 -translate-x-1/2 w-full
-                                    text-[28px]
+                        className="font-extrabold tracking-tight text-white absolute left-0 right-0 mx-auto w-fit text-center
+                                    text-[35px]
                                     min-[1887px]:text-[80px]
                                     min-[1720px]:text-[75px]
                                     min-[1520px]:text-[70px]
@@ -105,8 +105,8 @@ export default function Landing() {
                     </motion.h1>
 
                     <motion.h1
-                        className="overflow-x-auto font-extrabold tracking-tight bg-gradient-to-r from-pink-400 via-purple-500 to-orange-400 bg-clip-text text-transparent absolute left-1/2 -translate-x-1/2 text-center px-4 break-words
-                                    text-[20px]
+                        className="font-extrabold tracking-tight bg-gradient-to-r from-pink-400 via-purple-500 to-orange-400 bg-clip-text text-transparent absolute left-0 right-0 mx-auto w-fit text-center px-4 break-words
+                                    text-[25px]
                                     min-[1887px]:text-[80px]
                                     min-[1720px]:text-[75px]
                                     min-[1520px]:text-[60px]
@@ -115,17 +115,17 @@ export default function Landing() {
                                     min-[1024px]:text-[45px]
                                     min-[880px]:text-[35px]
                                     min-[768px]:text-[30px]
-                                    min-[640px]:text-[25px]
-                                    max-w-[100%]
+                                    min-[640px]:text-[28px]
+                                    max-w-[53%]
                                     min-[1887px]:max-w-[70%]
                                     min-[1720px]:max-w-[70%]
-                                    min-[1520px]:max-w-[65%]
+                                    min-[1520px]:max-w-[50%]
                                     min-[1400px]:max-w-[50%]
                                     min-[1280px]:max-w-[45%]
                                     min-[1024px]:max-w-[50%]
                                     min-[768px]:max-w-[45%]
-                                    min-[640px]:max-w-[60%]
-  "
+                                    min-[640px]:max-w-[50%]
+                        "
                         style={{
                             opacity: useTransform(scrollY, [150, 300], [0, 1]),
                         }}
@@ -183,18 +183,18 @@ export default function Landing() {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     viewport={{ once: true, amount: 0.3 }}
                     className="px-6 flex flex-col lg:flex-row items-center justify-center gap-10 bg-white
-                        pt-[8vh]
-                        min-[1887px]:pt-[28vh]
-                        min-[1720px]:pt-[25vh]
-                        min-[1520px]:pt-[18vh]
-                        min-[1400px]:pt-[16vh]
-                        min-[1280px]:pt-[15vh]
-                        min-[1024px]:pt-[11vh]
-                        min-[880px]:pt-[7vh]
-                        min-[768px]:pt-[6vh]
-                        min-[640px]:pt-[5vh]
-                        min-[470px]:pt-[-3vh]
-                        min-[350px]:pt-[4vh]"
+                        pt-[35vh]
+                        min-[1887px]:pt-[30vh]
+                        min-[1720px]:pt-[27vh]
+                        min-[1520px]:pt-[23vh]
+                        min-[1400px]:pt-[22vh]
+                        min-[1280px]:pt-[21vh]
+                        min-[1024px]:pt-[20vh]
+                        min-[880px]:pt-[17vh]
+                        min-[768px]:pt-[13vh]
+                        min-[640px]:pt-[7vh]
+                        min-[470px]:pt-[10vh]
+                        min-[350px]:pt-[20vh]"
                 >
                     {/* Text Contents */}
                     <div className="order-last lg:order-none max-w-2xl">
@@ -271,6 +271,6 @@ export default function Landing() {
             </FadeInWhenVisible>
             {/* Section4 - FAQ */}
             <SectionFAQ />
-        </>
+        </div>
     );
 }

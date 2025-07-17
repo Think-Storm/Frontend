@@ -17,7 +17,7 @@ const buttonVariants = cva(
                     "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
                 secondary:
                     "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 hover:shadow-lg transition-all",
-                ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+                ghost: "",
                 link: "text-primary underline-offset-4 hover:underline",
                 white: "bg-white text-black hover:bg-gray-300 hover:shadow-md hover:scale-105 focus-visible:ring-gray-200 focus-visible:ring-offset-2 focus-visible:ring-[3px] dark:bg-white/10 dark:text-white dark:hover:bg-white/20",
                 gradient:
@@ -43,12 +43,16 @@ function Button({
     size,
     asChild = false,
     href,
+    linkClassName,
+    target,
     children,
     ...props
 }: React.ComponentProps<"button"> &
     VariantProps<typeof buttonVariants> & {
         asChild?: boolean;
         href?: string;
+        target?: string;
+        linkClassName?: string;
     }) {
     const classNames = cn(buttonVariants({ variant, size, className }));
 
@@ -57,7 +61,7 @@ function Button({
     if (href) {
         return (
             <Comp className={classNames} {...props}>
-                <Link href={href}>{children}</Link>
+                <Link target={target || "_blank"} href={href} className={clsx("flex items-center justify-content", linkClassName)}>{children}</Link>
             </Comp>
         );
     }
@@ -74,6 +78,7 @@ type BaseProps = {
     className?: string;
     textClassName?: string;
     href?: string;
+    target?: string;
 };
 
 type ButtonProps = BaseProps &
@@ -84,11 +89,12 @@ type ButtonProps = BaseProps &
 type AnchorProps = BaseProps &
     React.AnchorHTMLAttributes<HTMLAnchorElement> & {
         href?: string;
+        target? :string;
     };
 
 type GradientButtonProps = ButtonProps | AnchorProps;
 
-const GradientButton: React.FC<GradientButtonProps> = ({ children, className, textClassName, href, ...props }) => {
+const GradientButton: React.FC<GradientButtonProps> = ({ children, className, textClassName, href, target, ...props }) => {
     const content = (
         <>
             <div className="absolute inset-0 rounded-[12px] bg-[conic-gradient(from_0deg,_#ec4899,_#a855f7,_#fb923c,_#ec4899)] hover:animate-[spinGradient_3s_linear_infinite]" />
@@ -117,7 +123,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({ children, className, te
 
     if (href) {
         return (
-            <Link href={href} className={baseClass} {...(props as AnchorProps)}>
+            <Link target={target || "_blank"} href={href} className={baseClass} {...(props as AnchorProps)}>
                 {content}
             </Link>
         );
