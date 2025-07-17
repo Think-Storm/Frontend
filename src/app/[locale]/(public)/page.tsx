@@ -117,8 +117,8 @@ export default function Landing() {
                                     min-[768px]:text-[30px]
                                     min-[640px]:text-[28px]
                                     max-w-[53%]
-                                    min-[1887px]:max-w-[70%]
-                                    min-[1720px]:max-w-[70%]
+                                    min-[1887px]:max-w-[45%]
+                                    min-[1720px]:max-w-[50%]
                                     min-[1520px]:max-w-[50%]
                                     min-[1400px]:max-w-[50%]
                                     min-[1280px]:max-w-[45%]
@@ -183,9 +183,9 @@ export default function Landing() {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     viewport={{ once: true, amount: 0.3 }}
                     className="px-6 flex flex-col lg:flex-row items-center justify-center gap-10 bg-white
-                        pt-[35vh]
-                        min-[1887px]:pt-[30vh]
-                        min-[1720px]:pt-[27vh]
+                        pt-[20vh]
+                        min-[1887px]:pt-[33vh]
+                        min-[1720px]:pt-[30vh]
                         min-[1520px]:pt-[23vh]
                         min-[1400px]:pt-[22vh]
                         min-[1280px]:pt-[21vh]
@@ -194,7 +194,7 @@ export default function Landing() {
                         min-[768px]:pt-[13vh]
                         min-[640px]:pt-[7vh]
                         min-[470px]:pt-[10vh]
-                        min-[350px]:pt-[20vh]"
+                        min-[350px]:pt-[14vh]"
                 >
                     {/* Text Contents */}
                     <div className="order-last lg:order-none max-w-2xl">
