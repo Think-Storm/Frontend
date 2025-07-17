@@ -4,6 +4,7 @@
 #
 
 app = 'ts-frontend'
+org = 'thinkstorm'
 primary_region = 'cdg'
 
 [http_service]
