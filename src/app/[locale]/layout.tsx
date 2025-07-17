@@ -45,9 +45,9 @@ export default async function RootLayout({
     notFound();
   }
   return (
-    <html lang={locale}>
+    <html lang={locale} className="overflow-x-hidden w-screen">
       <body
-        className={`${satoshi.variable} ${nippo.variable}`}
+        className={`${satoshi.variable} ${nippo.variable} overflow-x-hidden w-screen`}
         suppressHydrationWarning
       >
         <NextIntlClientProvider>
