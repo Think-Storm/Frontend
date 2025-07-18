@@ -2,6 +2,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import FadeInStagger, { itemVariants } from "@/components/ui/FadeInStagger";
 import FadeInWhenVisible from "@/components/ui/FadeInWhenVisible";
+import FadeInFromTopOnly from "@/components/ui/FadeInFromTopOnly";
 import { GradientButton } from "@/components/ui/button";
 import { faqList } from "@/constants/home";
 import { siteMetadata } from "@/constants/metadata";
@@ -43,7 +44,7 @@ export default function SectionFAQ() {
           </div>
         </FadeInStagger>
         {/* Still have questions */}
-        <FadeInWhenVisible delay={0.56}>
+        <FadeInFromTopOnly delay={0.56}>
           <div className="max-w-2xl mx-auto text-center mt-40">
             <h3 className="text-xl md:text-2xl font-semibold mb-6">
               Still have a questions?
@@ -62,7 +63,7 @@ export default function SectionFAQ() {
               Contact Us
             </GradientButton>
           </div>
-        </FadeInWhenVisible>
+        </FadeInFromTopOnly>
       </section>
     </FadeInWhenVisible>
   );

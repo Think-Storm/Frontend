@@ -6,7 +6,7 @@ import { useScroll, motion, useTransform } from "framer-motion";
 import Card from "@/components/features/home/components/card";
 import SectionFAQ from "@/components/features/home/components/sectionFAQ";
 import FadeInWhenVisible from "@/components/ui/FadeInWhenVisible";
-import { Button, GradientButton } from "@/components/ui/button";
+import { GradientButton } from "@/components/ui/button";
 import { cardData } from "@/constants/home";
 
 export default function Landing() {
@@ -23,10 +23,10 @@ export default function Landing() {
       const height = window.innerHeight;
       const width = window.innerWidth;
 
-      const section2Start = height * 0.8;
+      const section2Start = height * 0.7;
 
       const maxScale = width < 640 ? 1.2 : width < 1024 ? 1.3 : 1.5;
-      const maxY = height * 0.7;
+      const maxY = height * 0.45;
 
       setScrollLimits({
         section2Start,
@@ -67,7 +67,7 @@ export default function Landing() {
         </motion.div>
 
         <motion.div
-          className=" relative z-10 px-4 text-center w-full pointer-events-none"
+          className="relative z-10 px-4 text-center w-full pointer-events-none"
           style={{
             y: useTransform(
               scrollY,
@@ -87,7 +87,7 @@ export default function Landing() {
           }}
         >
           <motion.h1
-            className="font-extrabold tracking-tight text-white absolute left-0 right-0 mx-auto w-fit text-center
+            className="font-extrabold tracking-tight text-white relative mx-auto w-fit text-center
                                     text-[35px]
                                     min-[1887px]:text-[80px]
                                     min-[1720px]:text-[75px]
@@ -114,17 +114,17 @@ export default function Landing() {
 
           <motion.h1
             className="font-extrabold tracking-tight bg-gradient-to-r from-pink-400 via-purple-500 to-orange-400 bg-clip-text text-transparent absolute left-0 right-0 mx-auto w-fit text-center px-4 break-words
-                                    text-[25px]
-                                    min-[1887px]:text-[80px]
-                                    min-[1720px]:text-[75px]
-                                    min-[1520px]:text-[60px]
-                                    min-[1400px]:text-[55px]
-                                    min-[1280px]:text-[50px]
-                                    min-[1024px]:text-[45px]
-                                    min-[880px]:text-[35px]
-                                    min-[768px]:text-[30px]
-                                    min-[640px]:text-[28px]
-                                    max-w-[53%]
+                                    text-[2rem]
+                                    min-[1887px]:text-[5rem]
+                                    min-[1720px]:text-[4.7rem]
+                                    min-[1520px]:text-[3.75rem]
+                                    min-[1400px]:text-[3.4rem]
+                                    min-[1280px]:text-[3.2rem]
+                                    min-[1024px]:text-[2.8rem]
+                                    min-[880px]:text-[2.2rem]
+                                    min-[768px]:text-[1.9rem]
+                                    min-[640px]:text-[1.75rem]
+                                    max-w-[70%]
                                     min-[1887px]:max-w-[45%]
                                     min-[1720px]:max-w-[50%]
                                     min-[1520px]:max-w-[50%]
@@ -142,7 +142,7 @@ export default function Landing() {
           </motion.h1>
 
           <motion.p
-            className="mx-auto text-white/90 mt-[26vh] mb-[60px]
+            className="mx-auto relative text-white/90 mt-[6vh] mb-[60px]
                                     text-[20px]
                                     min-[1520px]:text-[30px]
                                     min-[1400px]:text-[24px]
@@ -194,16 +194,16 @@ export default function Landing() {
           className="px-6 flex flex-col lg:flex-row items-center justify-center gap-10 bg-white
                         pt-[20vh]
                         min-[1887px]:pt-[33vh]
-                        min-[1720px]:pt-[30vh]
-                        min-[1520px]:pt-[23vh]
-                        min-[1400px]:pt-[22vh]
-                        min-[1280px]:pt-[21vh]
-                        min-[1024px]:pt-[20vh]
-                        min-[880px]:pt-[17vh]
-                        min-[768px]:pt-[13vh]
-                        min-[640px]:pt-[7vh]
-                        min-[470px]:pt-[10vh]
-                        min-[350px]:pt-[14vh]"
+                        min-[1720px]:pt-[28vh]
+                        min-[1520px]:pt-[25vh]
+                        min-[1400px]:pt-[23vh]
+                        min-[1280px]:pt-[22vh]
+                        min-[1024px]:pt-[22vh]
+                        min-[880px]:pt-[18vh]
+                        min-[768px]:pt-[15vh]
+                        min-[640px]:pt-[4vh]
+                        min-[470px]:pt-[7vh]
+                        min-[350px]:pt-[25vh]"
         >
           {/* Text Contents */}
           <div className="order-last lg:order-none max-w-2xl space-y-8">
