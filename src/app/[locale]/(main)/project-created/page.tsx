@@ -2,7 +2,7 @@
 
 import BackgroundHeader from '@/components/ui/BackgroundHeader'
 import bgExplore from '../../../../../public/images/bg-explore.png'
-import Navbar from '@/components/ui/Navbar'
+import Navbar from '@/components/ui/MyNavbar'
 
 const ProjectCreated = () => {
   return (

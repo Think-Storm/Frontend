@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import Navbar from '@/components/ui/Navbar'
+import Navbar from '@/components/ui/MyNavbar'
 import {
   Select,
   SelectContent,

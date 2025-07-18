@@ -5,7 +5,7 @@ import Image from 'next/image'
 import FilterSelect from '@/components/ui/FilterSelect'
 import { FILTERS } from '@/lib/constants/common'
 import ProjectCard from '@/components/ui/ProjectCard'
-import Navbar from '@/components/ui/Navbar'
+import Navbar from '@/components/ui/MyNavbar'
 import {
   Select,
   SelectContent,
