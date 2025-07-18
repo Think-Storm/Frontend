@@ -14,42 +14,52 @@ import useSubscribe from "../features/footer/hooks/useSubscribe";
 import FooterForm from "../features/footer/components/FooterForm";
 
 export default function Footer() {
-    const { subscribe, isPending } = useSubscribe();
-    const form = useForm<SubscriptionData>({
-        defaultValues: {
-            email: "",
-        },
-        resolver: zodResolver(subscriptionSchema),
-    });
+  const { subscribe, isPending } = useSubscribe();
+  const form = useForm<SubscriptionData>({
+    defaultValues: {
+      email: "",
+    },
+    resolver: zodResolver(subscriptionSchema),
+  });
 
-    function onSubmit(FormValues: SubscriptionData) {
-        subscribe(FormValues);
-    }
+  function onSubmit(FormValues: SubscriptionData) {
+    subscribe(FormValues);
+  }
 
-    return (
-        <footer className="mt-24 px-6 pt-12 pb-6 bg-white">
-            <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-between items-start gap-10">
-                {/* Left: Logo and Socials */}
-                <div>
-                    <div className="flex items-center gap-2 mb-4">
-                        <Image src="/images/logo-gradient.png" alt="ThinkStorm Logo" width={28} height={28} />
-                        <span className="text-xl font-semibold">ThinkStorm</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-700">
-                        <span>Our Linkedin</span>
-                        <Link
-                            href="https://www.linkedin.com/company/think-storm"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block"
-                        >
-                            <Image src="/icons/linkedin.svg" alt="LinkedIn" width={16} height={16} />
-                        </Link>
-                    </div>
-                </div>
+  return (
+    <footer className="mt-24 px-6 pt-12 pb-6 bg-white">
+      <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-between items-start gap-10">
+        {/* Left: Logo and Socials */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <Image
+              src="/images/logo-gradient.png"
+              alt="ThinkStorm Logo"
+              width={28}
+              height={28}
+            />
+            <span className="text-xl font-semibold">ThinkStorm</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-gray-700">
+            <span>Our Linkedin</span>
+            <Link
+              href="https://www.linkedin.com/company/think-storm"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Image
+                src="/icons/linkedin.svg"
+                alt="LinkedIn"
+                width={16}
+                height={16}
+              />
+            </Link>
+          </div>
+        </div>
 
-                {/* Right: Subscribe */}
-                {/* <FooterForm>
+        {/* Right: Subscribe */}
+        {/* <FooterForm>
           <h4 className="text-sm font-semibold mb-2">Subscribe</h4>
           <Form {...form}>
             <form
@@ -89,26 +99,24 @@ export default function Footer() {
             </Link>
           </p>
         </FooterForm> */}
-            </div>
+      </div>
 
-            {/* Divider */}
-            <div className="my-6 border-t border-gray-200"></div>
+      {/* Divider */}
+      <div className="my-6 border-t border-gray-200"></div>
 
-            {/* Bottom Links + Copyright */}
-            <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-between items-center text-sm text-gray-600 gap-2">
-                <div className="flex flex-wrap gap-4">
-                    <Link href="#" className="hover:underline">
-                        Privacy Policy
-                    </Link>
-                    <Link href="#" className="hover:underline">
-                        Terms of Service
-                    </Link>
-                    <Link href="#" className="hover:underline">
-                        Cookies Settings
-                    </Link>
-                </div>
-                <span className="text-xs">&copy; 2025 ThinkStorm. All rights reserved.</span>
-            </div>
-        </footer>
-    );
+      {/* Bottom Links + Copyright */}
+      <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-between items-center text-sm text-gray-600 gap-2">
+        <div className="flex flex-wrap gap-4 cursor-default">
+          <ol className="flex  gap-4">
+            <li>Privacy Policy</li>
+            <li>Terms of Service</li>
+            <li>Cookies Settings</li>
+          </ol>
+        </div>
+        <span className="text-xs">
+          &copy; 2025 ThinkStorm. All rights reserved.
+        </span>
+      </div>
+    </footer>
+  );
 }
