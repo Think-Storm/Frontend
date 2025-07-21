@@ -14,12 +14,13 @@ const buttonVariants = cva(
                 destructive:
                     "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
                 outline:
-                    "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+                    "shadow-xs border border-black rounded-full hover:bg-black hover:text-white transition-all dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
                 secondary:
                     "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 hover:shadow-lg transition-all",
                 ghost: "",
                 link: "text-primary underline-offset-4 hover:underline",
                 white: "bg-white text-black hover:bg-gray-300 hover:shadow-md hover:scale-105 focus-visible:ring-gray-200 focus-visible:ring-offset-2 focus-visible:ring-[3px] dark:bg-white/10 dark:text-white dark:hover:bg-white/20",
+                pink: "bg-[#FF007A] text-white rounded-full shadow-lg hover:bg-[#e6006e] transition",
                 gradient:
                     "bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition",
             },
@@ -61,7 +62,13 @@ function Button({
     if (href) {
         return (
             <Comp className={classNames} {...props}>
-                <Link target={target || "_blank"} href={href} className={clsx("flex items-center justify-content", linkClassName)}>{children}</Link>
+                <Link
+                    target={target || "_blank"}
+                    href={href}
+                    className={clsx("flex items-center justify-content", linkClassName)}
+                >
+                    {children}
+                </Link>
             </Comp>
         );
     }
@@ -79,6 +86,7 @@ type BaseProps = {
     textClassName?: string;
     href?: string;
     target?: string;
+    textBgWhite?: boolean;
 };
 
 type ButtonProps = BaseProps &
@@ -89,22 +97,31 @@ type ButtonProps = BaseProps &
 type AnchorProps = BaseProps &
     React.AnchorHTMLAttributes<HTMLAnchorElement> & {
         href?: string;
-        target? :string;
+        target?: string;
     };
 
 type GradientButtonProps = ButtonProps | AnchorProps;
 
-const GradientButton: React.FC<GradientButtonProps> = ({ children, className, textClassName, href, target, ...props }) => {
+const GradientButton: React.FC<GradientButtonProps> = ({
+    children,
+    className,
+    textClassName,
+    href,
+    target,
+    textBgWhite = false,
+    ...props
+}) => {
     const content = (
         <>
-            <div className="absolute inset-0 rounded-[12px] bg-[conic-gradient(from_0deg,_#ec4899,_#a855f7,_#fb923c,_#ec4899)] hover:animate-[spinGradient_3s_linear_infinite]" />
+            <div className="absolute inset-0 rounded-[10px] bg-[linear-gradient(90deg,_#F81A1A_-9.19%,_#0500E7_112.66%)]" />
             <span
                 className={clsx(
                     "relative z-10 flex items-center justify-center gap-2",
-                    "px-6 py-3",
+                    "px-5 py-3",
                     "text-white text-[16px] font-normal font-['Open_Sans'] leading-[24px]",
-                    "rounded-[10px]",
-                    "bg-[radial-gradient(56.62%_137.93%_at_80%_-50%,_#777777_0%,_#0F1111_100%)] bg-black",
+                    "rounded-[8px]",
+                    !textBgWhite &&
+                        "bg-[radial-gradient(56.62%_137.93%_at_80%_-50%,_#777777_0%,_#0F1111_100%)] bg-black",
                     textClassName
                 )}
             >
@@ -115,7 +132,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({ children, className, te
 
     const baseClass = clsx(
         "relative inline-flex items-center justify-center",
-        "p-[2px] rounded-[12px] bg-black",
+        "p-[2px] rounded-[10px]",
         "transition-all duration-300 ease-out",
         "hover:animate-glowScale transform",
         className
