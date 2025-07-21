@@ -110,6 +110,7 @@
     --font-satoshi: "Satoshi", sans-serif;
     --font-nippo: "Nippo", serif;
     --animate-glowScale: glowScale 0.3s ease-out forwards;
+    --animate-purpleGlow: purpleGlow 0.3s ease-out forwards;
 }
 
 @keyframes glowScale {
@@ -122,6 +123,17 @@
         box-shadow:
             0 0 10px rgba(236, 72, 153, 0.6),
             0 0 20px rgba(168, 85, 247, 0.4);
+    }
+}
+
+@keyframes purpleGlow {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(236, 72, 153, 0);
+    }
+    100% {
+        transform: scale(1.01);
+        box-shadow: 0 0 50px rgba(164, 129, 255, 0.3);
     }
 }
 

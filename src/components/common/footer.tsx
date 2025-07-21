@@ -27,7 +27,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="mt-24 px-6 pt-12 pb-6 bg-white">
+    <footer className="px-6 pt-12 pb-6 bg-white">
       <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-between items-start gap-10">
         {/* Left: Logo and Socials */}
         <div>

@@ -5,66 +5,76 @@ import FadeInWhenVisible from "@/components/ui/FadeInWhenVisible";
 import FadeInFromTopOnly from "@/components/ui/FadeInFromTopOnly";
 import { GradientButton } from "@/components/ui/button";
 import { faqList } from "@/constants/home";
+import Link from "next/link";
 import { siteMetadata } from "@/constants/metadata";
 
 export default function SectionFAQ() {
-  return (
-    <FadeInWhenVisible>
-      <section className="px-6 py-20 bg-white text-center mt-20">
-        {/* Title */}
-        <h2 className="text-3xl md:text-4xl font-bold mb-8">FAQs</h2>
-        <p className="max-w-4xl mx-auto text-gray-600 mb-20 text-md">
-          Welcome to ThinkStorm! We’re building a unique platform to connect
-          innovators, developers, and recruiters in meaningful ways. Here,
-          you’ll find answers to some common questions about how ThinkStorm
-          works, who it’s for, and what you can expect from the platform. If
-          you’re ready to discover, collaborate, and showcase your skills,
-          ThinkStorm is here to empower your journey.
-        </p>
-
-        {/* FAQ Cards */}
-        <FadeInStagger>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 text-center max-w-6xl mx-auto mb-16">
-            {faqList.map((faq, idx) => (
-              <motion.div key={idx} variants={itemVariants}>
-                <div className="text-3xl mb-6 flex justify-center">
-                  <Image
-                    src="/icons/question.svg"
-                    alt=""
-                    width={24}
-                    height={24}
-                    className="w-7 h-7"
-                    aria-hidden="true"
-                  />
+    return (
+        <section className="w-full px-10 min-[450px]:px-20 min-[650px]:px-30 py-16 bg-[#1E1C26] text-white flex flex-col xl:flex-row justify-center items-center gap-5 xl:gap-20">
+            <div className="w-full xl:w-1/2 space-y-4">
+                <div className="text-sm text-gray-400 flex items-center gap-2">
+                    <div>
+                        <Link
+                            href="/"
+                            className="text-white inline-flex border-b-2 pb-2 items-center justify-center xl:justify-start"
+                        >
+                            <Image
+                                src="/icons/copy-white.svg"
+                                alt="Copy Icon"
+                                width={15}
+                                height={15}
+                                className="mx-auto xl:mx-0"
+                                priority
+                            />
+                            <p className="text-md xl:text-lg text-white font-medium pl-2">Frequently Asked Questions</p>
+                        </Link>
+                    </div>
                 </div>
-                <h4 className="font-semibold mb-6">{faq.question}</h4>
-                <p className="text-gray-600">{faq.answer}</p>
-              </motion.div>
-            ))}
-          </div>
-        </FadeInStagger>
-        {/* Still have questions */}
-        <FadeInFromTopOnly delay={0.56}>
-          <div className="max-w-2xl mx-auto text-center mt-40">
-            <h3 className="text-xl md:text-2xl font-semibold mb-6">
-              Still have a questions?
-            </h3>
-            <p className="text-gray-600 mb-8 text-md">
-              If you still have questions or need more details, we’re here to
-              help! Reach out to us, and we’ll be happy to assist you on your
-              ThinkStorm journey. Whether you’re curious about features, need
-              guidance on getting started, or just want to share feedback, we’re
-              only a click away.
-            </p>
-            <GradientButton
-              target="_blank"
-              href={`mailto:${siteMetadata.email}`}
-            >
-              Contact Us
-            </GradientButton>
-          </div>
-        </FadeInFromTopOnly>
-      </section>
-    </FadeInWhenVisible>
-  );
+                {faqList.map((faq) => (
+                    <div key={faq.id} className={`rounded-lg px-6 py-4 text-sm font-medium ${faq.bg} text-black`}>
+                        {faq.question}
+                    </div>
+                ))}
+            </div>
+
+            <div className="flex pt-20">
+                <div className="pr-3 pt-8 min-[520px]:block hidden">
+                    <Image
+                        src="/icons/arrow.svg"
+                        alt="Arrow"
+                        width={48}
+                        height={48}
+                        className="object-cover"
+                    />
+                </div>
+                <div className="w-full xl:w-1/2 flex flex-col items-center xl:items-start text-left gap-4">
+                    <div className="relative">
+                        <div className="w-12 h-12 rounded-full overflow-hidden mx-auto">
+                            <Image
+                                src="/images/home-section5-avatar.png"
+                                alt="Contact Avatar"
+                                width={48}
+                                height={48}
+                                className="object-cover"
+                            />
+                        </div>
+                        <div className="absolute -top-5 -left-6 w-24 h-24 border-dotted border-2 border-white rounded-full opacity-30 animate-ping" />
+                    </div>
+                    <p className="text-sm text-white max-w-md">
+                        If you still have questions or need more details, we’re here to help! Reach out to us, and we’ll
+                        be happy to assist you on your ThinkStorm journey. Whether you’re curious about features, need
+                        guidance on getting started, or just want to share feedback, we’re only a click away.
+                    </p>
+                    <GradientButton
+                        target="_blank"
+                        href={`mailto:${siteMetadata.email}`}
+                        textBgWhite
+                        textClassName="!bg-white !text-black text-sm sm:text-base"
+                    >
+                        Contact Us
+                    </GradientButton>
+                </div>
+            </div>
+        </section>
+    );
 }
