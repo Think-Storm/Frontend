@@ -1,4 +1,3 @@
-import { useFetchInfiniteProjects } from '@/store/hooks'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import type { InfiniteScrollSpinProps } from '@/lib/utils/types'

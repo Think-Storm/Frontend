@@ -1,7 +1,7 @@
 import React from 'react'
 import { BackgroundHeaderProps } from '@/lib/utils/types'
 
-const BackgroundHeader = ({
+const BackgroundImage = ({
   bgImage,
   height = 'h-[384px]',
   children,
@@ -21,4 +21,4 @@ const BackgroundHeader = ({
   )
 }
 
-export default BackgroundHeader
+export default BackgroundImage

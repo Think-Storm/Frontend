@@ -11,7 +11,7 @@ import avatarImage from '../../../public/images/avatarImage.png'
 import logoGradient from '../../../public/images/logoGradient.svg'
 import React, { useMemo, useState } from 'react'
 import { FolderKanban, Funnel, Search, Telescope } from 'lucide-react'
-// import BellButton from './BellButton'
+import BellButton from './BellButton'
 import {
   Navbar,
   NavbarBrand,
@@ -27,8 +27,8 @@ import { Input } from './input'
 import { motion, AnimatePresence } from 'framer-motion'
 import FilterSelect from './FilterSelect'
 import { FILTERS } from '@/lib/constants/common'
-import { useFetchInfiniteProjects } from '@/store/hooks'
-import { useDebounce } from 'use-debounce'
+import useFetchInfiniteProjects from '../features/projects/hooks/useFetchInfiniteProjects'
+import useDebounce from '../features/search/hooks/useDebounce'
 
 const MyNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -47,20 +47,19 @@ const MyNavbar = () => {
 
   const menuItems = ['My projects', 'Explore']
 
-  const allProjects = data?.pages.flatMap((page) => page.projects) || []
-
-  // const filteredProjects = useMemo(() => {
-  //   return allProjects.filter(
-  //     (project) =>
-  //       project.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-  //       project.description
-  //         .toLowerCase()
-  //         .includes(debouncedSearch.toLowerCase()) ||
-  //       project.technicalLabels.some((tech) =>
-  //         tech.labelName.toLowerCase().includes(debouncedSearch.toLowerCase()),
-  //       ),
-  //   )
-  // }, [])
+  const filteredProjects = useMemo(() => {
+    const allProjects = data?.pages.flatMap((page) => page.projects) || []
+    return allProjects.filter(
+      (project) =>
+        project.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        project.description
+          .toLowerCase()
+          .includes(debouncedSearch.toLowerCase()) ||
+        project.technicalLabels.some((tech) =>
+          tech.labelName.toLowerCase().includes(debouncedSearch.toLowerCase()),
+        ),
+    )
+  }, [debouncedSearch, data?.pages])
 
   return (
     <Navbar
@@ -94,7 +93,9 @@ const MyNavbar = () => {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex" justify="end">
-        <NavbarItem>{/* <BellButton /> */}</NavbarItem>
+        <NavbarItem>
+          <BellButton />
+        </NavbarItem>
         <NavbarItem>
           <Select>
             <SelectTrigger className="border-2 flex items-center border-none shadow-none rounded-full overflow-hidden">

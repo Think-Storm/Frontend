@@ -1,28 +1,20 @@
 'use  client'
 
-import React, { useState } from 'react'
-import { useFetchProjects } from '@/store/hooks'
+import React from 'react'
 import {
   Menubar,
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-  // MenubarSeparator,
-  // MenubarShortcut,
   MenubarTrigger,
 } from './menubar'
 import ProjectCardSkeleton from './ProjectCardSkeleton'
-import type { TProjects, ProjectCardProps } from '@/lib/utils/types'
+import type { ProjectCardProps } from '@/lib/utils/types'
 import StackIcon from 'tech-stack-icons'
 import { goalIcons, type GoalType } from '@/lib/constants/common'
-import { NotificationType, LoginUser } from '@think-storm/contracts'
+import { domainLabelOptions } from './FilterSelect'
 
 const ProjectCard = ({ projects = [], isLoading, error }: ProjectCardProps) => {
-  type LoginUser = {
-    name: string
-    password: string
-  }
-
   const GoalIcon = (goal: string) => {
     const Icon = goalIcons[goal as GoalType] || goalIcons.Other
     return <Icon className="w-4 h-4 incline-block mr-1" />
@@ -77,6 +69,17 @@ const ProjectCard = ({ projects = [], isLoading, error }: ProjectCardProps) => {
                   name={tech.labelName}
                   className="w-[18px] h-[18px]"
                 />
+              </span>
+            ))}
+          </div>
+          {/* DOMAIN LABELS */}
+          <div className="flex gap-2 mt-2 flex-wrap">
+            {project.domainLabels.map((domain, i) => (
+              <span
+                key={`${project.id}-domain-${i}`}
+                className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full"
+              >
+                {domain.labelName}
               </span>
             ))}
           </div>

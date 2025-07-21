@@ -88,8 +88,8 @@ export type ProjectCardProps = {
 
 export interface BackgroundHeaderProps {
   bgImage: string
-  height?: string // default to h-[384px]
   children?: React.ReactNode
+  height?: string
 }
 
 export type TProjectsResponse = {

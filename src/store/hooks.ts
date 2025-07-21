@@ -1,5 +1,5 @@
 import { useDispatch, useSelector, useStore } from 'react-redux'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getProjects, getTechStacks } from '@/lib/utils/thinkstorm-api'
 import type { TechStackInputProps, TProjects } from '../lib/utils/types'
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
@@ -34,16 +34,16 @@ export function useFetchProjects(page = 1, limit = 9) {
   })
 }
 
-export function useFetchInfiniteProjects(search: string = '') {
-  return useInfiniteQuery({
-    queryKey: ['infiniteProjects', search],
-    queryFn: ({ pageParam = 1 }) => getProjects(pageParam, 9, search),
-    getNextPageParam: (lastPage) => {
-      return lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined
-    },
-    initialPageParam: 1,
-  })
-}
+// export function useFetchInfiniteProjects(search: string = '') {
+//   return useInfiniteQuery({
+//     queryKey: ['infiniteProjects', search],
+//     queryFn: ({ pageParam = 1 }) => getProjects(pageParam, 9, search),
+//     getNextPageParam: (lastPage) => {
+//       return lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined
+//     },
+//     initialPageParam: 1,
+//   })
+// }
 
 export function useTechStacks() {
   return useQuery({

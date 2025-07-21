@@ -10,16 +10,47 @@ import { BASE_API_URL } from '../constants/common'
 const checkResponse = <T>(res: Response): Promise<T> =>
   res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
 
+// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+// const fetchWithRetry = async (
+//   url: string,
+//   options: RequestInit,
+//   retries: 3,
+//   baseDelay = 1000,
+// ): Promise<Response> => {
+//   for (let i = 0; i < retries; i++) {
+//     try {
+//       const res = await fetch(url, options)
+
+//       if (res.status !== 429) return res
+
+//       const retryAfter = res.headers.get('Retry-After')
+//       const waitTime = retryAfter
+//         ? parseInt(retryAfter) * 1000
+//         : baseDelay * Math.pow(2, i)
+
+//       console.warn(`Rate limited, retrying after ${waitTime}ms...`)
+//       await delay(waitTime)
+//     } catch (error) {
+//       if (i === retries - 1) throw error
+//     }
+//   }
+//   throw new Error('Max retries reached')
+// }
+
 export const getProjects = async (
   page = 1,
   limit = 9,
   search?: string,
+  technical?: string,
+  domain?: string,
 ): Promise<TProjectsResponseTest> => {
   try {
     const url = new URL(`${BASE_API_URL}/projects/search`)
     url.searchParams.append('page', page.toString())
     url.searchParams.append('limit', limit.toString())
     if (search) url.searchParams.append('search', search)
+
     const res = await fetch(url.toString(), {
       method: 'GET',
       headers: {

@@ -1,16 +1,16 @@
 'use client'
 
-import BackgroundHeader from '@/components/ui/BackgroundHeader'
+import BackgroundImage from '@/components/ui/BackgroundImage'
 import bgExplore from '../../../../../public/images/bg-explore.png'
-import Navbar from '@/components/ui/MyNavbar'
+import MyNavbar from '@/components/ui/MyNavbar'
 
 const ProjectCreated = () => {
   return (
     <div className="w-full relative">
-      <BackgroundHeader bgImage={bgExplore.src}>
-        <Navbar />
+      <BackgroundImage bgImage={bgExplore.src} height={''}>
+        <MyNavbar />
         {/* header container  */}
-      </BackgroundHeader>
+      </BackgroundImage>
     </div>
   )
 }

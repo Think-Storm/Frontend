@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import Navbar from '@/components/ui/MyNavbar'
 import {
   Select,
   SelectContent,
@@ -9,19 +8,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useState, useEffect } from 'react'
-import {
-  useFetchInfiniteProjects,
-  useFetchProjects,
-  useOutsideClick,
-} from '@/store/hooks'
+import { useState } from 'react'
+import { useOutsideClick } from '@/store/hooks'
 import ProjectCard from '@/components/ui/ProjectCard'
-import BackgroundHeader from '@/components/ui/BackgroundHeader'
+import BackgroundHeader from '@/components/ui/BackgroundImage'
 import bgExplore from '../../../../../public/images/bg-explore.png'
-import { useInView } from 'react-intersection-observer'
 import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
 import { useRouter } from 'next/navigation'
 import { Label } from '@/components/ui/label'
+import MyNavbar from '@/components/ui/MyNavbar'
+import useFetchInfiniteProjects from '@/components/features/projects/hooks/useFetchInfiniteProjects'
+import BackgroundImage from '@/components/ui/BackgroundImage'
 
 const projectFilters = ['Created', 'Saved', 'Joined', 'Requested']
 
@@ -46,9 +43,9 @@ export default function MyProjectPage() {
 
   return (
     <div className="w-full relative">
-      <BackgroundHeader bgImage={bgExplore.src}>
+      <BackgroundImage bgImage={bgExplore.src} height={''}>
         <div>
-          <Navbar />
+          <MyNavbar />
         </div>
         <div className="flex flex-col gap-10 mt-12 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40 ">
           {/* header and button container */}
@@ -111,7 +108,7 @@ export default function MyProjectPage() {
             fetchNextPage={fetchNextPage}
           />
         </div>
-      </BackgroundHeader>
+      </BackgroundImage>
     </div>
   )
 }

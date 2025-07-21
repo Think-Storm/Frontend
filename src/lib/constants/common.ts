@@ -1,4 +1,14 @@
-import { Target, GraduationCap, Heart, DollarSign, Gamepad } from 'lucide-react'
+import {
+  Target,
+  GraduationCap,
+  Heart,
+  DollarSign,
+  Gamepad,
+  Blocks,
+  BookCheck,
+  Crosshair,
+  ScrollText,
+} from 'lucide-react'
 
 export const BASE_URL = 'https://thinkstorm.app'
 
@@ -38,6 +48,7 @@ export const OG_IMAGE = {
 export const FILTERS = [
   {
     placeholder: 'Skills',
+    icon: Blocks,
     options: [
       { label: 'ReactJS', value: 'react' },
       { label: 'NextJS', value: 'next' },
@@ -46,6 +57,7 @@ export const FILTERS = [
   },
   {
     placeholder: 'Field',
+    icon: BookCheck,
     options: [
       { label: 'AI', value: 'ai' },
       { label: 'Software Development', value: 'software' },
@@ -54,6 +66,7 @@ export const FILTERS = [
   },
   {
     placeholder: 'Purpose',
+    icon: Crosshair,
     options: [
       { label: 'Self-development', value: 'self' },
       { label: 'Hobby', value: 'hobby' },
@@ -62,6 +75,7 @@ export const FILTERS = [
   },
   {
     placeholder: 'Language',
+    icon: ScrollText,
     options: [
       { label: 'Python', value: 'python' },
       { label: 'JavaScript', value: 'javascript' },
