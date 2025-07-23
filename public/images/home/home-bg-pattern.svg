@@ -1,0 +1,9 @@
+<svg width="1957" height="1100" viewBox="0 0 1957 1100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Subtle dot pattern; tweak color/opacity/spacing as needed -->
+    <pattern id="dotPattern" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="2" fill="#EBEBEF" fill-opacity="1" />
+    </pattern>
+  </defs>
+  <rect width="1957" height="1100" fill="url(#dotPattern)" />
+</svg>
