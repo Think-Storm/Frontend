@@ -15,4 +15,6 @@ export const pageRoutes = {
     resetPassword: "/reset-password",
     dashboard: "/dashboard",
     explore: "/explore",
+    privacyPolicy: "/privacy-policy",
+    termsOfService: "/terms-of-service",
 };
