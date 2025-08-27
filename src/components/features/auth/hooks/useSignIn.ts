@@ -15,10 +15,10 @@ export default function useSignIn() {
     mutationFn: (data: SignInData) => api.post(apiRoutes.signin, data),
     onSuccess: () => {
       showSuccessToast({
-        message: "Sign-in Successful",
-        description: "Welcome! You will be redirected to the dashboard page.",
-      });
-      router.push(pageRoutes.explore);
+        message: 'Sign-in Successful',
+        description: 'Welcome! You will be redirected to the dashboard page.',
+      })
+      router.push(pageRoutes.explore)
     },
     onError: (error: Error) => {
       console.log('Sign-in error:', error)
