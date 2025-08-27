@@ -1,12 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
-import userSlice from "./user/userSlice";
-import headerSlice from "./ui/headerSlice";
+import { configureStore } from '@reduxjs/toolkit'
+import userSlice from './user/userSlice'
+import headerSlice from './ui/headerSlice'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       user: userSlice,
-      header: headerSlice
+      header: headerSlice,
     },
   })
 }

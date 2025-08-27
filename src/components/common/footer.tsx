@@ -1,55 +1,65 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "../ui/button";
-import { useForm } from "react-hook-form";
-import { Form } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubscriptionData } from "@/types/user";
-import { subscriptionSchema } from "@/schemas/userSchema";
-import FooterFormField from "../features/footer/components/FooterFormField";
-import { Spinner } from "../ui/spinner";
-import useSubscribe from "../features/footer/hooks/useSubscribe";
-import FooterForm from "../features/footer/components/FooterForm";
+import Image from 'next/image'
+import Link from 'next/link'
+import { Button } from '../ui/button'
+import { useForm } from 'react-hook-form'
+import { Form } from '@/components/ui/form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { SubscriptionData } from '@/types/user'
+import { subscriptionSchema } from '@/schemas/userSchema'
+import FooterFormField from '../features/footer/components/FooterFormField'
+import { Spinner } from '../ui/spinner'
+import useSubscribe from '../features/footer/hooks/useSubscribe'
+import FooterForm from '../features/footer/components/FooterForm'
 
 export default function Footer() {
-    const { subscribe, isPending } = useSubscribe();
-    const form = useForm<SubscriptionData>({
-        defaultValues: {
-            email: "",
-        },
-        resolver: zodResolver(subscriptionSchema),
-    });
+  const { subscribe, isPending } = useSubscribe()
+  const form = useForm<SubscriptionData>({
+    defaultValues: {
+      email: '',
+    },
+    resolver: zodResolver(subscriptionSchema),
+  })
 
-    function onSubmit(FormValues: SubscriptionData) {
-        subscribe(FormValues);
-    }
+  function onSubmit(FormValues: SubscriptionData) {
+    subscribe(FormValues)
+  }
 
-    return (
-        <footer className="px-6 pt-12 pb-6 bg-white">
-            <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-between items-start gap-10">
-                {/* Left: Logo and Socials */}
-                <div>
-                    <div className="flex items-center gap-2 mb-4">
-                        <Image src="/images/common/thinkstorm-logo-gradient.svg" alt="" width={20} height={20} />
-                        <span className="text-xl font-semibold">ThinkStorm</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-700">
-                        <span>Our LinkedIn</span>
-                        <Link
-                            href="https://www.linkedin.com/company/think-storm"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block"
-                        >
-                            <Image src="/icons/common/linkedin-icon.svg" alt="" width={16} height={16} />
-                        </Link>
-                    </div>
-                </div>
+  return (
+    <footer className="px-6 pt-12 pb-6 bg-white">
+      <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-between items-start gap-10">
+        {/* Left: Logo and Socials */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <Image
+              src="/images/common/thinkstorm-logo-gradient.svg"
+              alt=""
+              width={20}
+              height={20}
+            />
+            <span className="text-xl font-semibold">ThinkStorm</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-gray-700">
+            <span>Our LinkedIn</span>
+            <Link
+              href="https://www.linkedin.com/company/think-storm"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Image
+                src="/icons/common/linkedin-icon.svg"
+                alt=""
+                width={16}
+                height={16}
+              />
+            </Link>
+          </div>
+        </div>
 
-                {/* Right: Subscribe */}
-                {/* <FooterForm>
+        {/* Right: Subscribe */}
+        {/* <FooterForm>
           <h4 className="text-sm font-semibold mb-2">Subscribe</h4>
           <Form {...form}>
             <form
@@ -89,26 +99,28 @@ export default function Footer() {
             </Link>
           </p>
         </FooterForm> */}
-            </div>
+      </div>
 
-            {/* Divider */}
-            <hr className="my-6 border-t border-gray-200"></hr>
+      {/* Divider */}
+      <hr className="my-6 border-t border-gray-200"></hr>
 
-            {/* Bottom Links + Copyright */}
-            <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-center items-center text-sm text-gray-600 gap-8">
-                <div className="flex flex-wrap gap-4">
-                    <Link href="#" className="hover:underline">
-                        Privacy Policy
-                    </Link>
-                    <Link href="#" className="hover:underline">
-                        Terms of Service
-                    </Link>
-                    <Link href="#" className="hover:underline">
-                        Cookies Settings
-                    </Link>
-                </div>
-                <span className="text-xs">&copy; 2025 ThinkStorm. All rights reserved.</span>
-            </div>
-        </footer>
-    );
+      {/* Bottom Links + Copyright */}
+      <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-center items-center text-sm text-gray-600 gap-8">
+        <div className="flex flex-wrap gap-4">
+          <Link href="#" className="hover:underline">
+            Privacy Policy
+          </Link>
+          <Link href="#" className="hover:underline">
+            Terms of Service
+          </Link>
+          <Link href="#" className="hover:underline">
+            Cookies Settings
+          </Link>
+        </div>
+        <span className="text-xs">
+          &copy; 2025 ThinkStorm. All rights reserved.
+        </span>
+      </div>
+    </footer>
+  )
 }

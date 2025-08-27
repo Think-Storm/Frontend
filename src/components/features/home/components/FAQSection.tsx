@@ -1,10 +1,10 @@
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { motion, easeOut, AnimatePresence } from "framer-motion";
-import { faqList } from "@/constants/home";
-import { siteMetadata } from "@/constants/metadata";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { motion, easeOut, AnimatePresence } from 'framer-motion'
+import { faqList } from '@/constants/home'
+import { siteMetadata } from '@/constants/metadata'
+import { Button } from '@/components/ui/button'
 
 const containerVariants = {
   hidden: {},
@@ -13,12 +13,12 @@ const containerVariants = {
       staggerChildren: 0.15,
     },
   },
-};
+}
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeOut } },
-};
+}
 
 const faqContainerVariants = {
   hidden: {},
@@ -27,7 +27,7 @@ const faqContainerVariants = {
       staggerChildren: 0.2,
     },
   },
-};
+}
 
 const faqItemVariants = {
   hidden: {
@@ -40,20 +40,20 @@ const faqItemVariants = {
     y: 0,
     scale: 1,
     transition: {
-      type: "spring" as const,
+      type: 'spring' as const,
       damping: 15,
       stiffness: 100,
       mass: 1,
     },
   },
-};
+}
 
 export default function FAQSection() {
-  const [openId, setOpenId] = useState<number | null>(null);
+  const [openId, setOpenId] = useState<number | null>(null)
 
   const toggleFAQ = (id: number) => {
-    setOpenId(openId === id ? null : id);
-  };
+    setOpenId(openId === id ? null : id)
+  }
 
   return (
     <motion.section
@@ -129,10 +129,10 @@ export default function FAQSection() {
                   <motion.div
                     key="answer"
                     initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
+                    animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.4, ease: easeOut }}
-                    style={{ overflow: "hidden" }}
+                    style={{ overflow: 'hidden' }}
                     className={`rounded-t-xs rounded-b-lg px-6 ${faq.bg} -translate-y-0.5 group-hover:transform-all group-hover:-translate-y-0.5`}
                   >
                     <motion.div
@@ -157,13 +157,13 @@ export default function FAQSection() {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, amount: 0.3 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
       >
         <motion.div
           className="pr-3 pt-8 min-[830px]:block hidden"
           initial={{ pathLength: 0, opacity: 0, x: -20 }}
           animate={{ pathLength: 1, opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
+          transition={{ duration: 1, ease: 'easeOut', delay: 0.4 }}
         >
           <motion.img
             src="/icons/home/dashed-arrow-icon.svg"
@@ -208,5 +208,5 @@ export default function FAQSection() {
         </div>
       </motion.div>
     </motion.section>
-  );
+  )
 }
