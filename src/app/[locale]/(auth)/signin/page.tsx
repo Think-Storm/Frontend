@@ -1,21 +1,21 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import AuthForm from "@/components/features/auth/components/AuthForm";
 import AuthFormField from "@/components/features/auth/components/AuthFormField";
 import { loginSchema } from "@/schemas/authSchemas";
 import useSignIn from "@/components/features/auth/hooks/useSignIn";
-import { SignInData } from "@/types/user";
-import { Spinner } from "@/components/ui/spinner";
+import { LoginUser } from "@think-storm/contracts";
 
 export default function SignInPage() {
-  const { signIn, isPending, error } = useSignIn();
-  const form = useForm<SignInData>({
+  const { signIn, isPending } = useSignIn();
+  const form = useForm<LoginUser>({
     defaultValues: {
       email: "",
       password: "",
@@ -23,7 +23,7 @@ export default function SignInPage() {
     resolver: zodResolver(loginSchema),
   });
 
-  function onSubmit(FormValues: SignInData) {
+  function onSubmit(FormValues: LoginUser) {
     signIn(FormValues);
   }
 
@@ -54,7 +54,7 @@ export default function SignInPage() {
                 autoComplete="current-password"
               />
               <div className="absolute -top-1 right-0 text-[13px] text-gray-600">
-                <Link href="#" className="underline">
+                <Link href="/reset-password" className="underline">
                   Forgot your password?
                 </Link>
               </div>
@@ -90,7 +90,7 @@ export default function SignInPage() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full h-11 text-base font-light border-gray-200"
+                className="w-full h-11 text-base font-light border-gray-200 hover:bg-transparent hover:text-black"
                 disabled={isPending}
                 onClick={() => {
                   /* TODO: Implement Google OAuth */

@@ -1,13 +1,41 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userSlice from "./user/userSlice";
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import authSlice from "./reducers/auth/authSlice";
 import headerSlice from "./ui/headerSlice";
+// import onboardingSlice from "./reducers/profile/onboardingSlice";
+// import profileSlice from "./reducers/profile/profileSlice";
+
+const persistConfig = {
+  key: "auth",
+  storage,
+  whitelist: ["user"],
+};
+
+const persistedAuthReducer = persistReducer(persistConfig, authSlice);
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      user: userSlice,
-      header: headerSlice
+      auth: persistedAuthReducer,
+      header: headerSlice,
+      // onboarding: onboardingSlice,
+      // profile: profileSlice,
     },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
   });
 };
 

@@ -5,64 +5,65 @@ import Image from "next/image";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col lg:flex-row p-8 min-h-screen">
-      {/* Background Images */}
-      <aside className="fixed inset-0 -z-10 w-full lg:w-full lg:min-w-[1440px] min-h-screen overflow-hidden">
-        {/* Desktop Background */}
-        <Image
-          src="/images/auth/auth-bg-with-logo.svg"
-          alt=""
-          aria-hidden="true"
-          className="object-cover object-center scale-[1] lg:scale-100 hidden lg:block"
-          fill
-          priority
-        />
-        {/* Mobile Background */}
-        <Image
-          src="/images/auth/auth-bg-without-logo.svg"
-          alt=""
-          aria-hidden="true"
-          className="object-cover object-center scale-[1.2] lg:scale-100 block lg:hidden rotate-180"
-          fill
-        />
-      </aside>
-      {/* Left Spacer for Layout Adjustment */}
-      <div className="lg:block lg:flex-1" aria-hidden="true" />
-      {/* Main Content */}
-      <main className="flex-1 z-10 w-full flex flex-col justify-between items-center gap-8 min-h-[calc(100vh-4rem)]">
-        {/* Mobile Logo */}
-        <header
-          className="lg:hidden text-3xl font-bold"
-          aria-label="mobile brand header"
-        >
-          <div className="flex flex-col items-center justify-center gap-1 text-white lg:hidden">
+    <div className="relative min-h-screen">
+      <div className="fixed inset-0 bg-[url('/images/bg-auth-plain.png')] bg-cover bg-center bg-no-repeat" />
+      <div className="relative mx-auto min-h-screen flex flex-col justify-center items-center px-8 py-8">
+        <header className="absolute top-50 left-10 text-3xl font-bold hidden lg:block">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-1">
-              <span>
+              <span className="text-black">
                 <Image
                   src="/images/common/thinkstorm-logo-white.svg"
-                  alt=""
-                  width={28}
-                  height={28}
+                  alt="think storm logo"
+                  width={42}
+                  height={42}
+                  className="filter invert"
                 />
               </span>
-              <h1 className="text-3xl font-normal font-nippo">ThinkStorm</h1>
+              <h1 className="text-4xl font-normal font-nippo">ThinkStorm</h1>
             </div>
-            <div className="text-xl font-extralight text-center">
+            <div className="text-xl font-extralight text-gray-700 ml-4">
               Discover, Collaborate, Innovate.
             </div>
           </div>
         </header>
-        {/* Form Container */}
+
+        <header className="text-3xl font-bold lg:hidden mb-8">
+          <div className="flex flex-col gap-1 items-center">
+            <div className="flex items-center gap-1">
+              <span className="text-black">
+                <Image
+                  src="/images/common/thinkstorm-logo-white.svg"
+                  alt="think storm logo"
+                  width={42}
+                  height={42}
+                  className="w-[30px] h-[30px] lg:w-[42px] lg:h-[42px] filter invert"
+                />
+              </span>
+              <h1 className="text-3xl lg:text-4xl font-normal font-nippo">
+                ThinkStorm
+              </h1>
+            </div>
+            <div className="text-base lg:text-xl font-extralight text-gray-700">
+              Discover, Collaborate, Innovate.
+            </div>
+          </div>
+        </header>
+
         <section
           role="main"
-          aria-label="authentication form section"
-          className="w-full flex-1 flex items-center justify-center lg:justify-end"
+          className="w-full flex items-center justify-center lg:justify-end relative"
         >
-          <div className="w-full max-w-[640px] min-h-[90vh] p-12 bg-white rounded-2xl flex flex-col justify-center items-center">
-            {children}
+          <div className="h-screen w-full max-w-[500px] p-[2px] bg-gradient-to-r from-[#5e00c3] to-[#F81A1A] rounded-2xl relative">
+            <div className="absolute top-0 -left-48 w-64 h-64 bg-[url('/images/bg-cloud.svg')] bg-contain bg-no-repeat hidden lg:block animate-cloud" />
+            <div className="w-full h-full flex flex-col items-center overflow-y-auto bg-white rounded-[calc(1rem-2px)] ">
+              <div className="w-full flex-1 flex flex-col justify-center items-center p-12">
+                {children}
+              </div>
+            </div>
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

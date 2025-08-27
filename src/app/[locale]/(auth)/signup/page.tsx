@@ -10,12 +10,12 @@ import AuthFormField from "@/components/features/auth/components/AuthFormField";
 import { Button } from "@/components/ui/button";
 import { signupSchema } from "@/schemas/authSchemas";
 import useSignUp from "@/components/features/auth/hooks/useSignUp";
-import { SignUpData } from "@/types/user";
 import { Spinner } from "@/components/ui/spinner";
+import { RegisterUser } from "@think-storm/contracts";
 
 export default function SignUpPage() {
   const { signUp, isPending } = useSignUp();
-  const form = useForm<SignUpData>({
+  const form = useForm<RegisterUser>({
     defaultValues: {
       username: "",
       email: "",
@@ -24,7 +24,7 @@ export default function SignUpPage() {
     resolver: zodResolver(signupSchema),
   });
 
-  function onSubmit(FormValues: SignUpData) {
+  function onSubmit(FormValues: RegisterUser) {
     signUp(FormValues);
   }
 
@@ -97,7 +97,7 @@ export default function SignUpPage() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full h-11 text-base font-light border-gray-200"
+                className="w-full h-11 text-base font-light border-gray-200 hover:bg-transparent hover:text-black"
                 disabled={isPending}
                 onClick={() => {
                   /* TODO: Implement Google OAuth */

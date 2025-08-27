@@ -1,12 +1,11 @@
+import { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Provider } from "@/providers/provider";
-import { routing } from "@/i18n/routing";
-import { notFound } from "next/navigation";
-import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { NextIntlClientProvider } from "next-intl";
 import "@/styles/globals.css";
+import { Toaster } from "sonner";
 import { satoshi, nippo } from "@/styles/fonts";
 import { siteMetadata } from "@/constants/metadata";
-import { Toaster } from "sonner";
+import { Provider } from "@/providers/provider";
 
 const { baseUrl, title, description, keywords, author, ogImage } = siteMetadata;
 
@@ -37,17 +36,15 @@ export default async function RootLayout({
   children,
   params,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
+
   return (
-    <html lang={locale} className="overflow-x-hidden">
+    <html lang={locale} className="overflow-x-hidden w-screen">
       <body
-        className={`${satoshi.variable} ${nippo.variable} overflow-x-hidden`}
+        className={`${satoshi.variable} ${nippo.variable} overflow-x-hidden w-screen`}
         suppressHydrationWarning
       >
         <NextIntlClientProvider>
