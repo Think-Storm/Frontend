@@ -9,7 +9,7 @@ import {
 import Image from 'next/image'
 import avatarImage from '../../../public/images/avatarImage.png'
 import logoGradient from '../../../public/images/logoGradient.svg'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { FolderKanban, Funnel, Search, Telescope } from 'lucide-react'
 import BellButton from './BellButton'
 import {
@@ -23,43 +23,33 @@ import {
 } from '@heroui/navbar'
 import Link from 'next/link'
 import { Fade as Hamburger } from 'hamburger-react'
-import { Input } from './input'
+
 import { motion, AnimatePresence } from 'framer-motion'
-import FilterSelect from './FilterSelect'
-import { FILTERS } from '@/lib/constants/common'
+import FilterSelect, {
+  domainLabelOptions,
+  goalLabelOptions,
+  languageLabelOptions,
+  technicalLabelOptions,
+} from './FilterSelect'
 import useFetchInfiniteProjects from '../features/projects/hooks/useFetchInfiniteProjects'
 import useDebounce from '../features/search/hooks/useDebounce'
+import { useFilters } from '../features/filters/FilterContext'
+import { Input } from './input'
 
 const MyNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const debouncedSearch = useDebounce(searchQuery, 300)
 
   const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    error,
-  } = useFetchInfiniteProjects()
+    uiFilters,
+    setSearch,
+    updateTechnical,
+    updateDomain,
+    updateGoal,
+    updateLanguage,
+  } = useFilters()
 
   const menuItems = ['My projects', 'Explore']
-
-  const filteredProjects = useMemo(() => {
-    const allProjects = data?.pages.flatMap((page) => page.projects) || []
-    return allProjects.filter(
-      (project) =>
-        project.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-        project.description
-          .toLowerCase()
-          .includes(debouncedSearch.toLowerCase()) ||
-        project.technicalLabels.some((tech) =>
-          tech.labelName.toLowerCase().includes(debouncedSearch.toLowerCase()),
-        ),
-    )
-  }, [debouncedSearch, data?.pages])
 
   return (
     <Navbar
@@ -154,12 +144,11 @@ const MyNavbar = () => {
               className="absolute left-3 top-[50%] -translate-y-1/2 text-gray-400 pointer-events-none"
             />
             <Input
-              type="search"
               id="search"
               placeholder="Search"
               className=" pl-8 h-[36px] text-md rounded-full"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={uiFilters.search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <button
@@ -180,36 +169,42 @@ const MyNavbar = () => {
               className="w-full mt-2 flex-1"
             >
               <div className="flex flex-col gap-2 w-full">
-                {FILTERS.slice(0, 4).map((filter, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3, delay: 0.1 * index }}
-                    className="w-full"
-                  >
-                    <FilterSelect
-                      placeholder={filter.placeholder}
-                      // icon={filter.icon}
-                      options={filter.options}
-                      className="h-[36px] rounded-full"
-                      // width="100%"
-                    />
-                  </motion.div>
-                ))}
+                <FilterSelect
+                  placeholder="Techincal Skills"
+                  options={technicalLabelOptions}
+                  value={uiFilters.technical}
+                  onValueChange={updateTechnical}
+                  className="h-[36px] rounded-full"
+                  width="100%"
+                />
+                <FilterSelect
+                  placeholder="Field"
+                  options={domainLabelOptions}
+                  value={uiFilters.domain}
+                  onValueChange={updateDomain}
+                  className="h-[36px] rounded-full"
+                  width="100%"
+                />
+                <FilterSelect
+                  placeholder="Purpose"
+                  options={goalLabelOptions}
+                  value={uiFilters.goal}
+                  onValueChange={updateGoal}
+                  className="h-[36px] rounded-full"
+                  width="100%"
+                />
+                <FilterSelect
+                  placeholder="Language"
+                  options={languageLabelOptions}
+                  value={uiFilters.languageName}
+                  onValueChange={updateLanguage}
+                  className="h-[36px] rounded-full"
+                  width="100%"
+                />
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item} - ${index}`}>
-            <Link className="w-full" href="#">
-              {item}
-            </Link>
-          </NavbarMenuItem>
-        ))} */}
       </NavbarMenu>
     </Navbar>
   )

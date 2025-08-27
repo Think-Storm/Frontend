@@ -15,6 +15,7 @@ import {
 } from '@/lib/constants/common'
 import QueryProvider from '@/providers/query-provider'
 import { Toaster } from '@/components/ui/toaster'
+import FilterProvider from '@/components/features/filters/FilterContext'
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),

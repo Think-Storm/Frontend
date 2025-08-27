@@ -1,10 +1,5 @@
+import { ProjectResponse } from '@think-storm/contracts'
 import React from 'react'
-
-export interface TechStackInputProps {
-  selectedTechs: TechStack[]
-  onSelect: (tech: TechStack) => void
-  onRemove: (techId: number) => void
-}
 
 export interface TProjectsResponseTest {
   projects: Array<{
@@ -18,6 +13,9 @@ export interface TProjectsResponseTest {
     }
     technicalLabels: Array<{ projectId: number; labelName: string }>
     domainLabels: Array<{ projectId: number; labelName: string }>
+    goalLabels: Array<{ projectId: number; labelName: string }>
+    languageLabels: Array<{ projectId: number; labelName: string }>
+
     description: string
     status: string
     goal: string
@@ -52,6 +50,8 @@ export type TProjects = {
   }
   technicalLabels: TechnicalLabel[]
   domainLabels: DomainLabel[]
+  goalLabels: GoalLabel[]
+  languageLabels: LanguageLabel[]
   description: string
   status: string // "InProgress", "Complete", "OnHold" (not boolean)
   goal: string
@@ -80,16 +80,27 @@ export type DomainLabel = {
   labelName: string
 }
 
+export type GoalLabel = {
+  projectId: number
+  labelName: string
+}
+
+export type LanguageLabel = {
+  projectId: number
+  labelName: string
+}
+
 export type ProjectCardProps = {
-  projects?: TProjects[]
-  isLoading: boolean
-  error: unknown
+  projects: ProjectResponse[]
+  isLoading?: boolean
+  error?: unknown
 }
 
 export interface BackgroundHeaderProps {
   bgImage: string
   children?: React.ReactNode
   height?: string
+  className?: string
 }
 
 export type TProjectsResponse = {
@@ -108,18 +119,15 @@ export type InfiniteScrollSpinProps = {
   className?: string
 }
 
-export interface TechStack {
+export type TechStack = {
   id: number
+  // tech: TechStack[]
+  techId: number,
   labelName: string
 }
 
-// These types don't match the current API response but could be useful
-// if needed for the application's internal data model
-
-export type TDomainLabels = {
-  name: string
-}
-
-export type TUsersQuantity = {
-  usersQuantity: number
+export type TechStackInputProps = {
+  selectedTechs: TechStack[]
+  onSelect: (tech: TechStack) => void
+  onRemove: (techId: number) => void
 }

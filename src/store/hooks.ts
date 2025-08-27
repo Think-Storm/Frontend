@@ -1,9 +1,10 @@
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
-import { getProjects, getTechStacks } from '@/lib/utils/thinkstorm-api'
-import type { TechStackInputProps, TProjects } from '../lib/utils/types'
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
+import { getProjects } from '@/lib/utils/thinkstorm-api'
+import { useQuery } from '@tanstack/react-query'
 import { AppDispatch, AppStore, RootState } from '.'
+import { BASE_API_URL } from '@/lib/constants/common'
+import { TechStack } from '@/lib/utils/types'
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 export const useAppSelector = useSelector.withTypes<RootState>()
@@ -26,6 +27,22 @@ export function useOutsideClick<T extends HTMLElement>(callback: () => void) {
   return ref
 }
 
+const getTechStacks = async () => {
+  try {
+    const response = await fetch(`${BASE_API_URL}/tech-stacks`)
+
+    if (!response.ok) {
+      throw new Error(`Error fetching tech stacks`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Faileed to fetch tech stacks')
+    throw error
+  }
+}
+
 export function useFetchProjects(page = 1, limit = 9) {
   return useQuery({
     queryKey: ['projects', page, limit],
@@ -34,19 +51,8 @@ export function useFetchProjects(page = 1, limit = 9) {
   })
 }
 
-// export function useFetchInfiniteProjects(search: string = '') {
-//   return useInfiniteQuery({
-//     queryKey: ['infiniteProjects', search],
-//     queryFn: ({ pageParam = 1 }) => getProjects(pageParam, 9, search),
-//     getNextPageParam: (lastPage) => {
-//       return lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined
-//     },
-//     initialPageParam: 1,
-//   })
-// }
-
 export function useTechStacks() {
-  return useQuery({
+  return useQuery<TechStack[]>({
     queryKey: ['techStacks'],
     queryFn: getTechStacks,
     staleTime: 1000 * 60 * 5,

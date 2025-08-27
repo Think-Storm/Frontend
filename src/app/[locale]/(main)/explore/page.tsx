@@ -1,7 +1,12 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
-import FilterSelect, { domainLabelOptions } from '@/components/ui/FilterSelect'
+import React, { useState, useMemo, useEffect } from 'react'
+import FilterSelect, {
+  domainLabelOptions,
+  goalLabelOptions,
+  languageLabelOptions,
+  technicalLabelOptions,
+} from '@/components/ui/FilterSelect'
 import ProjectCard from '@/components/ui/ProjectCard'
 import {
   Select,
@@ -10,25 +15,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
-import { Briefcase, Code, Search } from 'lucide-react'
+import {
+  AlertCircle,
+  Briefcase,
+  Code,
+  Goal,
+  Languages,
+  Search,
+} from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
-import { technicalLabelOptions } from '@/components/ui/FilterSelect'
 import MyNavbar from '@/components/ui/MyNavbar'
 import BackgroundImage from '@/components/ui/BackgroundImage'
 import useDebounce from '@/components/features/search/hooks/useDebounce'
 import useFetchInfiniteProjects from '@/components/features/projects/hooks/useFetchInfiniteProjects'
+import { useFilters } from '@/components/features/filters/FilterContext'
+import { useInView } from 'react-intersection-observer'
+import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
 
 export default function ExplorePage() {
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearch = useDebounce(searchQuery, 300)
   const [sortBy, setSortBy] = useState<'recent' | 'popular'>('recent')
-  const [filters, setFilters] = useState({
-    technical: '',
-    domain: '',
-  })
+  const {
+    uiFilters,
+    setUiFilters,
+    debouncedFilters,
+    updateTechnical,
+    updateDomain,
+    resetTechnical,
+    resetDomain,
+    resetGoal,
+    resetLanguage,
+  } = useFilters()
+  const { ref, inView } = useInView()
 
   const {
     data,
@@ -38,62 +58,43 @@ export default function ExplorePage() {
     isLoading,
     error,
   } = useFetchInfiniteProjects({
-    search: debouncedSearch,
-    technical: filters.technical,
-    domain: filters.domain,
+    search: debouncedFilters.search,
+    technical: debouncedFilters.technical,
+    domain: debouncedFilters.domain,
+    goal: debouncedFilters.goal,
+    languageName: debouncedFilters.languageName,
   })
 
-  const filteredProjects = useMemo(() => {
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage, fetchNextPage])
+
+  const sortedProjects = useMemo(() => {
     const allProjects = data?.pages.flatMap((page) => page.projects) || []
-    return allProjects.filter((project) => {
-      // SEARCH INPUT FILTER
-      if (
-        (debouncedSearch &&
-          !project.title
-            .toLowerCase()
-            .includes(debouncedSearch.toLowerCase())) ||
-        (project.description &&
-          project.description
-            .toLowerCase()
-            .includes(debouncedSearch.toLowerCase()))
-      ) {
-        return false
-      }
-      // TECHNICAL FILTER
-      if (
-        filters.technical &&
-        !project.technicalLabels.some(
-          (tech) => tech.labelName === filters.technical,
+    return [...allProjects].sort((a, b) => {
+      if (sortBy === 'recent') {
+        return (
+          new Date(b.createdAt || 0).getTime() -
+          new Date(a.createdAt || 0).getTime()
         )
-      ) {
-        return false
       }
-      // DOMAIN FILTER
-      if (
-        filters.domain &&
-        !project.domainLabels.some(
-          (domain) => domain.labelName === filters.domain,
-        )
-      ) {
-        return false
-      }
-      return true
+      return b.id - a.id
     })
-  }, [debouncedSearch, data?.pages, filters])
+  }, [data, sortBy])
 
   return (
     <div className="flex w-full relative items-center justify-center ">
       <BackgroundImage bgImage="/images/bg-explore.png" height={''}>
-        {/* Navbar */}
         <MyNavbar />
-        {/* Header and Filters Section */}
-        <div className="flex flex-col w-full  items-center justify-center px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40">
+        <div className="flex flex-col w-full items-center justify-center px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40">
           <div className=" w-full ">
             <div className="flex pt-10">
               <h1 className="text-3xl font-semibold mb-10">Explore</h1>
             </div>
             <div className="flex flex-col gap-4">
-              {/* Search Bar & sort by filter*/}
+              {/* Search Bar & sort by filter */}
               <div className=" hidden sm:flex flex-row justify-between">
                 <div className="relative 2-full flex-1 ">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-[19px] h-[19px] pointer-events-none" />
@@ -102,8 +103,13 @@ export default function ExplorePage() {
                     id="search"
                     placeholder="Search"
                     className="pl-10 h-[48px] max-w-[524px]"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={uiFilters.search}
+                    onChange={(e) =>
+                      setUiFilters((prev) => ({
+                        ...prev,
+                        search: e.target.value,
+                      }))
+                    }
                   />
                 </div>
                 <div className="flex flex-1 flex-row justify-end items-center gap-2 h-[48px]">
@@ -132,41 +138,74 @@ export default function ExplorePage() {
               <div className="hidden sm:flex justify-between gap-2 sm:gap-4 md:gap-6 lg:gap-6 h-[48px] ">
                 <FilterSelect
                   placeholder="Technical Skills"
-                  options={technicalLabelOptions}
-                  value={filters.technical}
-                  onValueChange={(value) =>
-                    setFilters((prev) => ({ ...prev, technical: value }))
-                  }
                   icon={Code}
+                  options={technicalLabelOptions}
+                  value={uiFilters.technical}
+                  onValueChange={updateTechnical}
+                  onReset={resetTechnical}
                   className="min-h-[48px]"
+                  isMultiSelect={true}
                 />
                 <FilterSelect
-                  placeholder="Domain"
+                  placeholder="Field"
                   icon={Briefcase}
                   options={domainLabelOptions}
-                  value={filters.domain}
-                  onValueChange={(value) =>
-                    setFilters((prev) => ({ ...prev, domain: value }))
-                  }
+                  value={uiFilters.domain}
+                  onValueChange={updateDomain}
+                  onReset={resetDomain}
                   className="min-h-[48px]"
+                  isMultiSelect={true}
+                />
+                <FilterSelect
+                  placeholder="Purpose"
+                  icon={Goal}
+                  options={goalLabelOptions}
+                  value={uiFilters.goal}
+                  onValueChange={(value) =>
+                    setUiFilters((prev) => ({ ...prev, goal: value }))
+                  }
+                  onReset={resetGoal}
+                  className="min-h-[48px]"
+                  isMultiSelect={false}
+                />
+                <FilterSelect
+                  placeholder="Language"
+                  icon={Languages}
+                  options={languageLabelOptions}
+                  value={uiFilters.languageName}
+                  onValueChange={(value) =>
+                    setUiFilters((prev) => ({ ...prev, languageName: value }))
+                  }
+                  onReset={resetLanguage}
+                  className="min-h-[48px]"
+                  isMultiSelect={false}
                 />
               </div>
             </div>
           </div>
-          {/* Projects & pagination container */}
           <div className="">
             <>
+              {!isLoading && sortedProjects.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <AlertCircle className="w-10 h-10 text-gray-400 mb-2" />
+                  <span className="text-lg text-gray-500 font-medium">
+                    No projects found matching your filters.
+                  </span>
+                </div>
+              )}
               <ProjectCard
-                projects={filteredProjects}
+                projects={sortedProjects}
                 isLoading={isLoading}
                 error={error}
               />
-              {/* Infinite scroll animation */}
-              <InfiniteScrollSpin
-                hasNextPage={hasNextPage}
-                isFetchingNextPage={isFetchingNextPage}
-                fetchNextPage={fetchNextPage}
-              />
+              {hasNextPage && (
+                <div ref={ref} className="flex justify-center p-4">
+                  <InfiniteScrollSpin
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                  />
+                </div>
+              )}
             </>
           </div>
         </div>

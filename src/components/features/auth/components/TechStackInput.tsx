@@ -1,8 +1,5 @@
 import { X } from 'lucide-react'
-import {
-  TechStackInputProps,
-  TechnicalLabel,
-} from '../../../../lib/utils/types'
+import { TechStackInputProps, TechStack } from '../../../../lib/utils/types'
 import { Popover, PopoverTrigger } from '../../../ui/popover'
 import { Input } from '../../../ui/input'
 import { PopoverContent } from '@radix-ui/react-popover'
@@ -21,7 +18,7 @@ export function TechStackInput({
   onSelect,
   onRemove,
 }: TechStackInputProps) {
-  const { data: techStacks = [], isLoading } = useTechStacks()
+  const { data: techStacks = [] as TechStack[], isLoading } = useTechStacks()
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
 
