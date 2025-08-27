@@ -5,23 +5,25 @@ import {
   showSuccessToast,
 } from "@/components/common/notification/Toast";
 import { api } from "@/lib/api/fetcher";
-import { apiRoutes, pageRoutes } from "@/constants/routes";
-import type { SignUpData } from "@/types/user";
+import { ROUTES } from "@/constants/routes";
+import { RegisterUser, UserResponse } from "@think-storm/contracts";
 
 export default function useSignUp() {
   const router = useRouter();
 
-  const mutation = useMutation({
-    mutationFn: (data: SignUpData) => api.post(apiRoutes.signup, data),
+  const mutation = useMutation<UserResponse, Error, RegisterUser>({
+    mutationFn: (data: RegisterUser) => api.post(ROUTES.API.AUTH.SIGNUP, data),
     onSuccess: () => {
       showSuccessToast({
         message: "Sign-up Successful",
         description: "You will be redirected to the sign-in page.",
       });
-      router.push(pageRoutes.signin);
+
+      router.push(ROUTES.PAGE.AUTH.SIGNIN);
     },
     onError: (error: Error) => {
       console.log("Sign-up error:", error);
+
       showErrorToast({
         message: "Sign-up Failed",
         description: "An error occurred while signing up. Please try again.",
