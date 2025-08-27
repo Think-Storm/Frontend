@@ -12,7 +12,7 @@ type FetchError = {
 
 export async function fetcher<T>(
   url: string,
-  options: FetchOptions = {}
+  options: FetchOptions = {},
 ): Promise<T> {
   const { method = "GET", body, headers = {}, signal } = options;
 

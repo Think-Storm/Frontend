@@ -178,7 +178,7 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <Button
-                variant="gradient" 
+                variant="gradient"
                 size="gradient"
                 className="p-[3px] rounded-[12px] shadow-lg hover:shadow-xl transition-shadow"
                 textClassName="!bg-black !text-white px-6 py-2"
@@ -235,7 +235,7 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
             whileHover={{ scale: 1.05 }}
           >
             <Button
-              variant="gradient" 
+              variant="gradient"
               size="gradient"
               textBgWhite
               textClassName="w-[170px] !bg-white !text-black text-sm sm:text-base shadow-lg"

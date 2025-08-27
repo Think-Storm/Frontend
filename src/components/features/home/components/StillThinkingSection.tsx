@@ -49,7 +49,9 @@ export default function StillThinkingSection() {
           viewport={{ once: true }}
           className="flex justify-center items-center gap-3"
         >
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold">Still Thinking?</h3>
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold">
+            Still Thinking?
+          </h3>
           <Image
             src="/icons/home/sparkle2-icon.svg"
             alt=""
@@ -69,7 +71,10 @@ export default function StillThinkingSection() {
           className="text-center text-lg sm:text-xl md:text-2xl leading-relaxed text-gray-800"
         >
           Join ThinkStorm adventure and start building&nbsp;
-          <span className="text-pink-600 font-semibold">projects that make sense</span>&nbsp;
+          <span className="text-pink-600 font-semibold">
+            projects that make sense
+          </span>
+          &nbsp;
           <span className="relative inline-block min-w-[6rem]">
             <span className="relative z-10">right away</span>
             <div className="absolute inset-0 w-[120%] h-[120%] -z-10 -top-1 -left-3">
@@ -82,8 +87,8 @@ export default function StillThinkingSection() {
                 aria-hidden="true"
               />
             </div>
-          </span>&nbsp;
-          with developers
+          </span>
+          &nbsp; with developers
           <br className="hidden sm:block" />
           around the world!
         </motion.div>
@@ -97,7 +102,7 @@ export default function StillThinkingSection() {
         >
           <Button
             className="text-sm sm:text-base md:text-lg xl:text-xl max-[640px]:!hidden"
-            variant="gradient" 
+            variant="gradient"
             size="gradient"
             textBgWhite
             textClassName="!text-black !bg-white"

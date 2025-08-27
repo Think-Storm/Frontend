@@ -6,9 +6,7 @@ import QueryProvider from "./query-provider";
 export function Provider({ children }: { children: React.ReactNode }) {
   return (
     <StoreProvider>
-      <QueryProvider>
-          {children}
-      </QueryProvider>
+      <QueryProvider>{children}</QueryProvider>
     </StoreProvider>
   );
 }

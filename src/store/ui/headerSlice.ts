@@ -3,12 +3,12 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface HeaderState {
   isWhite: boolean;
-  isHidden: boolean,
+  isHidden: boolean;
 }
 
 const initialState: HeaderState = {
   isWhite: false,
-  isHidden: true
+  isHidden: true,
 };
 
 export const headerSlice = createSlice({

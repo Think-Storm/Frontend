@@ -74,68 +74,72 @@ export default function ThinkStormPlatformSection() {
         className="relative z-25 flex flex-col-reverse pt-30 lg:pt-20 lg:flex-row items-center align-items justify-center gap-5 xl:gap-10 px-6 min-h-[80vh] overflow-hidden"
       >
         {/* Left Section */}
-<motion.div
-  variants={leftVariants}
-  className="mb-20 lg:ml-20 lg:mb-0 max-w-xl text-center lg:text-left space-y-6"
->
-  <div className="inline-flex border-b-2 pb-2 items-center justify-center">
-    <Image
-      src="/icons/home/copy-black-icon.svg"
-      alt=""
-      width={15}
-      height={15}
-      className="mx-auto lg:mx-0"
-      priority
-    />
-    <motion.p
-      variants={textVariants}
-      className="text-lg lg:text-xl text-black font-medium pl-2"
-    >
-      ThinkStorm Platform
-    </motion.p>
-  </div>
+        <motion.div
+          variants={leftVariants}
+          className="mb-20 lg:ml-20 lg:mb-0 max-w-xl text-center lg:text-left space-y-6"
+        >
+          <div className="inline-flex border-b-2 pb-2 items-center justify-center">
+            <Image
+              src="/icons/home/copy-black-icon.svg"
+              alt=""
+              width={15}
+              height={15}
+              className="mx-auto lg:mx-0"
+              priority
+            />
+            <motion.p
+              variants={textVariants}
+              className="text-lg lg:text-xl text-black font-medium pl-2"
+            >
+              ThinkStorm Platform
+            </motion.p>
+          </div>
 
-  <motion.h1
-    variants={textVariants}
-    className="text-2xl lg:text-3xl xl:text-4xl text-black leading-snug"
-  >
-    ThinkStorm is a unique collaborative platform to connect all tech professionals, learners and innovators!
-  </motion.h1>
+          <motion.h1
+            variants={textVariants}
+            className="text-2xl lg:text-3xl xl:text-4xl text-black leading-snug"
+          >
+            ThinkStorm is a unique collaborative platform to connect all tech
+            professionals, learners and innovators!
+          </motion.h1>
 
-  <motion.div
-    layout
-    variants={buttonVariants}
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    transition={{ duration: 0.3, ease: "easeOut" }} 
-  >
-    <Button variant="outline" size="lg" className="px-6 py-2 transition-all duration-300">
-      Get Started
-    </Button>
-  </motion.div>
-</motion.div>
-
+          <motion.div
+            layout
+            variants={buttonVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            <Button
+              variant="outline"
+              size="lg"
+              className="px-6 py-2 transition-all duration-300"
+            >
+              Get Started
+            </Button>
+          </motion.div>
+        </motion.div>
 
         {/* Right Section */}
-<motion.div
-  variants={rightVariants}
-  className="lg:mb-0 flex justify-center lg:min-w-xl xl:min-w-3xl"
->
-  <motion.div
-    variants={floatVariants}
-    animate="animate"
-    className="w-[400px] lg:w-[400px] xl:w-[500px]"
-  >
-    <Image
-      src="/icons/home/cloud1-icon.svg"
-      alt=""
-      width={600}
-      height={600}
-      className="w-full h-auto"
-      priority
-    />
-  </motion.div>
-</motion.div>
+        <motion.div
+          variants={rightVariants}
+          className="lg:mb-0 flex justify-center lg:min-w-xl xl:min-w-3xl"
+        >
+          <motion.div
+            variants={floatVariants}
+            animate="animate"
+            className="w-[400px] lg:w-[400px] xl:w-[500px]"
+          >
+            <Image
+              src="/icons/home/cloud1-icon.svg"
+              alt=""
+              width={600}
+              height={600}
+              className="w-full h-auto"
+              priority
+            />
+          </motion.div>
+        </motion.div>
       </motion.section>
     </FadeInWhenVisible>
   );

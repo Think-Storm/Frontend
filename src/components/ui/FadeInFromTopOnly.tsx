@@ -21,7 +21,8 @@ export default function FadeInFromTopOnly({
         const boundingBottom = entry.boundingClientRect.bottom;
         const viewportHeight = window.innerHeight;
 
-        const isFullyVisible = boundingTop >= 0 && boundingBottom <= viewportHeight;
+        const isFullyVisible =
+          boundingTop >= 0 && boundingBottom <= viewportHeight;
 
         const isScrollingDown =
           lastY.current === null ? false : boundingTop > lastY.current;
@@ -37,7 +38,7 @@ export default function FadeInFromTopOnly({
       },
       {
         threshold: [0, 0.5, 1],
-      }
+      },
     );
 
     if (ref.current) observer.observe(ref.current);

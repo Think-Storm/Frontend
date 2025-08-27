@@ -20,7 +20,7 @@ export default function LanguageSelector() {
   };
 
   const currentLanguage = languages.find(
-    (language) => language.code === currentLocale
+    (language) => language.code === currentLocale,
   );
 
   return (

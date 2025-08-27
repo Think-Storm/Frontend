@@ -1,12 +1,12 @@
 import Image from "next/image";
 
 type cardType = {
-    id: string;
-    title: string;
-    icon: string;
-    text: string;
-    bg: string;
-}
+  id: string;
+  title: string;
+  icon: string;
+  text: string;
+  bg: string;
+};
 
 export default function Card({ card }: { card: cardType }) {
   return (
