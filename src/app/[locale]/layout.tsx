@@ -52,8 +52,11 @@ export default async function RootLayout({
     notFound()
   }
   return (
-    <html lang={locale}>
-      <body className={`${satoshi.variable} ${nippo.variable}`}>
+    <html lang={locale} className="overflow-x-hidden">
+      <body
+        className={`${satoshi.variable} ${nippo.variable} overflow-x-hidden`}
+        suppressHydrationWarning
+      >
         <NextIntlClientProvider>
           <QueryProvider>
             <Provider>

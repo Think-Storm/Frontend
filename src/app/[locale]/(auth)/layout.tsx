@@ -10,8 +10,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       <aside className="fixed inset-0 -z-10 w-full lg:w-full lg:min-w-[1440px] min-h-screen overflow-hidden">
         {/* Desktop Background */}
         <Image
-          src="/images/bg-auth-with-logo.svg"
-          alt="background image with logo"
+          src="/images/auth/auth-bg-with-logo.svg"
+          alt=""
           aria-hidden="true"
           className="object-cover object-center scale-[1] lg:scale-100 hidden lg:block"
           fill
@@ -19,8 +19,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         />
         {/* Mobile Background */}
         <Image
-          src="/images/bg-auth-without-logo.svg"
-          alt="background image without logo"
+          src="/images/auth/auth-bg-without-logo.svg"
+          alt=""
           aria-hidden="true"
           className="object-cover object-center scale-[1.2] lg:scale-100 block lg:hidden rotate-180"
           fill
@@ -39,8 +39,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             <div className="flex items-center gap-1">
               <span>
                 <Image
-                  src="/images/logo-white.svg"
-                  alt="think storm logo"
+                  src="/images/common/thinkstorm-logo-white.svg"
+                  alt=""
                   width={28}
                   height={28}
                 />

@@ -122,7 +122,7 @@ export type InfiniteScrollSpinProps = {
 export type TechStack = {
   id: number
   // tech: TechStack[]
-  techId: number,
+  techId: number
   labelName: string
 }
 

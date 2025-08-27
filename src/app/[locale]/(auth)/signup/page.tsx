@@ -104,7 +104,7 @@ export default function SignUpPage() {
                 }}
               >
                 <Image
-                  src="/images/icon-google.svg"
+                  src="/icons/auth/google-icon.svg"
                   alt=""
                   aria-hidden="true"
                   className="mr-2 filter grayscale"
