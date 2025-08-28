@@ -14,16 +14,17 @@ import useSubscribe from '../features/footer/hooks/useSubscribe'
 import FooterForm from '../features/footer/components/FooterForm'
 
 export default function Footer() {
-  const { subscribe, isPending } = useSubscribe()
+
+  const { subscribe, isPending } = useSubscribe();
   const form = useForm<SubscriptionData>({
     defaultValues: {
-      email: '',
+      email: "",
     },
     resolver: zodResolver(subscriptionSchema),
-  })
+  });
 
   function onSubmit(FormValues: SubscriptionData) {
-    subscribe(FormValues)
+    subscribe(FormValues);
   }
 
   return (
@@ -107,10 +108,12 @@ export default function Footer() {
       {/* Bottom Links + Copyright */}
       <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-center items-center text-sm text-gray-600 gap-8">
         <div className="flex flex-wrap gap-4">
-          <Link href="#" className="hover:underline">
+
+          <Link href="/privacy-policy" className="hover:underline">
             Privacy Policy
           </Link>
-          <Link href="#" className="hover:underline">
+          <Link href="/terms-of-service" className="hover:underline">
+
             Terms of Service
           </Link>
           <Link href="#" className="hover:underline">
@@ -122,5 +125,7 @@ export default function Footer() {
         </span>
       </div>
     </footer>
-  )
+ 
+  );
+
 }
