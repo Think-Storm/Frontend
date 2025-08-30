@@ -1,22 +1,22 @@
-'use client'
+"use client";
 
-import React, { ReactNode } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Button } from '../ui/button'
-import { useAppSelector } from '@/store/hooks'
+import React, { ReactNode } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "../ui/button";
+import { useAppSelector } from "@/store/hooks";
 
 export default function Header({
   leftChildren,
   middleChildren,
   rightChildren,
 }: {
-  leftChildren: ReactNode
-  middleChildren: ReactNode
-  rightChildren: ReactNode
+  leftChildren: ReactNode;
+  middleChildren: ReactNode;
+  rightChildren: ReactNode;
 }) {
-  const { isWhite, isHidden } = useAppSelector((state) => state.header)
+  const { isWhite, isHidden } = useAppSelector((state) => state.header);
 
   return (
     <AnimatePresence mode="wait">
@@ -25,28 +25,28 @@ export default function Header({
           initial={{
             y: -100,
             opacity: 0,
-            backgroundColor: 'rgba(255, 255, 255, 0)',
-            backdropFilter: 'blur(0px)',
+            backgroundColor: "rgba(255, 255, 255, 0)",
+            backdropFilter: "blur(0px)",
           }}
           animate={{
             y: 0,
             opacity: 1,
             backgroundColor: isWhite
-              ? 'rgba(255, 255, 255, 1)'
-              : 'rgba(255, 255, 255, 0)',
-            backdropFilter: isWhite ? 'blur(10px)' : 'blur(0px)',
+              ? "rgba(255, 255, 255, 1)"
+              : "rgba(255, 255, 255, 0)",
+            backdropFilter: isWhite ? "blur(10px)" : "blur(0px)",
           }}
           exit={{
             y: -100,
             opacity: 0,
-            transition: { duration: 0.4, ease: 'easeInOut' },
+            transition: { duration: 0.4, ease: "easeInOut" },
           }}
           transition={{
-            type: 'spring',
+            type: "spring",
             stiffness: 100,
             damping: 10,
             duration: 0.4,
-            ease: 'easeOut',
+            ease: "easeOut",
             backgroundColor: { duration: 0.2 },
             backdropFilter: { duration: 0.2 },
           }}
@@ -80,5 +80,5 @@ export default function Header({
         </motion.header>
       )}
     </AnimatePresence>
-  )
+  );
 }

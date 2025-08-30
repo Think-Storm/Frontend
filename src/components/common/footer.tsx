@@ -1,29 +1,23 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { Button } from '../ui/button'
-import { useForm } from 'react-hook-form'
-import { Form } from '@/components/ui/form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SubscriptionData } from '@/types/user'
-import { subscriptionSchema } from '@/schemas/userSchema'
-import FooterFormField from '../features/footer/components/FooterFormField'
-import { Spinner } from '../ui/spinner'
-import useSubscribe from '../features/footer/hooks/useSubscribe'
-import FooterForm from '../features/footer/components/FooterForm'
+import Image from "next/image";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { subscriptionSchema } from "@/schemas/userSchema";
+import useSubscribe from "../features/footer/hooks/useSubscribe";
+
 
 export default function Footer() {
-
   const { subscribe, isPending } = useSubscribe();
-  const form = useForm<SubscriptionData>({
+  const form = useForm<{ email: string }>({
     defaultValues: {
       email: "",
     },
     resolver: zodResolver(subscriptionSchema),
   });
 
-  function onSubmit(FormValues: SubscriptionData) {
+  function onSubmit(FormValues: { email: string }) {
     subscribe(FormValues);
   }
 
@@ -108,12 +102,10 @@ export default function Footer() {
       {/* Bottom Links + Copyright */}
       <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-center items-center text-sm text-gray-600 gap-8">
         <div className="flex flex-wrap gap-4">
-
-          <Link href="/privacy-policy" className="hover:underline">
+          <Link href="#" className="hover:underline">
             Privacy Policy
           </Link>
-          <Link href="/terms-of-service" className="hover:underline">
-
+          <Link href="#" className="hover:underline">
             Terms of Service
           </Link>
           <Link href="#" className="hover:underline">
@@ -125,7 +117,5 @@ export default function Footer() {
         </span>
       </div>
     </footer>
- 
   );
-
 }

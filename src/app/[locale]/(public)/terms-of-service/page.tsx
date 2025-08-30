@@ -1,55 +1,55 @@
-"use client";
+'use client'
 
-import { useEffect, useState, useCallback } from "react";
-import Link from "next/link";
-import { useScroll, useMotionValueEvent } from "framer-motion";
-import useHeaderVisibility from "@/components/ui/use-header-visibility";
-import { siteMetadata } from "@/constants/metadata";
+import { useEffect, useState, useCallback } from 'react'
+import Link from 'next/link'
+import { useScroll, useMotionValueEvent } from 'framer-motion'
+import useHeaderVisibility from '@/components/ui/use-header-visibility'
+import { siteMetadata } from '@/constants/metadata'
 
 export default function TermsOfService() {
-  const { changeHeaderWhite, changeHeaderHidden } = useHeaderVisibility();
-  const { scrollY } = useScroll();
-  const [isInitialized, setIsInitialized] = useState(false);
+  const { changeHeaderWhite, changeHeaderHidden } = useHeaderVisibility()
+  const { scrollY } = useScroll()
+  const [isInitialized, setIsInitialized] = useState(false)
 
   useEffect(() => {
     if (window.scrollY === 0) {
-      changeHeaderWhite(false);
-      changeHeaderHidden(false);
+      changeHeaderWhite(false)
+      changeHeaderHidden(false)
     }
-    setIsInitialized(true);
-  }, [changeHeaderWhite, changeHeaderHidden]);
+    setIsInitialized(true)
+  }, [changeHeaderWhite, changeHeaderHidden])
 
   const updateHeaderState = useCallback(
     (currentScrollY: number) => {
-      if (!isInitialized) return;
+      if (!isInitialized) return
 
       if (currentScrollY === 0) {
-        changeHeaderWhite(false);
-        changeHeaderHidden(false);
+        changeHeaderWhite(false)
+        changeHeaderHidden(false)
       } else if (currentScrollY > 0) {
-        changeHeaderWhite(true);
-        changeHeaderHidden(false);
+        changeHeaderWhite(true)
+        changeHeaderHidden(false)
       }
     },
-    [isInitialized, changeHeaderWhite, changeHeaderHidden]
-  );
+    [isInitialized, changeHeaderWhite, changeHeaderHidden],
+  )
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    updateHeaderState(latest);
-  });
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    updateHeaderState(latest)
+  })
 
   useEffect(() => {
     const handleLoad = () => {
-      updateHeaderState(window.scrollY);
-    };
-
-    if (document.readyState === "complete") {
-      handleLoad();
-    } else {
-      window.addEventListener("load", handleLoad);
-      return () => window.removeEventListener("load", handleLoad);
+      updateHeaderState(window.scrollY)
     }
-  }, [updateHeaderState]);
+
+    if (document.readyState === 'complete') {
+      handleLoad()
+    } else {
+      window.addEventListener('load', handleLoad)
+      return () => window.removeEventListener('load', handleLoad)
+    }
+  }, [updateHeaderState])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen mb-30">
@@ -157,7 +157,7 @@ export default function TermsOfService() {
         </h2>
         <p className="text-md xl:text-lg my-10 leading-relaxed text-left w-full">
           We may suspend or terminate your account if you violate these Terms.
-          You may also terminate your account at any time by contacting us at{" "}
+          You may also terminate your account at any time by contacting us at{' '}
           <span className="font-bold hover:underline">
             <Link href={`mailto:${siteMetadata.email}`} target="_blank">
               contact@thinkstorm.app
@@ -186,7 +186,7 @@ export default function TermsOfService() {
           Contact Us
         </h2>
         <p className="text-md xl:text-lg my-10 leading-relaxed text-left w-full">
-          For any questions about these Terms, please contact us at:{" "}
+          For any questions about these Terms, please contact us at:{' '}
           <span className="font-bold hover:underline">
             <Link href={`mailto:${siteMetadata.email}`} target="_blank">
               contact@thinkstorm.app
@@ -195,5 +195,5 @@ export default function TermsOfService() {
         </p>
       </section>
     </div>
-  );
+  )
 }

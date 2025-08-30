@@ -1,22 +1,20 @@
 'use client'
 
-
-import { useEffect, useRef, useState, useCallback } from "react";
-import { useScroll, useMotionValueEvent } from "framer-motion";
-import MainSection from "@/components/features/home/components/MainSection";
-import ThinkStormPlatformSection from "@/components/features/home/components/ThinkStormPlatformSection";
-import StillThinkingSection from "@/components/features/home/components/StillThinkingSection";
-import CardSection from "@/components/features/home/components/CardSection";
-import FAQSection from "@/components/features/home/components/FAQSection";
-import useHeaderVisibility from "@/components/ui/use-header-visibility";
+import { useEffect, useRef, useState, useCallback } from 'react'
+import { useScroll, useMotionValueEvent } from 'framer-motion'
+import MainSection from '@/components/features/home/components/MainSection'
+import ThinkStormPlatformSection from '@/components/features/home/components/ThinkStormPlatformSection'
+import StillThinkingSection from '@/components/features/home/components/StillThinkingSection'
+import CardSection from '@/components/features/home/components/CardSection'
+import FAQSection from '@/components/features/home/components/FAQSection'
+import useHeaderVisibility from '@/components/ui/use-header-visibility'
 
 export default function Landing() {
-  const { changeHeaderWhite, changeHeaderHidden } = useHeaderVisibility();
-  const { scrollY } = useScroll();
-  const mainRef = useRef<HTMLDivElement | null>(null);
-  const [mainHeight, setMainHeight] = useState(0);
-  const [isInitialized, setIsInitialized] = useState(false);
-
+  const { changeHeaderWhite, changeHeaderHidden } = useHeaderVisibility()
+  const { scrollY } = useScroll()
+  const mainRef = useRef<HTMLDivElement | null>(null)
+  const [mainHeight, setMainHeight] = useState(0)
+  const [isInitialized, setIsInitialized] = useState(false)
 
   const updateHeaderState = useCallback(
     (currentScrollY: number) => {
@@ -34,9 +32,8 @@ export default function Landing() {
       }
     },
 
-    [mainHeight, isInitialized, changeHeaderWhite, changeHeaderHidden]
-  );
-
+    [mainHeight, isInitialized, changeHeaderWhite, changeHeaderHidden],
+  )
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     updateHeaderState(latest)
