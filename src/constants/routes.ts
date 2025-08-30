@@ -9,10 +9,14 @@ export const apiRoutes = {
 }
 
 export const pageRoutes = {
-  landing: '/',
-  signup: '/signup',
-  signin: '/signin',
-  resetPassword: '/reset-password',
-  dashboard: '/dashboard',
-  explore: '/explore',
-}
+
+    landing: "/",
+    signup: "/signup",
+    signin: "/signin",
+    resetPassword: "/reset-password",
+    dashboard: "/dashboard",
+    explore: "/explore",
+    privacyPolicy: "/privacy-policy",
+    termsOfService: "/terms-of-service",
+};
+

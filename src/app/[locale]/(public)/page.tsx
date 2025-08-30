@@ -1,35 +1,22 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
-import { useScroll, useMotionValueEvent } from 'framer-motion'
-import MainSection from '@/components/features/home/components/MainSection'
-import ThinkStormPlatformSection from '@/components/features/home/components/ThinkStormPlatformSection'
-import StillThinkingSection from '@/components/features/home/components/StillThinkingSection'
-import CardSection from '@/components/features/home/components/CardSection'
-import FAQSection from '@/components/features/home/components/FAQSection'
-import { setIsWhite, setIsHidden } from '@/store/ui/headerSlice'
-import { useAppDispatch } from '@/store/hooks'
+
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useScroll, useMotionValueEvent } from "framer-motion";
+import MainSection from "@/components/features/home/components/MainSection";
+import ThinkStormPlatformSection from "@/components/features/home/components/ThinkStormPlatformSection";
+import StillThinkingSection from "@/components/features/home/components/StillThinkingSection";
+import CardSection from "@/components/features/home/components/CardSection";
+import FAQSection from "@/components/features/home/components/FAQSection";
+import useHeaderVisibility from "@/components/ui/use-header-visibility";
 
 export default function Landing() {
-  const dispatch = useAppDispatch()
-  const { scrollY } = useScroll()
-  const mainRef = useRef<HTMLDivElement | null>(null)
-  const [mainHeight, setMainHeight] = useState(0)
-  const [isInitialized, setIsInitialized] = useState(false)
+  const { changeHeaderWhite, changeHeaderHidden } = useHeaderVisibility();
+  const { scrollY } = useScroll();
+  const mainRef = useRef<HTMLDivElement | null>(null);
+  const [mainHeight, setMainHeight] = useState(0);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  const changeHeaderWhite = useCallback(
-    (value: boolean) => {
-      dispatch(setIsWhite(value))
-    },
-    [dispatch],
-  )
-
-  const changeHeaderHidden = useCallback(
-    (value: boolean) => {
-      dispatch(setIsHidden(value))
-    },
-    [dispatch],
-  )
 
   const updateHeaderState = useCallback(
     (currentScrollY: number) => {
@@ -46,8 +33,10 @@ export default function Landing() {
         changeHeaderHidden(false)
       }
     },
-    [mainHeight, isInitialized, changeHeaderWhite, changeHeaderHidden],
-  )
+
+    [mainHeight, isInitialized, changeHeaderWhite, changeHeaderHidden]
+  );
+
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     updateHeaderState(latest)
