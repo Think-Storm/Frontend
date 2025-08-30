@@ -1,24 +1,23 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { subscriptionSchema } from "@/schemas/userSchema";
-import useSubscribe from "../features/footer/hooks/useSubscribe";
-
+import Image from 'next/image'
+import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { subscriptionSchema } from '@/schemas/userSchema'
+import useSubscribe from '../features/footer/hooks/useSubscribe'
 
 export default function Footer() {
-  const { subscribe, isPending } = useSubscribe();
+  const { subscribe, isPending } = useSubscribe()
   const form = useForm<{ email: string }>({
     defaultValues: {
-      email: "",
+      email: '',
     },
     resolver: zodResolver(subscriptionSchema),
-  });
+  })
 
   function onSubmit(FormValues: { email: string }) {
-    subscribe(FormValues);
+    subscribe(FormValues)
   }
 
   return (
@@ -117,5 +116,5 @@ export default function Footer() {
         </span>
       </div>
     </footer>
-  );
+  )
 }
