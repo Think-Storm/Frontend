@@ -23,7 +23,6 @@ import {
 } from '@heroui/navbar'
 import Link from 'next/link'
 import { Fade as Hamburger } from 'hamburger-react'
-
 import { motion, AnimatePresence } from 'framer-motion'
 import FilterSelect, {
   domainLabelOptions,
@@ -31,8 +30,6 @@ import FilterSelect, {
   languageLabelOptions,
   technicalLabelOptions,
 } from './FilterSelect'
-import useFetchInfiniteProjects from '../features/projects/hooks/useFetchInfiniteProjects'
-import useDebounce from '../features/search/hooks/useDebounce'
 import { useFilters } from '../features/filters/FilterContext'
 import { Input } from './input'
 

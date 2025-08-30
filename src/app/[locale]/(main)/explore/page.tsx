@@ -27,15 +27,12 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import MyNavbar from '@/components/ui/MyNavbar'
 import BackgroundImage from '@/components/ui/BackgroundImage'
-import useDebounce from '@/components/features/search/hooks/useDebounce'
 import useFetchInfiniteProjects from '@/components/features/projects/hooks/useFetchInfiniteProjects'
 import { useFilters } from '@/components/features/filters/FilterContext'
 import { useInView } from 'react-intersection-observer'
 import InfiniteScrollSpin from '@/components/ui/InfiniteScrollSpin'
 
 export default function ExplorePage() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const debouncedSearch = useDebounce(searchQuery, 300)
   const [sortBy, setSortBy] = useState<'recent' | 'popular'>('recent')
   const {
     uiFilters,
