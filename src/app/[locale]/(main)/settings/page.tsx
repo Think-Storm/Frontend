@@ -1,6 +1,36 @@
-import { Button } from "@/components/ui/button";
+"use client";
 
-export default function settings() {
+import { useForm } from "react-hook-form";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { profileSchema } from "@/schemas/userSchema";
+import { UpdateUserProfileData } from "@/types/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import SettingsForm from "@/components/features/settings/components/SettingsForm";
+import {
+  SettingsFormField,
+  SettingsImgFormField,
+} from "@/components/features/settings/components/SettingsFormField";
+import useUpdateSettings from "@/components/features/settings/hooks/useUpdateSettings";
+import { Spinner } from "@/components/ui/spinner";
+import { Form } from "@/components/ui/form";
+
+export default function Settings() {
+  const { updateSettings, isPending } = useUpdateSettings();
+  const form = useForm<UpdateUserProfileData>({
+    defaultValues: {
+      avatar: "",
+      fullname: "",
+      technicalLabels: [],
+      domainLabels: [],
+      website: "",
+    },
+    resolver: zodResolver(profileSchema),
+  });
+
+  function onSubmit(FormValues: UpdateUserProfileData) {
+    updateSettings(FormValues);
+  }
   return (
     <div className="max-w-6xl mx-auto px-6 py-8 mt-12">
       <div className="flex justify-between items-center mb-8">
@@ -11,8 +41,18 @@ export default function settings() {
             size="gradient"
             textClassName="text-sm sm:text-base"
             className="hidden sm:block"
+            type="submit"
+            aria-busy={isPending}
+            disabled={isPending}
           >
-            Save Changes
+            {isPending ? (
+              <>
+                <Spinner size="small" />
+                <span aria-hidden="true">Saving Changes...</span>
+              </>
+            ) : (
+              " Save Changes"
+            )}
           </Button>
           <Button
             variant="gradient"
@@ -35,7 +75,44 @@ export default function settings() {
         </div>
       </div>
       <div>
-        <div className="text-xl xl:text-2xl font-bold">Edit Profile</div>
+        <SettingsForm>
+          <SettingsForm.Header title="Edit Profile"></SettingsForm.Header>
+          <SettingsForm.Content>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="w-full flex"
+              >
+                <div>
+                  <Image
+                    src="/images/setting/setting-profile.svg"
+                    alt=""
+                    width={150}
+                    height={150}
+                    className="object-contain"
+                    priority
+                    aria-hidden="true"
+                  />
+                  <SettingsImgFormField
+                    control={form.control}
+                    name="avatar"
+                    type="file"
+                    aria-required="true"
+                  />
+                </div>
+                <div className="flex-1 space-y-6 ml-10">
+                  <SettingsFormField
+                    control={form.control}
+                    name="fullname"
+                    label="Name"
+                    type="text"
+                    aria-required="true"
+                  />
+                </div>
+              </form>
+            </Form>
+          </SettingsForm.Content>
+        </SettingsForm>
       </div>
     </div>
   );
