@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Control, Path, FieldValues } from "react-hook-form";
 import {
@@ -103,6 +103,7 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   const [showTags, setShowTags] = useState(false);
   const [tags, setTags] = useState(initialTags);
   const [input, setInput] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const startAddTag = () => {
     setShowTags(true);
@@ -120,8 +121,27 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   };
 
   const filteredSuggestions = suggestions?.filter(
-    (s) => s.toLowerCase().includes(input.toLowerCase()) && !tags.includes(s)
+    (s) =>
+      s.toLowerCase().includes(input.toLowerCase()) &&
+      !tags.includes(s) &&
+      input
   );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setShowTags(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <FormField
@@ -132,7 +152,10 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
           <FormControl>
             <div className="mb-4">
               <FormLabel className="font-bold text-lg mb-2">{label}</FormLabel>
-              <div className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2">
+              <div
+                className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2"
+                ref={containerRef}
+              >
                 {tags.map((tag) => (
                   <div
                     key={tag}
