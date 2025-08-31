@@ -116,6 +116,25 @@ export default function Settings() {
                     type="text"
                     aria-required="true"
                   />
+                  <SettingsTagInputFormField
+                    initialTags={["great", "abc"]}
+                    control={form.control}
+                    name="domainLabels"
+                    label="Interests"
+                    type="text"
+                    aria-required="true"
+                  />
+                  <SettingsTagInputFormField
+                    initialTags={[
+                      "http://www.google.com",
+                      "http://fullname.com",
+                    ]}
+                    control={form.control}
+                    name="website"
+                    label="External Links"
+                    type="text"
+                    aria-required="true"
+                  />
                 </div>
               </form>
             </Form>
