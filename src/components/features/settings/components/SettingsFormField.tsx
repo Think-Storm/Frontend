@@ -137,9 +137,9 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
       }
     };
 
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -166,7 +166,7 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                       variant="transparent"
                       size="sm"
                       onClick={() => removeTag(tag)}
-                      className="text-gray-500 hover:text-red-500 "
+                      className="text-gray-500"
                     >
                       <Image
                         src="/images/setting/setting-delete-button.svg"
