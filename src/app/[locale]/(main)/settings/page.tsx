@@ -14,6 +14,7 @@ import SettingsTagInputFormField, {
 import useUpdateSettings from "@/components/features/settings/hooks/useUpdateSettings";
 import { Spinner } from "@/components/ui/spinner";
 import { Form } from "@/components/ui/form";
+import { DomainLabel, TechnicalLabel } from "@think-storm/contracts";
 
 export default function Settings() {
   const { updateSettings, isPending } = useUpdateSettings();
@@ -110,6 +111,7 @@ export default function Settings() {
                   />
                   <SettingsTagInputFormField
                     initialTags={["great", "abc"]}
+                    suggestions={Object.values(TechnicalLabel)}
                     control={form.control}
                     name="technicalLabels"
                     label="Skills"
@@ -118,6 +120,7 @@ export default function Settings() {
                   />
                   <SettingsTagInputFormField
                     initialTags={["great", "abc"]}
+                    suggestions={Object.values(DomainLabel)}
                     control={form.control}
                     name="domainLabels"
                     label="Interests"

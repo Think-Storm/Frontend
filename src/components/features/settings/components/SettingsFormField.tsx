@@ -89,6 +89,7 @@ export function SettingsImgFormField<T extends FieldValues>({
 type TagInputProps<T extends FieldValues> = SettingsFormFieldProps<T> & {
   label: string;
   initialTags?: string[];
+  suggestions?: string[];
 };
 
 export default function SettingsTagInputFormField<T extends FieldValues>({
@@ -97,13 +98,19 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   type,
   label,
   initialTags = [],
+  suggestions = [],
 }: TagInputProps<T>) {
+  const [showTags, setShowTags] = useState(false);
   const [tags, setTags] = useState(initialTags);
   const [input, setInput] = useState("");
 
-  const addTag = () => {
-    if (input.trim() && !tags.includes(input.trim())) {
-      setTags([...tags, input.trim()]);
+  const startAddTag = () => {
+    setShowTags(true);
+  };
+
+  const addTag = (tag: string) => {
+    if (tag.trim() && !tags.includes(tag.trim())) {
+      setTags([...tags, tag.trim()]);
       setInput("");
     }
   };
@@ -111,6 +118,10 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   const removeTag = (tag: string) => {
     setTags(tags.filter((t) => t !== tag));
   };
+
+  const filteredSuggestions = suggestions?.filter(
+    (s) => s.toLowerCase().includes(input.toLowerCase()) && !tags.includes(s)
+  );
 
   return (
     <FormField
@@ -146,22 +157,51 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                     </Button>
                   </div>
                 ))}
-                <Button
-                  variant="transparent"
-                  onClick={addTag}
-                  className="pl-3 py-1 text-md bg-white text-black hover:bg-gray-200 transition-all duration-150 ease-in-out rounded-sm px-4"
-                >
-                  Add &nbsp;
-                  <Image
-                    src="/images/setting/setting-plus-button.svg"
-                    alt=""
-                    width={13}
-                    height={13}
-                    className="object-contain ml-[-10px]"
-                    priority
-                    aria-hidden="true"
-                  />
-                </Button>
+
+                {showTags ? (
+                  <>
+                    <Input
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      className="h-9 w-40"
+                      placeholder="Search your skills..."
+                      autoComplete="off"
+                    />
+                    {filteredSuggestions && filteredSuggestions.length > 0 && (
+                      <div className="flex flex-wrap items-center gap-2 rounded-md mb-2 w-full">
+                        <h1 className="font-bold text-lg w-full">
+                          Suggestions
+                        </h1>
+                        {filteredSuggestions?.map((s) => (
+                          <div
+                            key={s}
+                            className="flex justify-center items-center bg-[#eeeeee] px-2 py-1 rounded-sm text-lg font-medium leading-tight space-x-2"
+                            onClick={() => addTag(s)}
+                          >
+                            <span className="mb-1 mr-0">{s}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Button
+                    variant="transparent"
+                    onClick={startAddTag}
+                    className="pl-3 py-1 text-md bg-white text-black hover:bg-gray-200 transition-all duration-150 ease-in-out rounded-sm px-4"
+                  >
+                    Add &nbsp;
+                    <Image
+                      src="/images/setting/setting-plus-button.svg"
+                      alt=""
+                      width={13}
+                      height={13}
+                      className="object-contain ml-[-10px]"
+                      priority
+                      aria-hidden="true"
+                    />
+                  </Button>
+                )}
               </div>
               <Input className="h-11 hidden" type={type} {...field} />
             </div>
