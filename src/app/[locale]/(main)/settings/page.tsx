@@ -7,7 +7,7 @@ import { profileSchema } from "@/schemas/userSchema";
 import { UpdateUserProfileData } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SettingsForm from "@/components/features/settings/components/SettingsForm";
-import {
+import SettingsTagInputFormField, {
   SettingsFormField,
   SettingsImgFormField,
 } from "@/components/features/settings/components/SettingsFormField";
@@ -100,11 +100,19 @@ export default function Settings() {
                     aria-required="true"
                   />
                 </div>
-                <div className="flex-1 space-y-6 ml-10">
+                <div className="flex-1 space-y-2 ml-10 flex-col">
                   <SettingsFormField
                     control={form.control}
                     name="fullname"
                     label="Name"
+                    type="text"
+                    aria-required="true"
+                  />
+                  <SettingsTagInputFormField
+                    initialTags={["great", "abc"]}
+                    control={form.control}
+                    name="technicalLabels"
+                    label="Skills"
                     type="text"
                     aria-required="true"
                   />
