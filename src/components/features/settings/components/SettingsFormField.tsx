@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Control, Path, FieldValues } from "react-hook-form";
+import { Control, Path, FieldValues, useForm } from "react-hook-form";
 import {
   FormField,
   FormItem,
@@ -11,6 +11,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Modal, { ModalHandle } from "@/components/ui/Modal";
+import { UpdateUserProfileData } from "@/types/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { profileSchema } from "@/schemas/userSchema";
 
 type SettingsFormFieldProps<T extends FieldValues> = {
   control: Control<T>;
@@ -90,6 +94,7 @@ type TagInputProps<T extends FieldValues> = SettingsFormFieldProps<T> & {
   label: string;
   initialTags?: string[];
   suggestions?: string[];
+  setValue: (name: Path<T>, value: any) => void;
 };
 
 export default function SettingsTagInputFormField<T extends FieldValues>({
@@ -99,14 +104,23 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   label,
   initialTags = [],
   suggestions = [],
+  setValue,
 }: TagInputProps<T>) {
-  const [showTags, setShowTags] = useState(false);
   const [tags, setTags] = useState(initialTags);
   const [input, setInput] = useState("");
-  const containerRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<ModalHandle>(null);
+
+  const saveChanges = () => {
+    setValue(name, tags);
+    modalRef.current?.close();
+  };
 
   const startAddTag = () => {
-    setShowTags(true);
+    modalRef.current?.open();
+  };
+
+  const closeModal = () => {
+    modalRef.current?.close();
   };
 
   const addTag = (tag: string) => {
@@ -121,27 +135,33 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   };
 
   const filteredSuggestions = suggestions?.filter(
-    (s) =>
-      s.toLowerCase().includes(input.toLowerCase()) &&
-      !tags.includes(s) &&
-      input
+    (s) => s.toLowerCase().includes(input.toLowerCase()) && !tags.includes(s)
   );
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
-        setShowTags(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const showTags = tags?.map((tag) => (
+    <div
+      key={tag}
+      className="flex justify-center items-center bg-[#eeeeee] pl-3 rounded-sm mb-1 text-lg font-medium leading-tight space-x-2"
+    >
+      <span className="mb-1 mr-0">{tag}</span>
+      <Button
+        variant="transparent"
+        size="sm"
+        onClick={() => removeTag(tag)}
+        className="text-gray-500"
+      >
+        <Image
+          src="/images/setting/setting-delete-button.svg"
+          alt=""
+          width={9}
+          height={9}
+          className="object-contain"
+          priority
+          aria-hidden="true"
+        />
+      </Button>
+    </div>
+  ));
 
   return (
     <FormField
@@ -152,36 +172,92 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
           <FormControl>
             <div className="mb-4">
               <FormLabel className="font-bold text-lg mb-2">{label}</FormLabel>
-              <div
-                className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2"
-                ref={containerRef}
-              >
-                {tags.map((tag) => (
-                  <div
-                    key={tag}
-                    className="flex justify-center items-center bg-[#eeeeee] pl-3 rounded-sm my-2 text-lg font-medium leading-tight space-x-2"
-                  >
-                    <span className="mb-1 mr-0">{tag}</span>
-                    <Button
-                      variant="transparent"
-                      size="sm"
-                      onClick={() => removeTag(tag)}
-                      className="text-gray-500"
-                    >
-                      <Image
-                        src="/images/setting/setting-delete-button.svg"
-                        alt=""
-                        width={9}
-                        height={9}
-                        className="object-contain"
-                        priority
-                        aria-hidden="true"
-                      />
-                    </Button>
-                  </div>
-                ))}
+              <div className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1">
+                {showTags}
+                <Modal ref={modalRef}>
+                  <>
+                    <div className="font-bold text-2xl my-3">{label}</div>
+                    <FormLabel className="font-bold text-lg text-left w-[95%]">
+                      Search {label}
+                    </FormLabel>
+                    <Input
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      className="h-11 w-[95%]"
+                      placeholder="Search your skills..."
+                      autoComplete="off"
+                    />
+                    <div className="flex flex-wrap justify-start items-center gap-2 rounded-md bg-background px-2 w-[95%]">
+                      {showTags}
 
-                {showTags ? (
+                      {filteredSuggestions &&
+                        filteredSuggestions.length > 0 && (
+                          <div className="flex flex-wrap items-center gap-2 rounded-md mb-2 w-full">
+                            <h1 className="font-bold text-lg w-full">
+                              Suggestions
+                            </h1>
+                            <div className="flex flex-wrap justify-start items-center gap-2 rounded-md bg-background px-2 w-full max-h-30 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent hover:scrollbar-thumb-gray-600">
+                              {filteredSuggestions?.map((s) => (
+                                <div
+                                  key={s}
+                                  className="flex justify-center items-center bg-[#eeeeee] px-2 py-1 rounded-sm text-lg font-medium leading-tight space-x-2 cursor-pointer"
+                                  onClick={() => addTag(s)}
+                                >
+                                  <span className="mb-1 mr-0">{s}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                    </div>
+                    <div className="flex gap-3">
+                      <Button
+                        variant="gradient"
+                        size="gradient"
+                        textClassName="text-sm sm:text-base"
+                        onClick={saveChanges}
+                        // aria-busy={isPending}
+                        // disabled={isPending}
+                      >
+                        Save Changes
+                        {/* {isPending ? (
+                        <>
+                          <Spinner size="small" />
+                          <span aria-hidden="true">Saving Changes...</span>
+                        </>
+                      ) : (
+                        " Save Changes"
+                      )} */}
+                      </Button>
+                      <Button
+                        variant="gradient"
+                        size="gradient"
+                        textBgWhite
+                        textClassName="!text-black !bg-white"
+                        onClick={closeModal}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </>
+                </Modal>
+                <Button
+                  variant="transparent"
+                  onClick={startAddTag}
+                  className="pl-3 pt-1 pb-2 text-md bg-white text-black hover:bg-gray-200 transition-all duration-150 ease-in-out rounded-sm px-4"
+                >
+                  Add &nbsp;
+                  <Image
+                    src="/images/setting/setting-plus-button.svg"
+                    alt=""
+                    width={13}
+                    height={13}
+                    className="object-contain ml-[-10px]"
+                    priority
+                    aria-hidden="true"
+                  />
+                </Button>
+                {/* {showTags ? (
                   <>
                     <Input
                       value={input}
@@ -224,7 +300,7 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                       aria-hidden="true"
                     />
                   </Button>
-                )}
+                )} */}
               </div>
               <Input className="h-11 hidden" type={type} {...field} />
             </div>

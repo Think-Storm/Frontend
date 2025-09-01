@@ -117,6 +117,7 @@ export default function Settings() {
                     label="Skills"
                     type="text"
                     aria-required="true"
+                    setValue={form.setValue}
                   />
                   <SettingsTagInputFormField
                     initialTags={["great", "abc"]}
@@ -126,6 +127,7 @@ export default function Settings() {
                     label="Interests"
                     type="text"
                     aria-required="true"
+                    setValue={form.setValue}
                   />
                   <SettingsTagInputFormField
                     initialTags={[
@@ -137,6 +139,7 @@ export default function Settings() {
                     label="External Links"
                     type="text"
                     aria-required="true"
+                    setValue={form.setValue}
                   />
                 </div>
               </form>
