@@ -145,13 +145,13 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   const filteredSuggestions = suggestions?.filter(
     (s) =>
       s.toLowerCase().includes(input.toLowerCase()) &&
-      !temporaryTags.includes(s)
+      !temporaryTags.includes(s),
   );
 
   const showTags = (
     tags: string[],
     kind: string,
-    onRemove: (tag: string) => void
+    onRemove: (tag: string) => void,
   ) => {
     return tags?.map((tag, index) => (
       <div
@@ -207,7 +207,7 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                       {showTags(
                         temporaryTags,
                         "temporaryTags",
-                        removeTemporaryTag
+                        removeTemporaryTag,
                       )}
                       {filteredSuggestions &&
                         filteredSuggestions.length > 0 && (
