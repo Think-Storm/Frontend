@@ -107,11 +107,13 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   setValue,
 }: TagInputProps<T>) {
   const [tags, setTags] = useState(initialTags);
+  const [temporaryTags, setTemporaryTags] = useState(initialTags);
   const [input, setInput] = useState("");
   const modalRef = useRef<ModalHandle>(null);
 
   const saveChanges = () => {
     setValue(name, tags);
+    setTags(temporaryTags);
     modalRef.current?.close();
   };
 
@@ -120,48 +122,62 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   };
 
   const closeModal = () => {
+    setTemporaryTags([...tags]);
     modalRef.current?.close();
   };
 
   const addTag = (tag: string) => {
     if (tag.trim() && !tags.includes(tag.trim())) {
-      setTags([...tags, tag.trim()]);
+      setTemporaryTags([...temporaryTags, tag.trim()]);
       setInput("");
     }
   };
 
   const removeTag = (tag: string) => {
     setTags(tags.filter((t) => t !== tag));
+    setTemporaryTags(temporaryTags.filter((t) => t !== tag));
+  };
+
+  const removeTemporaryTag = (tag: string) => {
+    setTemporaryTags(temporaryTags.filter((t) => t !== tag));
   };
 
   const filteredSuggestions = suggestions?.filter(
-    (s) => s.toLowerCase().includes(input.toLowerCase()) && !tags.includes(s)
+    (s) =>
+      s.toLowerCase().includes(input.toLowerCase()) &&
+      !temporaryTags.includes(s)
   );
 
-  const showTags = tags?.map((tag) => (
-    <div
-      key={tag}
-      className="flex justify-center items-center bg-[#eeeeee] pl-3 rounded-sm mb-1 text-lg font-medium leading-tight space-x-2"
-    >
-      <span className="mb-1 mr-0">{tag}</span>
-      <Button
-        variant="transparent"
-        size="sm"
-        onClick={() => removeTag(tag)}
-        className="text-gray-500"
+  const showTags = (
+    tags: string[],
+    kind: string,
+    onRemove: (tag: string) => void
+  ) => {
+    return tags?.map((tag, index) => (
+      <div
+        key={`${kind}-${tag}-${index}`}
+        className="flex justify-center items-center bg-[#eeeeee] pl-3 rounded-sm mb-1 text-lg font-medium leading-tight space-x-2"
       >
-        <Image
-          src="/images/setting/setting-delete-button.svg"
-          alt=""
-          width={9}
-          height={9}
-          className="object-contain"
-          priority
-          aria-hidden="true"
-        />
-      </Button>
-    </div>
-  ));
+        <span className="mb-1 mr-0">{tag}</span>
+        <Button
+          variant="transparent"
+          size="sm"
+          onClick={() => onRemove(tag)}
+          className="text-gray-500"
+        >
+          <Image
+            src="/images/setting/setting-delete-button.svg"
+            alt=""
+            width={9}
+            height={9}
+            className="object-contain"
+            priority
+            aria-hidden="true"
+          />
+        </Button>
+      </div>
+    ));
+  };
 
   return (
     <FormField
@@ -173,7 +189,7 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
             <div className="mb-4">
               <FormLabel className="font-bold text-lg mb-2">{label}</FormLabel>
               <div className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1">
-                {showTags}
+                {showTags(tags, "tags", removeTag)}
                 <Modal ref={modalRef}>
                   <>
                     <div className="font-bold text-2xl my-3">{label}</div>
@@ -188,8 +204,11 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                       autoComplete="off"
                     />
                     <div className="flex flex-wrap justify-start items-center gap-2 rounded-md bg-background px-2 w-[95%]">
-                      {showTags}
-
+                      {showTags(
+                        temporaryTags,
+                        "temporaryTags",
+                        removeTemporaryTag
+                      )}
                       {filteredSuggestions &&
                         filteredSuggestions.length > 0 && (
                           <div className="flex flex-wrap items-center gap-2 rounded-md mb-2 w-full">
