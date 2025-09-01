@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { emailSchema } from "./authSchemas";
+import { usernameSchema, emailSchema, passwordSchema } from "./authSchemas";
 
 export const subscriptionSchema = z.object({
   email: emailSchema,
@@ -21,13 +21,26 @@ const avatarSchema = z
   .optional();
 
 const websiteSchema = z
-  .string()
-  .url({ message: "Website must be a valid URL" })
+  .array(z.string().url({ message: "Website must be a valid URL" }))
   .optional();
 
 const technicalLabelsSchema = z.array(z.string()).optional();
 
 const domainLabelsSchema = z.array(z.string()).optional();
+
+export const countrySchema = z
+  .string()
+  .regex(/^[A-Za-z\s]{2,50}$/, {
+    message: "Country must be a valid name or code",
+  })
+  .optional();
+
+export const timezoneSchema = z
+  .string()
+  .regex(/^[A-Za-z]+\/[A-Za-z_]+$/, {
+    message: "Timezone must be a valid IANA timezone (e.g., Asia/Seoul)",
+  })
+  .optional();
 
 export const profileSchema = z.object({
   avatar: avatarSchema,
@@ -35,4 +48,12 @@ export const profileSchema = z.object({
   technicalLabels: technicalLabelsSchema,
   domainLabels: domainLabelsSchema,
   website: websiteSchema,
+});
+
+export const userInfoSchema = z.object({
+  username: usernameSchema,
+  email: emailSchema,
+  password: passwordSchema,
+  country: countrySchema,
+  timezone: timezoneSchema,
 });

@@ -18,13 +18,13 @@ export interface UpdateUserProfileData {
   fullname?: string;
   technicalLabels?: string[];
   domainLabels?: string[];
-  website?: string;
+  website?: string[];
 }
 
 export interface UpdateUserData {
-  username?: string;
-  email?: string;
-  password?: string;
+  username: string;
+  email: string;
+  password: string;
   country?: string;
   timezone?: string;
 }

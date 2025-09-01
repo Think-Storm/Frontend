@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
-import { Control, Path, FieldValues, useForm } from "react-hook-form";
+import { Control, Path, FieldValues } from "react-hook-form";
 import {
   FormField,
   FormItem,
@@ -12,15 +12,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Modal, { ModalHandle } from "@/components/ui/Modal";
-import { UpdateUserProfileData } from "@/types/user";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { profileSchema } from "@/schemas/userSchema";
 
 type SettingsFormFieldProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   label?: string;
-  type?: "text" | "url" | "file";
+  type?: "text" | "url" | "file" | "email" | "password";
   description?: string[];
   placeholder?: string;
   autoComplete?: string;
@@ -145,13 +142,13 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   const filteredSuggestions = suggestions?.filter(
     (s) =>
       s.toLowerCase().includes(input.toLowerCase()) &&
-      !temporaryTags.includes(s),
+      !temporaryTags.includes(s)
   );
 
   const showTags = (
     tags: string[],
     kind: string,
-    onRemove: (tag: string) => void,
+    onRemove: (tag: string) => void
   ) => {
     return tags?.map((tag, index) => (
       <div
@@ -207,7 +204,7 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                       {showTags(
                         temporaryTags,
                         "temporaryTags",
-                        removeTemporaryTag,
+                        removeTemporaryTag
                       )}
                       {filteredSuggestions &&
                         filteredSuggestions.length > 0 && (
