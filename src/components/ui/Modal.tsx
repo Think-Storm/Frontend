@@ -28,10 +28,17 @@ export default function Modal({
       },
     };
   });
+
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
+    if (e.target === e.currentTarget) {
+      dialog.current?.close();
+    }
+  };
   return (
     <dialog
       ref={dialog}
       onClose={() => dialog.current?.close()}
+      onClick={handleBackdropClick}
       className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 p-6 rounded-4xl bg-white backdrop:bg-black/50 w-[40%] max-w-[90vw] max-h-[100%] shadow-xl border border-gray-200"
     >
       <div className="flex flex-col items-center gap-4 w-full h-full p-6">
