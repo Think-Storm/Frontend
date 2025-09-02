@@ -6,11 +6,18 @@ import {
 } from "@/components/common/notification/Toast";
 import { api } from "@/lib/api/fetcher";
 import { apiRoutes, pageRoutes } from "@/constants/routes";
-import type { UpdateUserProfileData, UpdateUserData } from "@/types/user";
+import type {
+  UpdateUserProfileData,
+  UpdateUserData,
+  UpdateUserPasswordData,
+  UpdateUserEmailData,
+} from "@/types/user";
 
-type UpdateSettingsPayload = 
+type UpdateSettingsPayload =
   | { kind: "user"; data: UpdateUserData }
-  | { kind: "profile"; data: UpdateUserProfileData };
+  | { kind: "profile"; data: UpdateUserProfileData }
+  | { kind: "email"; data: UpdateUserEmailData }
+  | { kind: "password"; data: UpdateUserPasswordData };
 
 export default function useUpdateSettings() {
   const router = useRouter();
@@ -18,10 +25,12 @@ export default function useUpdateSettings() {
   const mutation = useMutation({
     mutationFn: (payload: UpdateSettingsPayload) => {
       if (payload.kind === "user") {
-      return api.put(apiRoutes.updateSettings, payload.data);
-    } else {
-      return api.put(apiRoutes.updateSettings, payload.data);
-    }
+        return api.put(apiRoutes.updateSettings, payload.data);
+      } else if (payload.kind === "profile") {
+        return api.put(apiRoutes.updateSettings, payload.data);
+      } else {
+        return api.put(apiRoutes.updateSettings, payload.data);
+      }
     },
     onSuccess: () => {
       showSuccessToast({

@@ -1,6 +1,12 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { Control, Path, FieldValues } from "react-hook-form";
+import {
+  Control,
+  Path,
+  FieldValues,
+  useFormContext,
+  useForm,
+} from "react-hook-form";
 import {
   FormField,
   FormItem,
@@ -12,15 +18,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Modal, { ModalHandle } from "@/components/ui/Modal";
+import { UpdateUserEmailData, UpdateUserPasswordData } from "@/types/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { emailInfoSchema, passwordInfoSchema } from "@/schemas/userSchema";
+import useUpdateSettings from "../hooks/useUpdateSettings";
 
 type SettingsFormFieldProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   label?: string;
+  title?: string;
   type?: "text" | "url" | "file" | "email" | "password";
   description?: string[];
   placeholder?: string;
   autoComplete?: string;
+  setValue?: (name: Path<T>, value: any) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export function SettingsFormField<T extends FieldValues>({
@@ -31,6 +44,7 @@ export function SettingsFormField<T extends FieldValues>({
   description,
   placeholder,
   autoComplete,
+  ...props
 }: SettingsFormFieldProps<T>) {
   return (
     <FormField
@@ -46,6 +60,10 @@ export function SettingsFormField<T extends FieldValues>({
               placeholder={placeholder}
               autoComplete={autoComplete}
               {...field}
+              onChange={(e) => {
+                field.onChange(e);
+                props.onChange?.(e);
+              }}
             />
           </FormControl>
           <div className="-mt-1 min-h-6">
@@ -99,6 +117,7 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   name,
   type,
   label,
+  title,
   initialTags = [],
   suggestions = [],
   setValue,
@@ -161,9 +180,10 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
           size="sm"
           onClick={() => onRemove(tag)}
           className="text-gray-500"
+          type="button"
         >
           <Image
-            src="/images/setting/setting-delete-button.svg"
+            src="/icons/setting/setting-delete-button.svg"
             alt=""
             width={9}
             height={9}
@@ -189,7 +209,7 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                 {showTags(tags, "tags", removeTag)}
                 <Modal ref={modalRef}>
                   <>
-                    <div className="font-bold text-2xl my-3">{label}</div>
+                    <div className="font-bold text-2xl my-3">{title}</div>
                     <FormLabel className="font-bold text-lg text-left w-[95%]">
                       Search {label}
                     </FormLabel>
@@ -232,18 +252,9 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                         size="gradient"
                         textClassName="text-sm sm:text-base"
                         onClick={saveChanges}
-                        // aria-busy={isPending}
-                        // disabled={isPending}
+                        type="button"
                       >
                         Save Changes
-                        {/* {isPending ? (
-                        <>
-                          <Spinner size="small" />
-                          <span aria-hidden="true">Saving Changes...</span>
-                        </>
-                      ) : (
-                        " Save Changes"
-                      )} */}
                       </Button>
                       <Button
                         variant="gradient"
@@ -251,6 +262,7 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                         textBgWhite
                         textClassName="!text-black !bg-white"
                         onClick={closeModal}
+                        type="button"
                       >
                         Cancel
                       </Button>
@@ -261,10 +273,11 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                   variant="transparent"
                   onClick={startAddTag}
                   className="pl-3 pt-1 pb-2 text-md bg-white text-black hover:bg-gray-200 transition-all duration-150 ease-in-out rounded-sm px-4"
+                  type="button"
                 >
                   Add &nbsp;
                   <Image
-                    src="/images/setting/setting-plus-button.svg"
+                    src="/icons/setting/setting-plus-button.svg"
                     alt=""
                     width={13}
                     height={13}
@@ -273,50 +286,6 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
                     aria-hidden="true"
                   />
                 </Button>
-                {/* {showTags ? (
-                  <>
-                    <Input
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      className="h-9 w-40"
-                      placeholder="Search your skills..."
-                      autoComplete="off"
-                    />
-                    {filteredSuggestions && filteredSuggestions.length > 0 && (
-                      <div className="flex flex-wrap items-center gap-2 rounded-md mb-2 w-full">
-                        <h1 className="font-bold text-lg w-full">
-                          Suggestions
-                        </h1>
-                        {filteredSuggestions?.map((s) => (
-                          <div
-                            key={s}
-                            className="flex justify-center items-center bg-[#eeeeee] px-2 py-1 rounded-sm text-lg font-medium leading-tight space-x-2"
-                            onClick={() => addTag(s)}
-                          >
-                            <span className="mb-1 mr-0">{s}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Button
-                    variant="transparent"
-                    onClick={startAddTag}
-                    className="pl-3 py-1 text-md bg-white text-black hover:bg-gray-200 transition-all duration-150 ease-in-out rounded-sm px-4"
-                  >
-                    Add &nbsp;
-                    <Image
-                      src="/images/setting/setting-plus-button.svg"
-                      alt=""
-                      width={13}
-                      height={13}
-                      className="object-contain ml-[-10px]"
-                      priority
-                      aria-hidden="true"
-                    />
-                  </Button>
-                )} */}
               </div>
               <Input className="h-11 hidden" type={type} {...field} />
             </div>
@@ -324,5 +293,246 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
         </FormItem>
       )}
     />
+  );
+}
+
+export function SettingsEmailModalField<T extends FieldValues>({
+  control,
+  name,
+  label,
+  title,
+  type,
+  setValue,
+}: SettingsFormFieldProps<T>) {
+  const modalRef = useRef<ModalHandle>(null);
+  const { getValues, trigger } = useFormContext<T>();
+  const [originalValue, setOriginalValue] = useState(getValues(name) ?? "");
+  const [input, setInput] = useState(originalValue);
+  const { updateSettings, isPending } = useUpdateSettings();
+
+  function onSubmitCheckEmail(EmailFormValues: UpdateUserEmailData) {
+    updateSettings({ kind: "email", data: EmailFormValues });
+  }
+
+  const useEmailForm = useForm<UpdateUserEmailData>({
+    defaultValues: {
+      email: "",
+    },
+    resolver: zodResolver(emailInfoSchema),
+  });
+
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setInput(newValue);
+    await trigger(name);
+  };
+
+  const saveChanges = async () => {
+    const isValid = await trigger(name);
+    if (!isValid) {
+      setInput(originalValue);
+      return;
+    }
+
+    setValue?.(name, input);
+    setOriginalValue(input);
+    modalRef.current?.close();
+  };
+
+  const openModal = () => {
+    modalRef.current?.open();
+  };
+
+  const closeModal = () => {
+    modalRef.current?.close();
+  };
+
+  return (
+    <>
+      <Modal ref={modalRef}>
+        <>
+          <div className="font-bold text-2xl my-3">{title}</div>
+          <SettingsFormField
+            control={useEmailForm.control}
+            name="email"
+            label={label}
+            type={type}
+            aria-required="true"
+            placeholder={originalValue ?? "Enter New Email..."}
+            autoComplete="off"
+            onChange={handleInputChange}
+          />
+          <div className="flex flex-wrap justify-start items-center gap-2 rounded-md bg-background px-2 w-[95%]"></div>
+          <div className="flex gap-3">
+            <Button
+              variant="gradient"
+              size="gradient"
+              textClassName="text-sm sm:text-base"
+              onClick={saveChanges}
+              type="button"
+            >
+              Save Changes
+            </Button>
+            <Button
+              variant="gradient"
+              size="gradient"
+              textBgWhite
+              textClassName="!text-black !bg-white"
+              onClick={closeModal}
+              type="button"
+            >
+              Cancel
+            </Button>
+          </div>
+        </>
+      </Modal>
+      <div className="grid gap-2 w-full">
+        <FormLabel className="font-bold text-lg">{label}</FormLabel>
+        <div
+          onClick={openModal}
+          className="flex items-center justify-between gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1 cursor-pointer h-12"
+        >
+          <span>{originalValue}</span>
+          <Image
+            src="/icons/setting/setting-right-arrow-button.svg"
+            alt=""
+            width={30}
+            height={30}
+            className="object-contain"
+            priority
+            aria-hidden="true"
+          />
+        </div>
+        <div className="-mt-1 min-h-6"></div>
+      </div>
+    </>
+  );
+}
+
+export function SettingsPasswordModalField({
+  label,
+  title,
+  type,
+  originalValue,
+}: {
+  label: string;
+  title: string;
+  type: "password";
+  originalValue: string;
+}) {
+  const modalRef = useRef<ModalHandle>(null);
+  const { updateSettings, isPending } = useUpdateSettings();
+
+  function onSubmitUpdatePassword(PasswordFormValues: UpdateUserPasswordData) {
+    updateSettings({ kind: "password", data: PasswordFormValues });
+  }
+
+  const userPasswordForm = useForm<UpdateUserPasswordData>({
+    defaultValues: {
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    },
+    resolver: zodResolver(passwordInfoSchema),
+  });
+
+  const saveChanges = async () => {
+    const isValid = await userPasswordForm.trigger();
+    if (!isValid) return;
+    modalRef.current?.close();
+  };
+
+  const openModal = () => {
+    modalRef.current?.open();
+  };
+
+  const closeModal = () => {
+    modalRef.current?.close();
+  };
+
+  return (
+    <>
+      <Modal ref={modalRef}>
+        <>
+          <div className="font-bold text-2xl my-3">{title}</div>
+          <>
+            <SettingsFormField
+              control={userPasswordForm.control}
+              name="currentPassword"
+              label="Current Password"
+              type={type}
+              aria-required="true"
+              autoComplete="off"
+            />
+            <SettingsFormField
+              control={userPasswordForm.control}
+              name="newPassword"
+              label="New Password"
+              type={type}
+              aria-required="true"
+              autoComplete="off"
+            />
+            <SettingsFormField
+              control={userPasswordForm.control}
+              name="confirmPassword"
+              label="Retype Password"
+              type={type}
+              aria-required="true"
+              autoComplete="off"
+            />
+            <div className="flex justify-start w-full">
+              <Button
+                variant="transparent"
+                type="button"
+                className="mt-[-20px] text-xl text-blue-700 font-bold text-left p-0"
+              >
+                Forgot Password?
+              </Button>
+            </div>
+          </>
+          <div className="flex flex-wrap justify-start items-center gap-2 rounded-md bg-background px-2 w-[95%]"></div>
+          <div className="flex gap-3">
+            <Button
+              variant="gradient"
+              size="gradient"
+              textClassName="text-sm sm:text-base"
+              onClick={saveChanges}
+              type="button"
+            >
+              Save Changes
+            </Button>
+            <Button
+              variant="gradient"
+              size="gradient"
+              textBgWhite
+              textClassName="!text-black !bg-white"
+              onClick={closeModal}
+              type="button"
+            >
+              Cancel
+            </Button>
+          </div>
+        </>
+      </Modal>
+      <div className="grid gap-2 w-full">
+        <FormLabel className="font-bold text-lg">{label}</FormLabel>
+        <div
+          onClick={openModal}
+          className="flex items-center justify-between gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1 cursor-pointer h-12"
+        >
+          <span>{originalValue}</span>
+          <Image
+            src="/icons/setting/setting-right-arrow-button.svg"
+            alt=""
+            width={30}
+            height={30}
+            className="object-contain"
+            priority
+            aria-hidden="true"
+          />
+        </div>
+        <div className="-mt-1 min-h-6"></div>
+      </div>
+    </>
   );
 }

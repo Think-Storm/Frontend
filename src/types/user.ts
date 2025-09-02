@@ -24,9 +24,18 @@ export interface UpdateUserProfileData {
 export interface UpdateUserData {
   username: string;
   email: string;
-  password: string;
-  country?: string;
+  location?: string;
   timezone?: string;
+}
+
+export interface UpdateUserEmailData {
+  email: string;
+}
+
+export interface UpdateUserPasswordData {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 export interface SubscriptionData extends UserSubscription {}

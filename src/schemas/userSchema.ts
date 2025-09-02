@@ -28,10 +28,10 @@ const technicalLabelsSchema = z.array(z.string()).optional();
 
 const domainLabelsSchema = z.array(z.string()).optional();
 
-export const countrySchema = z
+export const locationSchema = z
   .string()
   .regex(/^[A-Za-z\s]{2,50}$/, {
-    message: "Country must be a valid name or code",
+    message: "Location must be a valid name or code",
   })
   .optional();
 
@@ -53,7 +53,16 @@ export const profileSchema = z.object({
 export const userInfoSchema = z.object({
   username: usernameSchema,
   email: emailSchema,
-  password: passwordSchema,
-  country: countrySchema,
+  location: locationSchema,
   timezone: timezoneSchema,
+});
+
+export const emailInfoSchema = z.object({
+  email: emailSchema,
+});
+
+export const passwordInfoSchema = z.object({
+  currentPassword: passwordSchema,
+  newPassword: passwordSchema,
+  confirmPassword: passwordSchema,
 });

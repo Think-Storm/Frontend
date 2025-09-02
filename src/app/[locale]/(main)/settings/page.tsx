@@ -9,12 +9,14 @@ import { UpdateUserProfileData, UpdateUserData } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SettingsForm from "@/components/features/settings/components/SettingsForm";
 import SettingsTagInputFormField, {
+  SettingsEmailModalField,
   SettingsFormField,
   SettingsImgFormField,
+  SettingsPasswordModalField,
 } from "@/components/features/settings/components/SettingsFormField";
 import useUpdateSettings from "@/components/features/settings/hooks/useUpdateSettings";
 import { Spinner } from "@/components/ui/spinner";
-import { Form } from "@/components/ui/form";
+import { Form, FormLabel } from "@/components/ui/form";
 import { DomainLabel, TechnicalLabel } from "@think-storm/contracts";
 
 export default function Settings() {
@@ -36,8 +38,7 @@ export default function Settings() {
     defaultValues: {
       username: "",
       email: "",
-      password: "",
-      country: "",
+      location: "",
       timezone: "",
     },
     resolver: zodResolver(userInfoSchema),
@@ -147,6 +148,7 @@ export default function Settings() {
                       control={userprofileForm.control}
                       name="technicalLabels"
                       label="Skills"
+                      title="Skills"
                       type="text"
                       aria-required="true"
                       setValue={userprofileForm.setValue}
@@ -157,6 +159,7 @@ export default function Settings() {
                       control={userprofileForm.control}
                       name="domainLabels"
                       label="Interests"
+                      title="Interests"
                       type="text"
                       aria-required="true"
                       setValue={userprofileForm.setValue}
@@ -169,6 +172,7 @@ export default function Settings() {
                       control={userprofileForm.control}
                       name="website"
                       label="External Links"
+                      title="Add Link"
                       type="text"
                       aria-required="true"
                       setValue={userprofileForm.setValue}
@@ -195,23 +199,28 @@ export default function Settings() {
                       type="text"
                       aria-required="true"
                     />
-                    <SettingsFormField
+                    <SettingsEmailModalField
                       control={usersettingForm.control}
                       name="email"
                       label="Email"
                       type="email"
+                      title="Change Email"
                       aria-required="true"
+                      setValue={usersettingForm.setValue}
                     />
-                    <SettingsFormField
-                      control={usersettingForm.control}
-                      name="password"
+                    <SettingsPasswordModalField
                       label="Password"
                       type="password"
+                      title="Change Password"
                       aria-required="true"
+                      originalValue="originalPassword"
                     />
                   </div>
                   <div className="flex-1 space-y-2 ml-10 flex-col">
-                   
+                    <FormLabel className="font-bold text-lg">
+                      Location
+                    </FormLabel>
+                    <div className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1"></div>
                   </div>
                 </form>
               </Form>
