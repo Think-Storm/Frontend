@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import {
   Control,
@@ -34,6 +34,8 @@ type SettingsFormFieldProps<T extends FieldValues> = {
   autoComplete?: string;
   setValue?: (name: Path<T>, value: any) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setPreview?: Dispatch<SetStateAction<string | null>>;
+  ref?: React.RefObject<HTMLInputElement>;
 };
 
 export function SettingsFormField<T extends FieldValues>({
@@ -85,11 +87,30 @@ export function SettingsFormField<T extends FieldValues>({
   );
 }
 
-export function SettingsImgFormField<T extends FieldValues>({
+export const SettingsImgFormField = <T extends FieldValues>({
   control,
   name,
   type = "file",
-}: SettingsFormFieldProps<T>) {
+  ref,
+  ...props
+}: SettingsFormFieldProps<T>) => {
+  useEffect(() => {
+    const fileInput = (ref as React.RefObject<HTMLInputElement>)?.current;
+    if (!fileInput) return;
+
+    const handler = () => {
+      if (fileInput.files && fileInput.files[0]) {
+        props.setPreview?.(URL.createObjectURL(fileInput.files[0]));
+      }
+    };
+
+    fileInput.addEventListener("change", handler);
+
+    return () => {
+      fileInput.removeEventListener("change", handler);
+    };
+  }, [props, ref]);
+
   return (
     <FormField
       control={control}
@@ -97,13 +118,20 @@ export function SettingsImgFormField<T extends FieldValues>({
       render={({ field }) => (
         <FormItem>
           <FormControl>
-            <Input className="h-11 hidden" type={type} {...field} />
+            <div className="relative w-24 h-24 cursor-pointer">
+              <Input
+                type={type}
+                {...field}
+                ref={ref}
+                className="absolute w-0 h-0 opacity-0"
+              />
+            </div>
           </FormControl>
         </FormItem>
       )}
     />
   );
-}
+};
 
 type TagInputProps<T extends FieldValues> = SettingsFormFieldProps<T> & {
   label: string;

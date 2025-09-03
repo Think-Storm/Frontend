@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,9 @@ import { DomainLabel, TechnicalLabel } from "@think-storm/contracts";
 
 export default function Settings() {
   const [menu, setMenu] = useState("personal");
+  const [preview, setPreview] = useState<string | null>(null);
   const { updateSettings, isPending } = useUpdateSettings();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const userprofileForm = useForm<UpdateUserProfileData>({
     defaultValues: {
@@ -122,20 +124,34 @@ export default function Settings() {
                   className="w-full flex"
                 >
                   <div>
-                    <Image
-                      src="/images/setting/setting-profile.svg"
-                      alt=""
-                      width={150}
-                      height={150}
-                      className="object-contain"
-                      priority
-                      aria-hidden="true"
-                    />
+                    {preview ? (
+                      <Image
+                        src={preview}
+                        alt="preview"
+                        width={150}
+                        height={150}
+                        className="object-cover rounded-full cursor-pointer border-2 border-gray-200"
+                        onClick={() => fileInputRef.current?.click()}
+                      />
+                    ) : (
+                      <Image
+                        src="/images/setting/setting-profile.svg"
+                        alt=""
+                        width={150}
+                        height={150}
+                        className="object-contain cursor-pointer"
+                        onClick={() => fileInputRef.current?.click()}
+                        priority
+                        aria-hidden="true"
+                      />
+                    )}
                     <SettingsImgFormField
                       control={userprofileForm.control}
                       name="avatar"
                       type="file"
                       aria-required="true"
+                      setPreview={setPreview}
+                      ref={fileInputRef}
                     />
                   </div>
                   <div className="flex-1 space-y-2 ml-10 flex-col">
