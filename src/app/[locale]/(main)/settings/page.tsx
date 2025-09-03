@@ -26,10 +26,16 @@ export default function Settings() {
   const userprofileForm = useForm<UpdateUserProfileData>({
     defaultValues: {
       avatar: "",
-      fullname: "",
-      technicalLabels: [],
-      domainLabels: [],
+      bio: "",
+      fullName: "",
+      birthdate: "",
+      preferred_role: [],
+      location: "",
+      languages: [],
+      technical_labels: [],
+      domain_labels: [],
       website: [],
+      timezone: "",
     },
     resolver: zodResolver(profileSchema),
   });
@@ -38,8 +44,6 @@ export default function Settings() {
     defaultValues: {
       username: "",
       email: "",
-      location: "",
-      timezone: "",
     },
     resolver: zodResolver(userInfoSchema),
   });
@@ -49,7 +53,7 @@ export default function Settings() {
   }
 
   function onSubmitUserProfile(ProfileFormValues: UpdateUserProfileData) {
-    updateSettings({ kind: "profile", data: ProfileFormValues });
+    updateSettings({ kind: "profile", data: ProfileFormValues, id: "id" });
   }
 
   function onSubmitUserSetting(UsersettingFormValues: UpdateUserData) {
@@ -137,7 +141,7 @@ export default function Settings() {
                   <div className="flex-1 space-y-2 ml-10 flex-col">
                     <SettingsFormField
                       control={userprofileForm.control}
-                      name="fullname"
+                      name="fullName"
                       label="Name"
                       type="text"
                       aria-required="true"
@@ -146,7 +150,7 @@ export default function Settings() {
                       initialTags={["great", "abc"]}
                       suggestions={Object.values(TechnicalLabel)}
                       control={userprofileForm.control}
-                      name="technicalLabels"
+                      name="technical_labels"
                       label="Skills"
                       title="Skills"
                       type="text"
@@ -157,7 +161,7 @@ export default function Settings() {
                       initialTags={["great", "abc"]}
                       suggestions={Object.values(DomainLabel)}
                       control={userprofileForm.control}
-                      name="domainLabels"
+                      name="domain_labels"
                       label="Interests"
                       title="Interests"
                       type="text"

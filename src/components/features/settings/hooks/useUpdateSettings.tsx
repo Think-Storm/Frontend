@@ -15,7 +15,7 @@ import type {
 
 type UpdateSettingsPayload =
   | { kind: "user"; data: UpdateUserData }
-  | { kind: "profile"; data: UpdateUserProfileData }
+  | { kind: "profile"; data: UpdateUserProfileData; id: string }
   | { kind: "email"; data: UpdateUserEmailData }
   | { kind: "password"; data: UpdateUserPasswordData };
 
@@ -25,11 +25,13 @@ export default function useUpdateSettings() {
   const mutation = useMutation({
     mutationFn: (payload: UpdateSettingsPayload) => {
       if (payload.kind === "user") {
-        return api.put(apiRoutes.updateSettings, payload.data);
+        return api.put(apiRoutes.updateUser, payload.data);
       } else if (payload.kind === "profile") {
-        return api.put(apiRoutes.updateSettings, payload.data);
+        return api.put(apiRoutes.updateProfile(payload.id), payload.data);
+      } else if (payload.kind === "email") {
+        return api.put(apiRoutes.updateUser, payload.data);
       } else {
-        return api.put(apiRoutes.updateSettings, payload.data);
+        return api.put(apiRoutes.updatePassword, payload.data);
       }
     },
     onSuccess: () => {
@@ -42,7 +44,7 @@ export default function useUpdateSettings() {
     onError: (error: Error) => {
       console.log("Updating settings error:", error);
       showErrorToast({
-        message: "Updating your settings Failed",
+        message: error.message || "Updating your settings Failed",
         description:
           "An error occurred while updating your settings. Please try again.",
       });
