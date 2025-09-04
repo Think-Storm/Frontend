@@ -65,7 +65,7 @@
     "@vitest/browser": "^3.2.3",
     "@vitest/coverage-v8": "^3.2.3",
     "cypress": "^14.4.1",
-    "eslint": "^8",
+    "eslint": "^9.34.0",
     "eslint-config-next": "^15.2.2",
     "eslint-plugin-storybook": "^9.0.8",
     "jest": "^30.0.0",
