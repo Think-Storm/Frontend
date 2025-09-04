@@ -99,14 +99,23 @@ export default function Settings() {
         <div className="bg-gray-200 rounded-lg px-2 py-2 my-8 max-w-sm">
           <Button
             variant={menu === "personal" ? "white" : "transparent"}
-            className="text-base"
+            className={`text-base ${
+              menu === "personal"
+                ? "hover:bg-white hover:shadow-none hover:scale-100 dark:hover:bg-white/10"
+                : "hover:bg-white/20 hover:backdrop-blur-sm hover:scale-105 hover:shadow-md transition-all duration-300"
+            }`}
             onClick={() => switchMenu("personal")}
           >
             Personal Info
           </Button>
+
           <Button
             variant={menu === "settings" ? "white" : "transparent"}
-            className="text-base"
+            className={`text-base ${
+              menu === "settings"
+                ? "hover:bg-white hover:shadow-none hover:scale-100 dark:hover:bg-white/10"
+                : "hover:bg-white/20 hover:backdrop-blur-sm hover:scale-105 hover:shadow-md transition-all duration-300"
+            }`}
             onClick={() => switchMenu("settings")}
           >
             Account Settings
