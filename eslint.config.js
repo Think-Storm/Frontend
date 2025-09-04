@@ -3,6 +3,7 @@ import storybookPlugin from "eslint-plugin-storybook";
 
 export default [
   {
+    files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: {
       "@next/next": nextPlugin,
     },
@@ -11,6 +12,7 @@ export default [
     },
   },
   {
+    files: ["**/*.stories.{js,jsx,ts,tsx}", ".storybook/**/*.{js,jsx,ts,tsx}"],
     plugins: {
       storybook: storybookPlugin,
     },
@@ -19,6 +21,7 @@ export default [
     },
   },
   {
+    files: ["**/*.{js,jsx,ts,tsx}"],
     rules: {},
   },
 ];
