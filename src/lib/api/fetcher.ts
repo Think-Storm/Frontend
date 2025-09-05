@@ -47,14 +47,23 @@ export const api = {
   get: <T>(url: string, options?: Omit<FetchOptions, "method" | "body">) =>
     fetcher<T>(url, { ...options, method: "GET" }),
 
-  post: <T>(url: string, data: any, options?: Omit<FetchOptions, "method">) =>
-    fetcher<T>(url, { ...options, method: "POST", body: data }),
+  post: <T>(
+    url: string,
+    data: unknown,
+    options?: Omit<FetchOptions, "method">
+  ) => fetcher<T>(url, { ...options, method: "POST", body: data }),
 
-  put: <T>(url: string, data: any, options?: Omit<FetchOptions, "method">) =>
-    fetcher<T>(url, { ...options, method: "PUT", body: data }),
+  put: <T>(
+    url: string,
+    data: unknown,
+    options?: Omit<FetchOptions, "method">
+  ) => fetcher<T>(url, { ...options, method: "PUT", body: data }),
 
-  patch: <T>(url: string, data: any, options?: Omit<FetchOptions, "method">) =>
-    fetcher<T>(url, { ...options, method: "PATCH", body: data }),
+  patch: <T>(
+    url: string,
+    data: unknown,
+    options?: Omit<FetchOptions, "method">
+  ) => fetcher<T>(url, { ...options, method: "PATCH", body: data }),
 
   delete: <T>(url: string, options?: Omit<FetchOptions, "method" | "body">) =>
     fetcher<T>(url, { ...options, method: "DELETE" }),
