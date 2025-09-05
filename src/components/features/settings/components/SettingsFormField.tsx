@@ -326,6 +326,225 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   );
 }
 
+interface LinkInputProps<T extends FieldValues> {
+  control: any;
+  name: string;
+  label: string;
+  title: string;
+  initialLinks?: { type: string; url: string }[];
+  linkTypes?: string[];
+  setValue: any;
+}
+
+export function SettingsLinkInputFormField<T extends FieldValues>({
+  control,
+  name,
+  label,
+  title,
+  initialLinks = [],
+  linkTypes = ["LinkedIn", "GitHub", "Website"],
+  setValue,
+}: LinkInputProps<T>) {
+  const [links, setLinks] = useState(initialLinks);
+  const [temporaryLinks, setTemporaryLinks] = useState(initialLinks);
+  const [type, setType] = useState(linkTypes[0]);
+  const [url, setUrl] = useState("");
+  const modalRef = useRef<ModalHandle>(null);
+
+  const startAddLink = () => modalRef.current?.open();
+  const closeModal = () => {
+    setTemporaryLinks([...links]);
+    modalRef.current?.close();
+  };
+
+  const addLink = () => {
+    if (url.trim()) {
+      setTemporaryLinks([...temporaryLinks, { type, url: url.trim() }]);
+      setUrl("");
+    }
+  };
+
+  const removeLink = (linkToRemove: { type: string; url: string }) => {
+    setLinks(links.filter((l) => l.url !== linkToRemove.url));
+    setTemporaryLinks(temporaryLinks.filter((l) => l.url !== linkToRemove.url));
+  };
+
+  const removeTemporaryLink = (linkToRemoveUrl: string) => {
+    console.log(linkToRemoveUrl);
+    setTemporaryLinks(temporaryLinks.filter((l) => l.url !== linkToRemoveUrl));
+  };
+
+  const saveChanges = () => {
+    setLinks(temporaryLinks);
+    setValue(name, temporaryLinks);
+    modalRef.current?.close();
+  };
+
+  const showLinks = (
+    links: { type: string; url: string }[],
+    url: string,
+    onRemove: (link: string) => void
+  ) => {
+    return links?.map((link, index) => (
+      <div
+        key={`${url}-${link}-${index}`}
+        className="flex justify-center items-center bg-[#eeeeee] pl-3 rounded-sm mb-1 text-lg font-medium leading-tight space-x-2"
+      >
+        <span className="mb-1 mr-0">{link.url}</span>
+        <Button
+          variant="transparent"
+          size="sm"
+          onClick={() => onRemove(link.url)}
+          className="text-gray-500"
+          type="button"
+        >
+          <Image
+            src="/icons/setting/setting-delete-button.svg"
+            alt=""
+            width={9}
+            height={9}
+            className="object-contain"
+            priority
+            aria-hidden="true"
+          />
+        </Button>
+      </div>
+    ));
+  };
+
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormControl>
+            <div className="mb-4">
+              <FormLabel className="font-bold text-lg mb-2">{label}</FormLabel>
+              <div className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1">
+                {links.map((link, idx) => (
+                  <div
+                    key={`link-${idx}`}
+                    className="flex justify-center items-center bg-[#eeeeee] pl-3 rounded-sm mb-1 text-lg font-medium leading-tight space-x-2"
+                  >
+                    <span className="mb-1 mr-0">{link.url}</span>
+                    <Button
+                      variant="transparent"
+                      size="sm"
+                      onClick={() => removeLink(link)}
+                      type="button"
+                    >
+                      <Image
+                        src="/icons/setting/setting-delete-button.svg"
+                        alt="Delete"
+                        width={9}
+                        height={9}
+                      />
+                    </Button>
+                  </div>
+                ))}
+
+                <Button
+                  variant="transparent"
+                  onClick={startAddLink}
+                  className="pl-3 pt-1 pb-2 text-md bg-white text-black hover:bg-gray-200 transition-all duration-150 ease-in-out rounded-sm px-4"
+                  type="button"
+                >
+                  Add &nbsp;
+                  <Image
+                    src="/icons/setting/setting-plus-button.svg"
+                    alt=""
+                    width={13}
+                    height={13}
+                    className="object-contain ml-[-10px]"
+                    priority
+                    aria-hidden="true"
+                  />
+                </Button>
+              </div>
+
+              <Modal ref={modalRef}>
+                <>
+                  <div className="font-bold text-2xl my-3">{title}</div>
+                  <FormLabel className="font-bold text-lg text-left w-[95%]">
+                    Select Type
+                  </FormLabel>
+                  <select
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                    className="mb-2 h-11 border rounded px-2 w-[95%] max-w-[95%]"
+                  >
+                    {linkTypes.map((lt) => (
+                      <option key={lt} value={lt}>
+                        {lt}
+                      </option>
+                    ))}
+                  </select>
+
+                  <FormLabel className="font-bold text-lg text-left w-[95%]">
+                    Link
+                  </FormLabel>
+                  <Input
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    placeholder="Enter URL..."
+                    className="mb-2 h-11 border rounded px-2 w-[95%]"
+                  />
+                  <div className="w-[98%] flex flex-wrap justify-left items-left gap-2 rounded-md bg-background px-2 pt-2 pb-1">
+                    {showLinks(temporaryLinks, url, removeTemporaryLink)}
+                  </div>
+                  <div className="flex justify-end w-[95%]">
+                    <Button
+                      variant="transparent"
+                      onClick={addLink}
+                      className="pl-3 pt-1 pb-2 text-md bg-gray-200 text-black hover:bg-gray-400 transition-all duration-150 ease-in-out rounded-sm px-4"
+                      type="button"
+                    >
+                      Add &nbsp;
+                      <Image
+                        src="/icons/setting/setting-plus-button.svg"
+                        alt=""
+                        width={13}
+                        height={13}
+                        className="object-contain ml-[-10px]"
+                        priority
+                        aria-hidden="true"
+                      />
+                    </Button>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button
+                      variant="gradient"
+                      size="gradient"
+                      textClassName="text-sm sm:text-base"
+                      onClick={saveChanges}
+                      type="button"
+                    >
+                      Save Changes
+                    </Button>
+                    <Button
+                      variant="gradient"
+                      size="gradient"
+                      textBgWhite
+                      textClassName="!text-black !bg-white"
+                      onClick={closeModal}
+                      type="button"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </>
+              </Modal>
+
+              <Input className="h-11 hidden" type="text" {...field} />
+            </div>
+          </FormControl>
+        </FormItem>
+      )}
+    />
+  );
+}
+
 export function SettingsEmailModalField<T extends FieldValues>({
   control,
   name,

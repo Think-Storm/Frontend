@@ -12,6 +12,7 @@ import SettingsTagInputFormField, {
   SettingsEmailModalField,
   SettingsFormField,
   SettingsImgFormField,
+  SettingsLinkInputFormField,
   SettingsPasswordModalField,
 } from "@/components/features/settings/components/SettingsFormField";
 import useUpdateSettings from "@/components/features/settings/hooks/useUpdateSettings";
@@ -242,16 +243,15 @@ export default function Settings() {
                       aria-required="true"
                       setValue={userprofileForm.setValue}
                     />
-                    <SettingsTagInputFormField
-                      initialTags={[
-                        "http://www.google.com",
-                        "http://fullname.com",
+                    <SettingsLinkInputFormField
+                      initialLinks={[
+                        { type: "linkedin", url: "http://www.google.com" },
+                        { type: "website", url: "http://fullname.com" },
                       ]}
                       control={userprofileForm.control}
                       name="website"
                       label="External Links"
                       title="Add Link"
-                      type="text"
                       aria-required="true"
                       setValue={userprofileForm.setValue}
                     />
