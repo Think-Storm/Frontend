@@ -420,7 +420,7 @@ export function SettingsEmailModalField<T extends FieldValues>({
         <FormLabel className="font-bold text-lg">{label}</FormLabel>
         <div
           onClick={openModal}
-          className="flex items-center justify-between gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1 cursor-pointer h-12"
+          className="flex items-center justify-between gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1 cursor-pointer h-11"
         >
           <span>{originalValue}</span>
           <Image
@@ -548,7 +548,7 @@ export function SettingsPasswordModalField({
         <FormLabel className="font-bold text-lg">{label}</FormLabel>
         <div
           onClick={openModal}
-          className="flex items-center justify-between gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1 cursor-pointer h-12"
+          className="flex items-center justify-between gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1 cursor-pointer h-11"
         >
           <span>{originalValue}</span>
           <Image

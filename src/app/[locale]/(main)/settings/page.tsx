@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -42,6 +42,8 @@ export default function Settings() {
     resolver: zodResolver(profileSchema),
   });
 
+  const [location, timezone] = userprofileForm.watch(["location", "timezone"]);
+
   const usersettingForm = useForm<UpdateUserData>({
     defaultValues: {
       username: "",
@@ -61,6 +63,53 @@ export default function Settings() {
   function onSubmitUserSetting(UsersettingFormValues: UpdateUserData) {
     updateSettings({ kind: "user", data: UsersettingFormValues });
   }
+
+  useEffect(() => {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    let updatedValues = {
+      ...userprofileForm.getValues(),
+      timezone: tz,
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          try {
+            const response = await fetch(
+              `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${process.env.NEXT_PUBLIC_GEO_API_KEY}`
+            );
+            const data = await response.json();
+            const components = data.results?.[0]?.components || {};
+            const location = [
+              components.city,
+              components.state,
+              components.country,
+            ]
+              .filter(Boolean)
+              .join(", ");
+
+            userprofileForm.reset({
+              ...updatedValues,
+              location,
+            });
+          } catch (err) {
+            console.error(err);
+            userprofileForm.reset(updatedValues);
+          }
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+          userprofileForm.reset(updatedValues);
+        }
+      );
+    } else {
+      userprofileForm.reset(updatedValues);
+    }
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8 mt-12">
@@ -96,7 +145,7 @@ export default function Settings() {
         </div>
       </div>
       <div className="flex items-center justify-center">
-        <div className="bg-gray-200 rounded-lg px-2 py-2 my-8 max-w-sm">
+        <div className="flex bg-gray-200 rounded-lg px-2 py-2 my-8 max-w-sm gap-3">
           <Button
             variant={menu === "personal" ? "white" : "transparent"}
             className={`text-base ${
@@ -249,7 +298,17 @@ export default function Settings() {
                     <FormLabel className="font-bold text-lg">
                       Location
                     </FormLabel>
-                    <div className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1"></div>
+                    <div className="flex items-center justify-between gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1 h-11">
+                      {location || "Detecting..."}
+                    </div>
+                    <div className="-mt-1 min-h-6"></div>
+                    <FormLabel className="font-bold text-lg">
+                      Timezone
+                    </FormLabel>
+                    <div className="flex items-center justify-between gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1 h-11">
+                      {timezone || "Detecting..."}
+                    </div>
+                    <div className="-mt-1 min-h-6"></div>
                   </div>
                 </form>
               </Form>

@@ -48,13 +48,13 @@ export const profileSchema = z.object({
   technicalLabels: technicalLabelsSchema,
   domainLabels: domainLabelsSchema,
   website: websiteSchema,
+  location: locationSchema,
+  timezone: timezoneSchema,
 });
 
 export const userInfoSchema = z.object({
   username: usernameSchema,
   email: emailSchema,
-  location: locationSchema,
-  timezone: timezoneSchema,
 });
 
 export const emailInfoSchema = z.object({
