@@ -15,10 +15,11 @@ export async function fetcher<T>(
   options: FetchOptions = {}
 ): Promise<T> {
   const { method = "GET", body, headers = {}, signal } = options;
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
 
   const apiUrl = url.startsWith("http")
     ? url
-    : `/api${url.startsWith("/") ? "" : "/"}${url}`;
+    : `${baseUrl}${url}`;
 
   const response = await fetch(apiUrl, {
     method,

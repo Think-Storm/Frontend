@@ -28,6 +28,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { emailInfoSchema, passwordInfoSchema } from "@/schemas/userSchema";
 import useUpdateSettings from "../hooks/useUpdateSettings";
+import { Spinner } from "@/components/ui/spinner";
 
 type SettingsFormFieldProps<T extends FieldValues> = {
   control: Control<T>;
@@ -618,13 +619,22 @@ export function SettingsEmailModalField<T extends FieldValues>({
           <div className="flex flex-wrap justify-start items-center gap-2 rounded-md bg-background px-2 w-[95%]"></div>
           <div className="flex gap-3">
             <Button
+              type="button"
               variant="gradient"
               size="gradient"
               textClassName="text-sm sm:text-base"
+              aria-busy={isPending}
+              disabled={isPending}
               onClick={saveChanges}
-              type="button"
             >
-              Save Changes
+              {isPending ? (
+                <>
+                  <Spinner size="small" />
+                  <span aria-hidden="true">Saving Changes...</span>
+                </>
+              ) : (
+                "Save Changes"
+              )}
             </Button>
             <Button
               variant="gradient"
@@ -778,13 +788,22 @@ export function SettingsPasswordModalField({
           <div className="flex flex-wrap justify-start items-center gap-2 rounded-md bg-background px-2 w-[95%]"></div>
           <div className="flex gap-3">
             <Button
+              type="button"
               variant="gradient"
               size="gradient"
               textClassName="text-sm sm:text-base"
+              aria-busy={isPending}
+              disabled={isPending}
               onClick={saveChanges}
-              type="button"
             >
-              Save Changes
+              {isPending ? (
+                <>
+                  <Spinner size="small" />
+                  <span aria-hidden="true">Saving Changes...</span>
+                </>
+              ) : (
+                "Save Changes"
+              )}
             </Button>
             <Button
               variant="gradient"
@@ -815,13 +834,22 @@ export function SettingsPasswordModalField({
           <div className="flex flex-wrap justify-start items-center gap-2 rounded-md bg-background px-2 w-[95%]"></div>
           <div className="flex gap-3">
             <Button
+              type="button"
               variant="gradient"
               size="gradient"
               textClassName="text-sm sm:text-base"
+              aria-busy={isPending}
+              disabled={isPending}
               onClick={checkPassword}
-              type="button"
             >
-              Send Password Reset
+              {isPending ? (
+                <>
+                  <Spinner size="small" />
+                  <span aria-hidden="true">Sending Password Reset...</span>
+                </>
+              ) : (
+                "Send Password Reset"
+              )}
             </Button>
             <Button
               variant="gradient"
