@@ -43,4 +43,8 @@ export interface UpdateUserPasswordData {
   confirmPassword: string;
 }
 
+export interface ForgotPasswordData {
+  email: string;
+}
+
 export interface SubscriptionData extends UserSubscription {}

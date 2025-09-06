@@ -20,7 +20,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Modal, { ModalHandle } from "@/components/ui/Modal";
-import { UpdateUserEmailData, UpdateUserPasswordData } from "@/types/user";
+import {
+  ForgotPasswordData,
+  UpdateUserEmailData,
+  UpdateUserPasswordData,
+} from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { emailInfoSchema, passwordInfoSchema } from "@/schemas/userSchema";
 import useUpdateSettings from "../hooks/useUpdateSettings";
@@ -670,10 +674,15 @@ export function SettingsPasswordModalField({
   originalValue: string;
 }) {
   const modalRef = useRef<ModalHandle>(null);
+  const passwordModalRef = useRef<ModalHandle>(null);
   const { updateSettings, isPending } = useUpdateSettings();
 
   function onSubmitUpdatePassword(PasswordFormValues: UpdateUserPasswordData) {
     updateSettings({ kind: "password", data: PasswordFormValues });
+  }
+
+  function onSubmitForgotPassword(PasswordResetFormValues: ForgotPasswordData) {
+    updateSettings({ kind: "password-reset", data: PasswordResetFormValues });
   }
 
   const userPasswordForm = useForm<UpdateUserPasswordData>({
@@ -685,9 +694,18 @@ export function SettingsPasswordModalField({
     resolver: zodResolver(passwordInfoSchema),
   });
 
+  const forgotPasswordForm = useForm<ForgotPasswordData>({
+    defaultValues: {
+      email: "",
+    },
+    resolver: zodResolver(emailInfoSchema),
+  });
+
   const saveChanges = async () => {
     const isValid = await userPasswordForm.trigger();
     if (!isValid) return;
+    const values = userPasswordForm.getValues();
+    onSubmitUpdatePassword(values);
     modalRef.current?.close();
   };
 
@@ -697,6 +715,23 @@ export function SettingsPasswordModalField({
 
   const closeModal = () => {
     modalRef.current?.close();
+  };
+
+  const checkPassword = async () => {
+    const isValid = await forgotPasswordForm.trigger();
+    if (!isValid) return;
+    const values = forgotPasswordForm.getValues();
+    onSubmitForgotPassword(values);
+    // modalRef.current?.close();
+  };
+
+  const openForgotPasswordModal = () => {
+    closeModal();
+    passwordModalRef.current?.open();
+  };
+
+  const closeForgotPasswordModal = () => {
+    passwordModalRef.current?.close();
   };
 
   return (
@@ -734,6 +769,7 @@ export function SettingsPasswordModalField({
                 variant="transparent"
                 type="button"
                 className="mt-[-20px] text-xl text-blue-700 font-bold text-left p-0"
+                onClick={openForgotPasswordModal}
               >
                 Forgot Password?
               </Button>
@@ -756,6 +792,43 @@ export function SettingsPasswordModalField({
               textBgWhite
               textClassName="!text-black !bg-white"
               onClick={closeModal}
+              type="button"
+            >
+              Cancel
+            </Button>
+          </div>
+        </>
+      </Modal>
+      <Modal ref={passwordModalRef}>
+        <>
+          <div className="font-bold text-2xl my-3">Forgot Password?</div>
+          <>
+            <SettingsFormField
+              control={forgotPasswordForm.control}
+              name="email"
+              label="Email"
+              type="email"
+              aria-required="true"
+              autoComplete="off"
+            />
+          </>
+          <div className="flex flex-wrap justify-start items-center gap-2 rounded-md bg-background px-2 w-[95%]"></div>
+          <div className="flex gap-3">
+            <Button
+              variant="gradient"
+              size="gradient"
+              textClassName="text-sm sm:text-base"
+              onClick={checkPassword}
+              type="button"
+            >
+              Send Password Reset
+            </Button>
+            <Button
+              variant="gradient"
+              size="gradient"
+              textBgWhite
+              textClassName="!text-black !bg-white"
+              onClick={closeForgotPasswordModal}
               type="button"
             >
               Cancel

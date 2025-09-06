@@ -9,6 +9,7 @@ export const apiRoutes = {
   updateUser: "/users",
   updateProfile: (profileId: string) => `/profiles/${profileId}`,
   updatePassword: "/passwords/",
+  forgotPassword: "/forgot-password"
 };
 
 export const pageRoutes = {

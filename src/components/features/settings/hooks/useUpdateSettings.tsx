@@ -11,12 +11,14 @@ import type {
   UpdateUserData,
   UpdateUserPasswordData,
   UpdateUserEmailData,
+  ForgotPasswordData,
 } from "@/types/user";
 
 type UpdateSettingsPayload =
   | { kind: "user"; data: UpdateUserData }
   | { kind: "profile"; data: UpdateUserProfileData; id: string }
   | { kind: "email"; data: UpdateUserEmailData }
+  | { kind: "password-reset"; data: ForgotPasswordData }
   | { kind: "password"; data: UpdateUserPasswordData };
 
 export default function useUpdateSettings() {
@@ -30,6 +32,8 @@ export default function useUpdateSettings() {
         return api.put(apiRoutes.updateProfile(payload.id), payload.data);
       } else if (payload.kind === "email") {
         return api.put(apiRoutes.updateUser, payload.data);
+      } else if (payload.kind === "password-reset") {
+        return api.post(apiRoutes.forgotPassword, payload.data);
       } else {
         return api.put(apiRoutes.updatePassword, payload.data);
       }
