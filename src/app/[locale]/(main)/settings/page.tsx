@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { profileSchema, userInfoSchema } from "@/schemas/userSchema";
-import { UpdateUserProfileData, UpdateUserData } from "@/types/user";
+import { UserProfileData, UpdateUserData } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SettingsForm from "@/components/features/settings/components/SettingsForm";
 import SettingsTagInputFormField, {
@@ -23,20 +23,21 @@ import { DomainLabel, TechnicalLabel } from "@think-storm/contracts";
 export default function Settings() {
   const [menu, setMenu] = useState("personal");
   const [preview, setPreview] = useState<string | null>(null);
-  const { updateSettings, isPending } = useUpdateSettings();
+  const { updateSettings, isPending, useProfileSettings, useUserSettings } =
+    useUpdateSettings();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const userprofileForm = useForm<UpdateUserProfileData>({
+  const userprofileForm = useForm<UserProfileData>({
     defaultValues: {
       avatar: "",
       bio: "",
       fullName: "",
       birthdate: "",
-      preferred_role: [],
+      preferredRole: [],
       location: "",
       languages: [],
-      technical_labels: [],
-      domain_labels: [],
+      technicalLabels: [],
+      domainLabels: [],
       website: [],
       timezone: "",
     },
@@ -57,20 +58,49 @@ export default function Settings() {
     setMenu(menu);
   }
 
-  function onSubmitUserProfile(ProfileFormValues: UpdateUserProfileData) {
-    updateSettings({ kind: "profile", data: ProfileFormValues, id: "id" });
+  function onSubmitUserProfile(ProfileFormValues: UserProfileData) {
+    updateSettings({ kind: "profile", data: ProfileFormValues, id: 1 });
   }
 
   function onSubmitUserSetting(UsersettingFormValues: UpdateUserData) {
-    updateSettings({ kind: "user", data: UsersettingFormValues });
+    updateSettings({ kind: "user", data: UsersettingFormValues, id: 1 });
   }
 
+  const { data: profileData } = useProfileSettings(1) as {
+    data: UserProfileData;
+  };
+  const { data: userData } = useUserSettings(1) as { data: UpdateUserData };
+
   useEffect(() => {
+    if (!profileData || !userData) return;
+
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    let updatedValues = {
+    const updatedProfileValues: UserProfileData = {
       ...userprofileForm.getValues(),
+      fullName: profileData.fullName,
+      birthdate: profileData.birthdate,
+      avatar: profileData.avatar,
+      bio: profileData.bio,
+      preferredRole: profileData.preferredRole || [],
+      languages: profileData.languages || [],
+      technicalLabels: profileData.technicalLabels || [],
+      domainLabels: profileData.domainLabels || [],
+      website: profileData.website || [],
       timezone: tz,
+    };
+
+    const updatedUserValues: UpdateUserData = {
+      username: userData.username,
+      email: userData.email,
+    };
+
+    const setFormValues = (extraLocation?: string) => {
+      userprofileForm.reset({
+        ...updatedProfileValues,
+        location: extraLocation || profileData.location || "",
+      });
+      usersettingForm.reset(updatedUserValues);
     };
 
     if (navigator.geolocation) {
@@ -93,24 +123,21 @@ export default function Settings() {
               .filter(Boolean)
               .join(", ");
 
-            userprofileForm.reset({
-              ...updatedValues,
-              location,
-            });
+            setFormValues(location);
           } catch (err) {
             console.error(err);
-            userprofileForm.reset(updatedValues);
+            setFormValues();
           }
         },
         (error) => {
           console.error("Geolocation error:", error);
-          userprofileForm.reset(updatedValues);
+          setFormValues();
         }
       );
     } else {
-      userprofileForm.reset(updatedValues);
+      setFormValues();
     }
-  }, []);
+  }, [profileData, userData]);
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8 mt-12">
@@ -222,10 +249,10 @@ export default function Settings() {
                       aria-required="true"
                     />
                     <SettingsTagInputFormField
-                      initialTags={["great", "abc"]}
+                      initialTags={profileData?.technicalLabels || []}
                       suggestions={Object.values(TechnicalLabel)}
                       control={userprofileForm.control}
-                      name="technical_labels"
+                      name="technicalLabels"
                       label="Skills"
                       title="Skills"
                       type="text"
@@ -233,10 +260,10 @@ export default function Settings() {
                       setValue={userprofileForm.setValue}
                     />
                     <SettingsTagInputFormField
-                      initialTags={["great", "abc"]}
+                      initialTags={profileData?.domainLabels || []}
                       suggestions={Object.values(DomainLabel)}
                       control={userprofileForm.control}
-                      name="domain_labels"
+                      name="domainLabels"
                       label="Interests"
                       title="Interests"
                       type="text"
@@ -244,10 +271,10 @@ export default function Settings() {
                       setValue={userprofileForm.setValue}
                     />
                     <SettingsLinkInputFormField
-                      initialLinks={[
-                        { type: "linkedin", url: "http://www.google.com" },
-                        { type: "website", url: "http://fullname.com" },
-                      ]}
+                      initialLinks={(profileData?.websiteType || []).map((type, index) => ({
+      type,
+      url: profileData?.website?.[index] ?? "",
+    })) || []}
                       control={userprofileForm.control}
                       name="website"
                       label="External Links"

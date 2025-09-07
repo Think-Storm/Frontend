@@ -17,14 +17,15 @@ export async function fetcher<T>(
   const { method = "GET", body, headers = {}, signal } = options;
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
 
-  const apiUrl = url.startsWith("http")
-    ? url
-    : `${baseUrl}${url}`;
+  const apiUrl = url.startsWith("http") ? url : `${baseUrl}${url}`;
 
   const response = await fetch(apiUrl, {
     method,
     headers: {
       "Content-Type": "application/json",
+      Authorization:
+        "Bearer " +
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzU3MjQyNzYyLCJleHAiOjE3NjUwMTg3NjJ9.F-eprZIp-YnyKQX-E53Nyix_Z-LsM21tbeCnPP5tHws",
       ...headers,
     },
     body: body ? JSON.stringify(body) : undefined,

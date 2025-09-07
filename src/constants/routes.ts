@@ -6,8 +6,9 @@ export const apiRoutes = {
   signup: "/register",
   signin: "/login",
   subscribe: "/newsletter",
+  getUser: (userId: number) => `/users/${userId}`,
   updateUser: "/users",
-  updateProfile: (profileId: string) => `/profiles/${profileId}`,
+  profile: (profileId: number) => `/profiles/${profileId}`,
   updatePassword: "/passwords/",
   forgotPassword: "/forgot-password",
 };

@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   showErrorToast,
   showSuccessToast,
@@ -7,16 +7,16 @@ import {
 import { api } from "@/lib/api/fetcher";
 import { apiRoutes, pageRoutes } from "@/constants/routes";
 import type {
-  UpdateUserProfileData,
   UpdateUserData,
   UpdateUserPasswordData,
   UpdateUserEmailData,
   ForgotPasswordData,
+  UserProfileData,
 } from "@/types/user";
 
 type UpdateSettingsPayload =
-  | { kind: "user"; data: UpdateUserData }
-  | { kind: "profile"; data: UpdateUserProfileData; id: string }
+  | { kind: "user"; data: UpdateUserData; id: number }
+  | { kind: "profile"; data: UserProfileData; id: number }
   | { kind: "email"; data: UpdateUserEmailData }
   | { kind: "password-reset"; data: ForgotPasswordData }
   | { kind: "password"; data: UpdateUserPasswordData };
@@ -24,12 +24,26 @@ type UpdateSettingsPayload =
 export default function useUpdateSettings() {
   const router = useRouter();
 
+  const useProfileSettings = (id: number) => {
+    return useQuery({
+      queryKey: ["profiles", id],
+      queryFn: () => api.get(apiRoutes.profile(id)),
+    });
+  };
+
+  const useUserSettings = (id: number) => {
+    return useQuery({
+      queryKey: ["users", id],
+      queryFn: () => api.get(apiRoutes.getUser(id)),
+    });
+  };
+
   const mutation = useMutation({
     mutationFn: (payload: UpdateSettingsPayload) => {
       if (payload.kind === "user") {
         return api.put(apiRoutes.updateUser, payload.data);
       } else if (payload.kind === "profile") {
-        return api.put(apiRoutes.updateProfile(payload.id), payload.data);
+        return api.put(apiRoutes.profile(payload.id), payload.data);
       } else if (payload.kind === "email") {
         return api.put(apiRoutes.updateUser, payload.data);
       } else if (payload.kind === "password-reset") {
@@ -56,6 +70,8 @@ export default function useUpdateSettings() {
   });
 
   return {
+    useProfileSettings,
+    useUserSettings,
     updateSettings: mutation.mutate,
     isPending: mutation.isPending,
     error: mutation.error,

@@ -14,17 +14,18 @@ export interface SignUpData extends UserCredentials {
   username: string;
 }
 
-export interface UpdateUserProfileData {
+export interface UserProfileData {
   avatar?: string;
   bio?: string;
   fullName?: string;
   birthdate?: string;
-  preferred_role?: string[];
+  preferredRole?: string[];
   location?: string;
   languages?: string[];
-  technical_labels?: string[];
-  domain_labels?: string[];
+  technicalLabels?: string[];
+  domainLabels?: string[];
   website?: string[];
+  websiteType?: string[];
   timezone?: string;
 }
 
