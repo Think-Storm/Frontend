@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  useMemo,
+} from "react";
 import Image from "next/image";
 import {
   Control,
@@ -107,6 +114,7 @@ export const SettingsImgFormField = <T extends FieldValues>({
 
     const handler = () => {
       if (fileInput.files && fileInput.files[0]) {
+        console.log(URL.createObjectURL(fileInput.files[0]));
         props.setPreview?.(URL.createObjectURL(fileInput.files[0]));
       }
     };
@@ -122,7 +130,7 @@ export const SettingsImgFormField = <T extends FieldValues>({
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field: { value, ...field } }) => (
         <FormItem>
           <FormControl>
             <div className="relative w-24 h-24 cursor-pointer">
@@ -142,7 +150,6 @@ export const SettingsImgFormField = <T extends FieldValues>({
 
 type TagInputProps<T extends FieldValues> = SettingsFormFieldProps<T> & {
   label: string;
-  initialTags?: string[];
   suggestions?: string[];
   setValue: (name: Path<T>, value: any) => void;
 };
@@ -153,12 +160,12 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   type,
   label,
   title,
-  initialTags = [],
   suggestions = [],
   setValue,
 }: TagInputProps<T>) {
-  const [tags, setTags] = useState(initialTags);
-  const [temporaryTags, setTemporaryTags] = useState(initialTags);
+  const watchedTags = control._formValues[name] || [];
+  const [tags, setTags] = useState(watchedTags);
+  const [temporaryTags, setTemporaryTags] = useState(watchedTags);
   const [input, setInput] = useState("");
   const modalRef = useRef<ModalHandle>(null);
 
@@ -185,12 +192,12 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   };
 
   const removeTag = (tag: string) => {
-    setTags(tags.filter((t) => t !== tag));
-    setTemporaryTags(temporaryTags.filter((t) => t !== tag));
+    setTags(tags.filter((t: string) => t !== tag));
+    setTemporaryTags(temporaryTags.filter((t: string) => t !== tag));
   };
 
   const removeTemporaryTag = (tag: string) => {
-    setTemporaryTags(temporaryTags.filter((t) => t !== tag));
+    setTemporaryTags(temporaryTags.filter((t: string) => t !== tag));
   };
 
   const filteredSuggestions = suggestions?.filter(
@@ -230,6 +237,11 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
       </div>
     ));
   };
+
+  useEffect(() => {
+    setTags(watchedTags || []);
+    setTemporaryTags(watchedTags || []);
+  }, [watchedTags]);
 
   return (
     <FormField
@@ -346,12 +358,19 @@ export function SettingsLinkInputFormField<T extends FieldValues>({
   name,
   label,
   title,
-  initialLinks = [],
   linkTypes = ["LinkedIn", "GitHub", "Website"],
   setValue,
 }: LinkInputProps<T>) {
-  const [links, setLinks] = useState(initialLinks);
-  const [temporaryLinks, setTemporaryLinks] = useState(initialLinks);
+  const watchedWebsiteLinks = control._formValues[name] || [];
+  const watchedWebsiteTypes = control._formValues["websiteType"] || [];
+  const normalizedLinks = useMemo(() => {
+    return (watchedWebsiteLinks || []).map((link: string, index: number) => ({
+      type: watchedWebsiteTypes?.[index] || "Website",
+      url: link,
+    }));
+  }, [watchedWebsiteLinks.join(","), watchedWebsiteTypes.join(",")]);
+  const [links, setLinks] = useState(watchedWebsiteLinks);
+  const [temporaryLinks, setTemporaryLinks] = useState(watchedWebsiteLinks);
   const [type, setType] = useState(linkTypes[0]);
   const [url, setUrl] = useState("");
   const modalRef = useRef<ModalHandle>(null);
@@ -370,18 +389,25 @@ export function SettingsLinkInputFormField<T extends FieldValues>({
   };
 
   const removeLink = (linkToRemove: { type: string; url: string }) => {
-    setLinks(links.filter((l) => l.url !== linkToRemove.url));
-    setTemporaryLinks(temporaryLinks.filter((l) => l.url !== linkToRemove.url));
+    setLinks(links.filter((l: { url: string }) => l.url !== linkToRemove.url));
+    setTemporaryLinks(
+      temporaryLinks.filter((l: { url: string }) => l.url !== linkToRemove.url)
+    );
   };
 
   const removeTemporaryLink = (linkToRemoveUrl: string) => {
-    console.log(linkToRemoveUrl);
-    setTemporaryLinks(temporaryLinks.filter((l) => l.url !== linkToRemoveUrl));
+    setTemporaryLinks(
+      temporaryLinks.filter((l: { url: string }) => l.url !== linkToRemoveUrl)
+    );
   };
 
   const saveChanges = () => {
     setLinks(temporaryLinks);
-    setValue(name, temporaryLinks);
+    const types = temporaryLinks.map((link: { type: string }) => link.type);
+    const urls = temporaryLinks.map((link: { url: string }) => link.url);
+
+    setValue("websiteType", types);
+    setValue(name, urls);
     modalRef.current?.close();
   };
 
@@ -417,6 +443,11 @@ export function SettingsLinkInputFormField<T extends FieldValues>({
     ));
   };
 
+  useEffect(() => {
+    setLinks(normalizedLinks);
+    setTemporaryLinks(normalizedLinks);
+  }, [normalizedLinks]);
+
   return (
     <FormField
       control={control}
@@ -427,7 +458,7 @@ export function SettingsLinkInputFormField<T extends FieldValues>({
             <div className="mb-4">
               <FormLabel className="font-bold text-lg mb-2">{label}</FormLabel>
               <div className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1">
-                {links.map((link, idx) => (
+                {links.map((link: { url: any; type: string }, idx: any) => (
                   <div
                     key={`link-${idx}`}
                     className="flex justify-center items-center bg-[#eeeeee] pl-3 rounded-sm mb-1 text-lg font-medium leading-tight space-x-2"
@@ -436,7 +467,7 @@ export function SettingsLinkInputFormField<T extends FieldValues>({
                     <Button
                       variant="transparent"
                       size="sm"
-                      onClick={() => removeLink(link)}
+                      onClick={() => removeLink(link.url)}
                       type="button"
                     >
                       <Image

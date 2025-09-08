@@ -9,6 +9,9 @@ const nextConfig = {
       destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/:path*`,
     },
   ],
+  images: {
+    domains: ["dahee-natours-project.s3.us-east-1.amazonaws.com"],
+  },
 };
 
 export default withNextIntl(nextConfig);

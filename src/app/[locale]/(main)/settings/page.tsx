@@ -66,15 +66,17 @@ export default function Settings() {
     updateSettings({ kind: "user", data: UsersettingFormValues, id: 1 });
   }
 
-  const { data: profileData } = useProfileSettings(1) as {
-    data: UserProfileData;
-  };
+  const profileData = (
+    useProfileSettings(1) as { data?: { data: UserProfileData } }
+  )?.data?.data;
   const { data: userData } = useUserSettings(1) as { data: UpdateUserData };
 
   useEffect(() => {
     if (!profileData || !userData) return;
 
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    if (profileData.avatar) setPreview(profileData.avatar);
 
     const updatedProfileValues: UserProfileData = {
       ...userprofileForm.getValues(),
@@ -211,7 +213,7 @@ export default function Settings() {
                 >
                   <div>
                     {preview ? (
-                      <Image
+                      <img
                         src={preview}
                         alt="preview"
                         width={150}
@@ -249,7 +251,6 @@ export default function Settings() {
                       aria-required="true"
                     />
                     <SettingsTagInputFormField
-                      initialTags={profileData?.technicalLabels || []}
                       suggestions={Object.values(TechnicalLabel)}
                       control={userprofileForm.control}
                       name="technicalLabels"
@@ -260,7 +261,6 @@ export default function Settings() {
                       setValue={userprofileForm.setValue}
                     />
                     <SettingsTagInputFormField
-                      initialTags={profileData?.domainLabels || []}
                       suggestions={Object.values(DomainLabel)}
                       control={userprofileForm.control}
                       name="domainLabels"
@@ -271,10 +271,6 @@ export default function Settings() {
                       setValue={userprofileForm.setValue}
                     />
                     <SettingsLinkInputFormField
-                      initialLinks={(profileData?.websiteType || []).map((type, index) => ({
-      type,
-      url: profileData?.website?.[index] ?? "",
-    })) || []}
                       control={userprofileForm.control}
                       name="website"
                       label="External Links"
