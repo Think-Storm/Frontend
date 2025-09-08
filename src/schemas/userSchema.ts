@@ -42,6 +42,8 @@ export const timezoneSchema = z
   })
   .optional();
 
+const idSchema = z.number();
+
 export const profileSchema = z.object({
   avatar: avatarSchema,
   fullname: fullnameSchema,
@@ -53,6 +55,7 @@ export const profileSchema = z.object({
 });
 
 export const userInfoSchema = z.object({
+  id: idSchema,
   username: usernameSchema,
   email: emailSchema,
 });

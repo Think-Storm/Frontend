@@ -9,7 +9,6 @@ import { apiRoutes, pageRoutes } from "@/constants/routes";
 import type {
   UpdateUserData,
   UpdateUserPasswordData,
-  UpdateUserEmailData,
   ForgotPasswordData,
   UserProfileData,
 } from "@/types/user";
@@ -17,7 +16,6 @@ import type {
 type UpdateSettingsPayload =
   | { kind: "user"; data: UpdateUserData; id: number }
   | { kind: "profile"; data: UserProfileData; id: number }
-  | { kind: "email"; data: UpdateUserEmailData }
   | { kind: "password-reset"; data: ForgotPasswordData }
   | { kind: "password"; data: UpdateUserPasswordData };
 
@@ -43,9 +41,7 @@ export default function useUpdateSettings() {
       if (payload.kind === "user") {
         return api.put(apiRoutes.updateUser, payload.data);
       } else if (payload.kind === "profile") {
-        return api.put(apiRoutes.profile(payload.id), payload.data);
-      } else if (payload.kind === "email") {
-        return api.put(apiRoutes.updateUser, payload.data);
+        return api.patch(apiRoutes.profile(payload.id), payload.data);
       } else if (payload.kind === "password-reset") {
         return api.post(apiRoutes.forgotPassword, payload.data);
       } else {

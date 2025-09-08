@@ -30,14 +30,10 @@ export interface UserProfileData {
 }
 
 export interface UpdateUserData {
+  id: number;
   username: string;
   email: string;
 }
-
-export interface UpdateUserEmailData {
-  email: string;
-}
-
 export interface UpdateUserPasswordData {
   currentPassword: string;
   newPassword: string;

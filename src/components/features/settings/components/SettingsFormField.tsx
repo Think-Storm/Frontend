@@ -27,11 +27,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Modal, { ModalHandle } from "@/components/ui/Modal";
-import {
-  ForgotPasswordData,
-  UpdateUserEmailData,
-  UpdateUserPasswordData,
-} from "@/types/user";
+import { ForgotPasswordData, UpdateUserPasswordData } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { emailInfoSchema, passwordInfoSchema } from "@/schemas/userSchema";
 import useUpdateSettings from "../hooks/useUpdateSettings";
@@ -467,7 +463,7 @@ export function SettingsLinkInputFormField<T extends FieldValues>({
                     <Button
                       variant="transparent"
                       size="sm"
-                      onClick={() => removeLink(link.url)}
+                      onClick={() => removeLink(link)}
                       type="button"
                     >
                       <Image
@@ -593,18 +589,6 @@ export function SettingsEmailModalField<T extends FieldValues>({
   const { getValues, trigger } = useFormContext<T>();
   const [originalValue, setOriginalValue] = useState(getValues(name) ?? "");
   const [input, setInput] = useState(originalValue);
-  const { updateSettings, isPending } = useUpdateSettings();
-
-  function onSubmitCheckEmail(EmailFormValues: UpdateUserEmailData) {
-    updateSettings({ kind: "email", data: EmailFormValues });
-  }
-
-  const useEmailForm = useForm<UpdateUserEmailData>({
-    defaultValues: {
-      email: "",
-    },
-    resolver: zodResolver(emailInfoSchema),
-  });
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -638,8 +622,8 @@ export function SettingsEmailModalField<T extends FieldValues>({
         <>
           <div className="font-bold text-2xl my-3">{title}</div>
           <SettingsFormField
-            control={useEmailForm.control}
-            name="email"
+            control={control}
+            name={name}
             label={label}
             type={type}
             aria-required="true"
@@ -650,22 +634,13 @@ export function SettingsEmailModalField<T extends FieldValues>({
           <div className="flex flex-wrap justify-start items-center gap-2 rounded-md bg-background px-2 w-[95%]"></div>
           <div className="flex gap-3">
             <Button
-              type="button"
               variant="gradient"
               size="gradient"
               textClassName="text-sm sm:text-base"
-              aria-busy={isPending}
-              disabled={isPending}
               onClick={saveChanges}
+              type="button"
             >
-              {isPending ? (
-                <>
-                  <Spinner size="small" />
-                  <span aria-hidden="true">Saving Changes...</span>
-                </>
-              ) : (
-                "Save Changes"
-              )}
+              Save Changes
             </Button>
             <Button
               variant="gradient"

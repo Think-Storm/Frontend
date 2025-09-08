@@ -48,6 +48,7 @@ export default function Settings() {
 
   const usersettingForm = useForm<UpdateUserData>({
     defaultValues: {
+      id: 1,
       username: "",
       email: "",
     },
@@ -71,6 +72,18 @@ export default function Settings() {
   )?.data?.data;
   const { data: userData } = useUserSettings(1) as { data: UpdateUserData };
 
+  const handleSaveAll = async () => {
+    const profileValues = userprofileForm.getValues();
+    const userValues = usersettingForm.getValues();
+
+    const result = await Promise.all([
+      updateSettings({ kind: "profile", data: profileValues, id: 1 }),
+      updateSettings({ kind: "user", data: userValues, id: 1 }),
+    ]);
+
+    console.log(result);
+  };
+
   useEffect(() => {
     if (!profileData || !userData) return;
 
@@ -93,6 +106,7 @@ export default function Settings() {
     };
 
     const updatedUserValues: UpdateUserData = {
+      id: 1,
       username: userData.username,
       email: userData.email,
     };
@@ -154,6 +168,7 @@ export default function Settings() {
             type="submit"
             aria-busy={isPending}
             disabled={isPending}
+            onClick={handleSaveAll}
           >
             {isPending ? (
               <>
@@ -161,7 +176,7 @@ export default function Settings() {
                 <span aria-hidden="true">Saving Changes...</span>
               </>
             ) : (
-              " Save Changes"
+              "Save Changes"
             )}
           </Button>
           <Button
