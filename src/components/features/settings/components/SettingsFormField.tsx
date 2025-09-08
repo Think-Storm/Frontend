@@ -170,8 +170,8 @@ export default function SettingsTagInputFormField<T extends FieldValues>({
   const modalRef = useRef<ModalHandle>(null);
 
   const saveChanges = () => {
-    setValue(name, tags);
     setTags(temporaryTags);
+    setValue(name, temporaryTags);
     modalRef.current?.close();
   };
 
