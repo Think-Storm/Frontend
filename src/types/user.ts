@@ -36,7 +36,7 @@ export interface UpdateUserData {
 }
 export interface UpdateUserPasswordData {
   currentPassword: string;
-  newPassword: string;
+  password: string;
   confirmPassword: string;
 }
 
