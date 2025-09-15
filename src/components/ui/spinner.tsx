@@ -15,12 +15,19 @@ const spinnerVariants = cva("flex-col items-center justify-center", {
   },
 });
 
-const loaderVariants = cva("animate-spin text-primary", {
+const loaderVariants = cva("animate-spin", {
   variants: {
     size: {
       small: "size-6",
       medium: "size-8",
       large: "size-12",
+    },
+    color: {
+      primary: "text-primary",
+      secondary: "text-secondary",
+      danger: "text-red-500",
+      success: "text-green-500",
+      white: "text-white",
     },
   },
   defaultVariants: {

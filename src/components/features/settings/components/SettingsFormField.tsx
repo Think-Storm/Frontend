@@ -736,7 +736,7 @@ export function SettingsPasswordModalField({
                             <Button
                                 variant="transparent"
                                 type="button"
-                                className="mt-[-20px] text-xl text-blue-700 font-bold text-left p-0"
+                                className="mt-[-20px] text-xl text-blue-700 font-bold text-left p-0 hover:bg-gray-200 transition-all duration-150 ease-in-out rounded-sm px-2 py-4"
                                 onClick={openForgotPasswordModal}
                             >
                                 Forgot Password?
@@ -756,7 +756,7 @@ export function SettingsPasswordModalField({
                         >
                             {isPending ? (
                                 <>
-                                    <Spinner size="small" />
+                                    <Spinner size="small" color="white"/>
                                     <span aria-hidden="true">Saving Changes...</span>
                                 </>
                             ) : (
@@ -802,7 +802,7 @@ export function SettingsPasswordModalField({
                         >
                             {isPending ? (
                                 <>
-                                    <Spinner size="small" />
+                                    <Spinner size="small" color="white"/>
                                     <span aria-hidden="true">Sending Password Reset...</span>
                                 </>
                             ) : (

@@ -66,6 +66,10 @@ export default function Settings() {
         updateSettings({ kind: "user", data: UsersettingFormValues, id: 1 });
     }
 
+    function onSubmitDeleteAccount() {
+        updateSettings({ kind: "delete-profile", id: 1 });
+    }
+
     const profileData = (useProfileSettings(1) as { data?: { data: UserProfileData } })?.data?.data;
     const { data: userData } = useUserSettings(1) as { data: UpdateUserData };
 
@@ -155,7 +159,7 @@ export default function Settings() {
                         variant="gradient"
                         size="gradient"
                         textClassName="text-sm sm:text-base"
-                        className="hidden sm:block"
+                        className="hidden sm:block sm:flex"
                         type="submit"
                         aria-busy={isPending}
                         disabled={isPending}
@@ -163,15 +167,28 @@ export default function Settings() {
                     >
                         {isPending ? (
                             <>
-                                <Spinner size="small" />
+                                <Spinner size="small" color="white" />
                                 <span aria-hidden="true">Saving Changes...</span>
                             </>
                         ) : (
                             "Save Changes"
                         )}
                     </Button>
-                    <Button variant="gradient" size="gradient" textBgWhite textClassName="!text-black !bg-white">
-                        Delete Account
+                    <Button
+                        variant="gradient"
+                        size="gradient"
+                        textBgWhite
+                        textClassName="!text-black !bg-white"
+                        onClick={onSubmitDeleteAccount}
+                    >
+                        {isPending ? (
+                            <>
+                                <Spinner size="small" color="white" />
+                                <span aria-hidden="true">Deleting Account...</span>
+                            </>
+                        ) : (
+                            "Delete Account"
+                        )}
                     </Button>
                 </div>
             </div>
