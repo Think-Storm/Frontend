@@ -16,6 +16,7 @@ import type {
 type UpdateSettingsPayload =
   | { kind: "user"; data: UpdateUserData; id: number }
   | { kind: "profile"; data: UserProfileData; id: number }
+  | { kind: "delete-profile"; id: number }
   | { kind: "password-reset"; data: ForgotPasswordData }
   | { kind: "password"; data: UpdateUserPasswordData };
 
@@ -44,6 +45,8 @@ export default function useUpdateSettings() {
         return api.patch(apiRoutes.profile(payload.id), payload.data);
       } else if (payload.kind === "password-reset") {
         return api.post(apiRoutes.forgotPassword, payload.data);
+      } else if (payload.kind === "delete-profile") {
+        return api.delete(apiRoutes.profile(payload.id));
       } else {
         return api.put(apiRoutes.updatePassword, payload.data);
       }
