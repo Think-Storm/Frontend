@@ -18,7 +18,7 @@ import SettingsTagInputFormField, {
 import useUpdateSettings from "@/components/features/settings/hooks/useUpdateSettings";
 import { Spinner } from "@/components/ui/spinner";
 import { Form, FormLabel } from "@/components/ui/form";
-import { TechnicalLabel, DomainLabel } from "@think-storm/contracts/src/common/types/data.types";
+import { DomainLabel, TechnicalLabel } from "@think-storm/contracts/dist/types/common/types/data.types";
 
 export default function Settings() {
     const [menu, setMenu] = useState("personal");
