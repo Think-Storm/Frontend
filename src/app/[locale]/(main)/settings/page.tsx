@@ -19,9 +19,7 @@ import SettingsTagInputFormField, {
 import useUpdateSettings from "@/components/features/settings/hooks/useUpdateSettings";
 import { Spinner } from "@/components/ui/spinner";
 import { Form, FormLabel } from "@/components/ui/form";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { DomainLabel, TechnicalLabel } from "@think-storm/contracts";
+import { DomainLabel, TechnicalLabel, LanguageName } from "@think-storm/contracts";
 
 export default function Settings() {
     const [menu, setMenu] = useState("personal");
@@ -307,6 +305,16 @@ export default function Settings() {
                                             label="My Bio"
                                             aria-required="true"
                                             className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1"
+                                        />
+                                        <SettingsTagInputFormField
+                                            suggestions={Object.values(LanguageName)}
+                                            control={userprofileForm.control}
+                                            name="languages"
+                                            label="Languages"
+                                            title="Languages"
+                                            type="text"
+                                            aria-required="true"
+                                            setValue={userprofileForm.setValue}
                                         />
                                     </div>
                                 </form>
