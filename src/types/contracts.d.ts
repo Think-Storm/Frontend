@@ -3,4 +3,5 @@ declare module "@think-storm/contracts" {
     export const DomainLabel: any;
     export const TechnicalLabel: any;
     export const LanguageName: any;
+    export const UserRole: any;
 }

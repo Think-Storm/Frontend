@@ -19,7 +19,7 @@ import SettingsTagInputFormField, {
 import useUpdateSettings from "@/components/features/settings/hooks/useUpdateSettings";
 import { Spinner } from "@/components/ui/spinner";
 import { Form, FormLabel } from "@/components/ui/form";
-import { DomainLabel, TechnicalLabel, LanguageName } from "@think-storm/contracts";
+import { DomainLabel, TechnicalLabel, LanguageName, UserRole } from "@think-storm/contracts";
 
 export default function Settings() {
     const [menu, setMenu] = useState("personal");
@@ -312,6 +312,16 @@ export default function Settings() {
                                             name="languages"
                                             label="Languages"
                                             title="Languages"
+                                            type="text"
+                                            aria-required="true"
+                                            setValue={userprofileForm.setValue}
+                                        />
+                                        <SettingsTagInputFormField
+                                            suggestions={Object.values(UserRole)}
+                                            control={userprofileForm.control}
+                                            name="preferredRole"
+                                            label="Preferred Roles"
+                                            title="Preferred Roles"
                                             type="text"
                                             aria-required="true"
                                             setValue={userprofileForm.setValue}
