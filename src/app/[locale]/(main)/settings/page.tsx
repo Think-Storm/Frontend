@@ -14,6 +14,7 @@ import SettingsTagInputFormField, {
     SettingsImgFormField,
     SettingsLinkInputFormField,
     SettingsPasswordModalField,
+    SettingsTextareaField,
 } from "@/components/features/settings/components/SettingsFormField";
 import useUpdateSettings from "@/components/features/settings/hooks/useUpdateSettings";
 import { Spinner } from "@/components/ui/spinner";
@@ -61,7 +62,7 @@ export default function Settings() {
     }
 
     function onSubmitUserProfile(ProfileFormValues: UserProfileData) {
-        updateSettings({ kind: "profile", data: ProfileFormValues, id: 1 });
+        updateSettings({ kind: "profile", data: ProfileFormValues, id: 2 });
     }
 
     function onSubmitUserSetting(UsersettingFormValues: UpdateUserData) {
@@ -69,10 +70,10 @@ export default function Settings() {
     }
 
     function onSubmitDeleteAccount() {
-        updateSettings({ kind: "delete-profile", id: 1 });
+        updateSettings({ kind: "delete-profile", id: 2 });
     }
 
-    const profileData = (useProfileSettings(1) as { data?: { data: UserProfileData } })?.data?.data;
+    const profileData = (useProfileSettings(2) as { data?: { data: UserProfileData } })?.data?.data;
     const { data: userData } = useUserSettings(1) as { data: UpdateUserData };
 
     const handleSaveAll = async () => {
@@ -80,7 +81,7 @@ export default function Settings() {
         const userValues = usersettingForm.getValues();
 
         await Promise.all([
-            updateSettings({ kind: "profile", data: profileValues, id: 1 }),
+            updateSettings({ kind: "profile", data: profileValues, id: 2 }),
             updateSettings({ kind: "user", data: userValues, id: 1 }),
         ]);
     };
@@ -299,6 +300,13 @@ export default function Settings() {
                                             title="Add Link"
                                             aria-required="true"
                                             setValue={userprofileForm.setValue}
+                                        />
+                                        <SettingsTextareaField
+                                            control={userprofileForm.control}
+                                            name="bio"
+                                            label="My Bio"
+                                            aria-required="true"
+                                            className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background shadow-xs px-2 pt-2 pb-1"
                                         />
                                     </div>
                                 </form>

@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { emailInfoSchema, passwordInfoSchema } from "@/schemas/userSchema";
 import useUpdateSettings from "../hooks/useUpdateSettings";
 import { Spinner } from "@/components/ui/spinner";
+import { cn } from "@/utils/common";
 
 type SettingsFormFieldProps<T extends FieldValues> = {
     control: Control<T>;
@@ -26,6 +27,16 @@ type SettingsFormFieldProps<T extends FieldValues> = {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     setPreview?: Dispatch<SetStateAction<string | null>>;
     ref?: React.RefObject<HTMLInputElement>;
+};
+
+type SettingsTextareaFieldProps<T extends FieldValues> = {
+    control: Control<T>;
+    name: Path<T>;
+    label?: string;
+    description?: string;
+    placeholder?: string;
+    rows?: number;
+    className?: string;
 };
 
 export function SettingsFormField<T extends FieldValues>({
@@ -70,6 +81,42 @@ export function SettingsFormField<T extends FieldValues>({
                                 </FormDescription>
                             ))}
                         </div>
+                    )}
+                </FormItem>
+            )}
+        />
+    );
+}
+
+export function SettingsTextareaField<T extends FieldValues>({
+    control,
+    name,
+    label,
+    description,
+    placeholder,
+    rows = 4,
+    className,
+}: SettingsTextareaFieldProps<T>) {
+    return (
+        <FormField
+            control={control}
+            name={name}
+            render={({ field }) => (
+                <FormItem>
+                    {label && <FormLabel className="font-bold text-lg">{label}</FormLabel>}
+                    <FormControl>
+                        <textarea
+                            {...field}
+                            rows={rows}
+                            placeholder={placeholder}
+                            className={cn("h-auto resize-none", className)}
+                        />
+                    </FormControl>
+                    <div className="-mt-1 min-h-6">
+                        <FormMessage className="text-red-600 text-[12px]" />
+                    </div>
+                    {description && (
+                        <FormDescription className="ml-2 -mt-1 text-neutral-500">{description}</FormDescription>
                     )}
                 </FormItem>
             )}
@@ -756,7 +803,7 @@ export function SettingsPasswordModalField({
                         >
                             {isPending ? (
                                 <>
-                                    <Spinner size="small" color="white"/>
+                                    <Spinner size="small" color="white" />
                                     <span aria-hidden="true">Saving Changes...</span>
                                 </>
                             ) : (
@@ -802,7 +849,7 @@ export function SettingsPasswordModalField({
                         >
                             {isPending ? (
                                 <>
-                                    <Spinner size="small" color="white"/>
+                                    <Spinner size="small" color="white" />
                                     <span aria-hidden="true">Sending Password Reset...</span>
                                 </>
                             ) : (
