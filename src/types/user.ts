@@ -16,6 +16,7 @@ export interface SignUpData extends UserCredentials {
 
 export interface UserProfileData {
   avatar?: string;
+  avatarFile?: File;
   bio?: string;
   fullName?: string;
   birthdate?: string;

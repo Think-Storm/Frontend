@@ -37,11 +37,43 @@ export default function useUpdateSettings() {
     });
   };
 
+  interface PresignedUrlResult {
+    uploadUrl: string;
+    key: string;
+    fileUrl: string;
+  }
+
+  async function uploadToS3(file: File, folder: string) {
+    const newFileName = file.name.split(".")[0];
+    const { uploadUrl, fileUrl } = (await api.get(
+      apiRoutes.aws(folder, newFileName, file.type)
+    )) as PresignedUrlResult;
+
+    const uploadRes = await fetch(uploadUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": file.type,
+      },
+      body: file,
+    });
+
+    if (!uploadRes.ok) {
+      throw new Error("Failed to upload file to S3");
+    }
+
+    return fileUrl;
+  }
+
   const mutation = useMutation({
-    mutationFn: (payload: UpdateSettingsPayload) => {
+    mutationFn: async (payload: UpdateSettingsPayload) => {
       if (payload.kind === "user") {
         return api.put(apiRoutes.updateUser, payload.data);
       } else if (payload.kind === "profile") {
+        if (payload.data.avatarFile) {
+          const fileUrl = await uploadToS3(payload.data.avatarFile, "profile");
+          payload.data.avatar = fileUrl;
+        }
+        payload.data.avatarFile = undefined;
         return api.patch(apiRoutes.profile(payload.id), payload.data);
       } else if (payload.kind === "password-reset") {
         return api.post(apiRoutes.forgotPassword, payload.data);
