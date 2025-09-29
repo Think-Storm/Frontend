@@ -1,61 +1,69 @@
-type FetchOptions = {
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-  body?: unknown;
-  headers?: Record<string, string>;
-  signal?: AbortSignal;
-};
+export type FetchOptions = {
+  method?: 'GET' | 'POST' | 'PATCH' | 'DELETE'
+  body?: unknown
+  headers?: Record<string, string>
+}
 
-type FetchError = {
-  message: string;
-  status: number;
-};
+export type FetchError = {
+  status: number
+  message: string
+}
 
 export async function fetcher<T>(
   url: string,
-  options: FetchOptions = {}
+  options: FetchOptions = {},
+  signal?: AbortSignal,
 ): Promise<T> {
-  const { method = "GET", body, headers = {}, signal } = options;
+  const { method = 'GET', body, headers = {} } = options
 
-  const apiUrl = url.startsWith("http")
+  const apiUrl = url.startsWith('http')
     ? url
-    : `/api${url.startsWith("/") ? "" : "/"}${url}`;
+    : `/api${url.startsWith('/') ? '' : '/'}${url}`
 
   const response = await fetch(apiUrl, {
     method,
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+    headers: { 'Content-Type': 'application/json', ...headers },
     body: body ? JSON.stringify(body) : undefined,
     signal,
-  });
+  })
 
-  const data = await response.json();
+  const data = await response.json()
 
   if (!response.ok) {
     const error: FetchError = {
-      message: data.message || "Something went wrong",
       status: response.status,
-    };
-    throw error;
+      message: data.message || 'Something went wrong',
+    }
+    throw error
   }
 
-  return data;
+  return data
 }
 
 export const api = {
-  get: <T>(url: string, options?: Omit<FetchOptions, "method" | "body">) =>
-    fetcher<T>(url, { ...options, method: "GET" }),
+  get: <T>(
+    url: string,
+    options?: Omit<FetchOptions, 'method' | 'body'>,
+    signal?: AbortSignal,
+  ) => fetcher<T>(url, { ...options, method: 'GET' }, signal),
 
-  post: <T>(url: string, data: any, options?: Omit<FetchOptions, "method">) =>
-    fetcher<T>(url, { ...options, method: "POST", body: data }),
+  post: <T>(
+    url: string,
+    data: unknown,
+    options?: Omit<FetchOptions, 'method'>,
+    signal?: AbortSignal,
+  ) => fetcher<T>(url, { ...options, method: 'POST', body: data }, signal),
 
-  put: <T>(url: string, data: any, options?: Omit<FetchOptions, "method">) =>
-    fetcher<T>(url, { ...options, method: "PUT", body: data }),
+  patch: <T>(
+    url: string,
+    data: unknown,
+    options?: Omit<FetchOptions, 'method'>,
+    signal?: AbortSignal,
+  ) => fetcher<T>(url, { ...options, method: 'PATCH', body: data }, signal),
 
-  patch: <T>(url: string, data: any, options?: Omit<FetchOptions, "method">) =>
-    fetcher<T>(url, { ...options, method: "PATCH", body: data }),
-
-  delete: <T>(url: string, options?: Omit<FetchOptions, "method" | "body">) =>
-    fetcher<T>(url, { ...options, method: "DELETE" }),
-};
+  delete: <T>(
+    url: string,
+    options?: Omit<FetchOptions, 'method' | 'body'>,
+    signal?: AbortSignal,
+  ) => fetcher<T>(url, { ...options, method: 'DELETE' }, signal),
+}

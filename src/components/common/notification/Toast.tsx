@@ -33,19 +33,19 @@ export function showToast(
   > = {
     success: {
       message: 'Success',
-      description: 'Your request has been completed successfully.',
+      description: 'Your request has been completed successfully',
     },
     error: {
       message: 'Error',
-      description: 'Something went wrong. Please try again later.',
+      description: 'Something went wrong. Please try again later',
     },
     info: {
       message: 'Info',
-      description: 'Here is some information for you.',
+      description: 'Here is some information for you',
     },
     warning: {
       message: 'Warning',
-      description: 'Please check this before proceeding.',
+      description: 'Please check this before proceeding',
     },
   }
 

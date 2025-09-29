@@ -1,4 +1,4 @@
-import { Control, Path, FieldValues } from "react-hook-form";
+import { Control, Path, FieldValues } from 'react-hook-form'
 import {
   FormField,
   FormItem,
@@ -6,24 +6,24 @@ import {
   FormControl,
   FormMessage,
   FormDescription,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 
 type AuthFormFieldProps<T extends FieldValues> = {
-  control: Control<T>;
-  name: Path<T>;
-  label: string;
-  type?: "text" | "email" | "password";
-  description?: string[];
-  placeholder?: string;
-  autoComplete?: string;
-};
+  control: Control<T>
+  name: Path<T>
+  label: string
+  type?: 'text' | 'email' | 'password'
+  description?: string[]
+  placeholder?: string
+  autoComplete?: string
+}
 
 export default function AuthFormField<T extends FieldValues>({
   control,
   name,
   label,
-  type = "text",
+  type = 'text',
   description,
   placeholder,
   autoComplete,
@@ -60,5 +60,5 @@ export default function AuthFormField<T extends FieldValues>({
         </FormItem>
       )}
     />
-  );
+  )
 }
