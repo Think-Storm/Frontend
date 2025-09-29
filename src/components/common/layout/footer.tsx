@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { UserSubscription } from '@/types/user'
 import { subscriptionSchema } from '@/schemas/userSchema'
 import useSubscribe from '@/features/footer/hooks/useSubscribe'
+import { ROUTES } from '@/constants/routes'
 
 export default function Footer() {
   const { subscribe, isPending } = useSubscribe()
@@ -92,7 +93,7 @@ export default function Footer() {
           </Form>
           <p className="text-xs text-gray-500 mt-2 text-right">
             By subscribing you agree to with our&nbsp;
-            <Link href="/privacy-policy" className="underline hover:text-black">
+            <Link href={ROUTES.PAGE.PUBLIC.PRIVACY_POLICY} className="underline hover:text-black">
               Privacy Policy
             </Link>
           </p>
@@ -105,10 +106,16 @@ export default function Footer() {
       {/* Bottom Links + Copyright */}
       <div className="max-w-[95%] mx-auto flex flex-col lg:flex-row justify-center items-center text-sm text-gray-600 gap-8">
         <div className="flex flex-wrap gap-4">
-          <Link href="/privacy-policy" className="hover:underline">
+          <Link
+            href={ROUTES.PAGE.PUBLIC.PRIVACY_POLICY}
+            className="hover:underline"
+          >
             Privacy Policy
           </Link>
-          <Link href="/terms-of-service" className="hover:underline">
+          <Link
+            href={ROUTES.PAGE.PUBLIC.TERMS_OF_SERVICE}
+            className="hover:underline"
+          >
             Terms of Service
           </Link>
           <Link href="#" className="hover:underline">

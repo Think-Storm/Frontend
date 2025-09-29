@@ -4,8 +4,9 @@ import React, { ReactNode } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Button } from '../../ui/button'
+import { Button } from '@/components/ui/button'
 import { useAppSelector } from '@/store/hooks'
+import { ROUTES } from '@/constants/routes'
 
 export default function Header({
   leftChildren,
@@ -58,7 +59,7 @@ export default function Header({
               size="lg"
               className="flex items-center gap-2 px-0 mx-0"
             >
-              <Link href="/" target="_self">
+              <Link href={ROUTES.PAGE.PUBLIC.HOME} target="_self">
                 <div className="flex items-center justify-content">
                   <Image
                     src="/images/common/thinkstorm-logo-gradient.svg"

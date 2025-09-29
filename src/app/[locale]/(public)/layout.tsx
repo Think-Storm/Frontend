@@ -6,6 +6,7 @@ import { siteMetadata } from '@/constants/metadata'
 import Footer from '@/components/common/layout/footer'
 import Header from '@/components/common/layout/header'
 import { Button } from '@/components/ui/button'
+import { ROUTES } from '@/constants/routes'
 
 export default function PublicLayout({
   children,
@@ -27,10 +28,10 @@ export default function PublicLayout({
   let rightChildren = (
     <div className="flex items-center gap-2 mr-2 sm:mr-8 md:mr-10">
       <Button variant="gradientBorderDark" size="lg" asChild>
-        <Link href="/signup">Sign Up</Link>
+        <Link href={ROUTES.PAGE.AUTH.SIGNUP}>Sign Up</Link>
       </Button>
       <Button variant="gradientBorderLight" size="lg" asChild>
-        <Link href="/signin">Sign In</Link>
+        <Link href={ROUTES.PAGE.AUTH.SIGNIN}>Sign In</Link>
       </Button>
     </div>
   )
