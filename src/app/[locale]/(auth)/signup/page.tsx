@@ -12,6 +12,7 @@ import AuthFormField from '@/features/auth/components/AuthFormField'
 import FormSeparator from '@/features/auth/components/FormSeparator'
 import SubmitButton from '@/features/auth/components/SubmitButton'
 import OAuthGoogleButton from '@/features/auth/components/OAuthGoogleButton'
+import { ROUTES } from '@/constants/routes'
 
 export default function SignUpPage() {
   const { signUp, isPending } = useSignUp()
@@ -87,7 +88,10 @@ export default function SignUpPage() {
             </AuthForm.Content.Actions>
             <AuthForm.Content.Links>
               Already have an account?&nbsp;
-              <Link href="/signin" className="font-medium text-black underline">
+              <Link
+                href={ROUTES.PAGE.AUTH.SIGNIN}
+                className="font-medium text-black underline"
+              >
                 Sign In
               </Link>
             </AuthForm.Content.Links>

@@ -2,6 +2,7 @@ import { showToast } from '@/components/common/notification/Toast'
 import { NextRouter } from 'next/router'
 
 interface ToastParams {
+  id?: string
   type: 'success' | 'error' | 'info' | 'warning'
   message?: string
   description?: string
@@ -10,6 +11,7 @@ interface ToastParams {
 }
 
 function handleToast({
+  id,
   type,
   message,
   description,
@@ -17,7 +19,7 @@ function handleToast({
   router,
 }: ToastParams) {
   showToast(type, {
-    id: `toast-${type}-${Date.now()}`,
+    id: id || `toast-${type}`,
     message,
     description: description,
   })
@@ -40,7 +42,7 @@ export function handleAuthError(
 
   handleToast({
     type: 'error',
-    message: params.error?.message || 'An error occurred',
+    message: params.error?.message || params.message || 'An error occurred',
     description: params.description || 'Please try again.',
     redirectPath: params.redirectPath,
     router: params.router,

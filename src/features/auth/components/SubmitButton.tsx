@@ -19,13 +19,10 @@ export default function SubmitButton({
 }: SubmitButtonProps) {
   return (
     <Button
-      type="submit"
+      variant="gradientBorderDark"
+      className={cn('w-full h-11 text-base font-light', className)}
       aria-busy={isPending}
       disabled={isPending}
-      className={cn(
-        'w-full h-11 text-base font-light bg-black hover:bg-black/90',
-        className,
-      )}
     >
       {isPending ? (
         <>
