@@ -1,11 +1,11 @@
-import Image from "next/image";
+import Image from 'next/image'
 
 type cardType = {
-    id: string;
-    title: string;
-    icon: string;
-    text: string;
-    bg: string;
+  id: string
+  title: string
+  icon: string
+  text: string
+  bg: string
 }
 
 export default function Card({ card }: { card: cardType }) {
@@ -25,5 +25,5 @@ export default function Card({ card }: { card: cardType }) {
       <h3 className="text-3xl font-semibold">{card.title}</h3>
       <p className="text-md text-gray-700 leading-relaxed">{card.text}</p>
     </div>
-  );
+  )
 }
