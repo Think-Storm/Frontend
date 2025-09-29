@@ -27,10 +27,10 @@ export default function PublicLayout({
   let rightChildren = (
     <div className="flex items-center gap-2 mr-2 sm:mr-8 md:mr-10">
       <Button variant="gradientBorderDark" size="lg" asChild>
-        <Link href="/signup">Register</Link>
+        <Link href="/signup">Sign Up</Link>
       </Button>
       <Button variant="gradientBorderLight" size="lg" asChild>
-        <Link href="/signin">Log In</Link>
+        <Link href="/signin">Sign In</Link>
       </Button>
     </div>
   )

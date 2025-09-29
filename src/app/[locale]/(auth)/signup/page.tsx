@@ -1,31 +1,36 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
-import AuthForm from "@/components/features/auth/components/AuthForm";
-import AuthFormField from "@/components/features/auth/components/AuthFormField";
-import { Button } from "@/components/ui/button";
-import { signupSchema } from "@/schemas/authSchemas";
-import useSignUp from "@/components/features/auth/hooks/useSignUp";
-import { SignUpData } from "@/types/user";
-import { Spinner } from "@/components/ui/spinner";
+import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { RegisterUser } from '@think-storm/contracts'
+import { signupSchema } from '@/schemas/authSchemas'
+import useSignUp from '@/features/auth/hooks/useSignUp'
+import { Form } from '@/components/ui/form'
+import AuthForm from '@/features/auth/components/AuthForm'
+import AuthFormField from '@/features/auth/components/AuthFormField'
+import FormSeparator from '@/features/auth/components/FormSeparator'
+import SubmitButton from '@/features/auth/components/SubmitButton'
+import OAuthGoogleButton from '@/features/auth/components/OAuthGoogleButton'
 
 export default function SignUpPage() {
-  const { signUp, isPending } = useSignUp();
-  const form = useForm<SignUpData>({
+  const { signUp, isPending } = useSignUp()
+
+  const form = useForm<RegisterUser>({
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
+      username: '',
+      email: '',
+      password: '',
     },
     resolver: zodResolver(signupSchema),
-  });
+  })
 
-  function onSubmit(FormValues: SignUpData) {
-    signUp(FormValues);
+  function onSubmit(FormValues: RegisterUser) {
+    signUp(FormValues)
+  }
+
+  function handleOAuthSignUp() {
+    console.log('OAuth sign-up clicked')
   }
 
   return (
@@ -37,92 +42,58 @@ export default function SignUpPage() {
       <AuthForm.Content>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-            <AuthFormField
-              control={form.control}
-              name="username"
-              label="Username*"
-              type="text"
-              aria-required="true"
-              autoComplete="username"
-            />
-            <AuthFormField
-              control={form.control}
-              name="email"
-              label="Email*"
-              type="email"
-              aria-required="true"
-              autoComplete="email"
-            />
-            <AuthFormField
-              control={form.control}
-              name="password"
-              label="Password*"
-              type="password"
-              aria-required="true"
-              autoComplete="new-password"
-              description={[
-                `Contains uppercase, lowercase, number and special character`,
-                `Must be between 8 and 16 characters long`,
-                `Cannot contain spaces`,
-              ]}
-            />
-            <div className="flex flex-col gap-4 mt-7">
-              <Button
-                type="submit"
-                aria-busy={isPending}
-                disabled={isPending}
-                className="w-full h-11 text-base font-light bg-black hover:bg-black/90"
-              >
-                {isPending ? (
-                  <>
-                    <Spinner size="small" />
-                    <span aria-hidden="true">Creating account...</span>
-                  </>
-                ) : (
-                  "Sign Up"
-                )}
-              </Button>
-              <div
-                className="relative"
-                role="separator"
-                aria-label="or continue with"
-              >
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-200"></div>
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white px-2 text-gray-500">Or</span>
-                </div>
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full h-11 text-base font-light border-gray-200"
-                disabled={isPending}
-                onClick={() => {
-                  /* TODO: Implement Google OAuth */
-                }}
-              >
-                <Image
-                  src="/icons/auth/google-icon.svg"
-                  alt=""
-                  aria-hidden="true"
-                  className="mr-2 filter grayscale"
-                  width={20}
-                  height={20}
-                />
-                Sign Up with Google
-              </Button>
-            </div>
-            <p className="text-center text-sm text-gray-500 pt-7">
+            <AuthForm.Content.Fields>
+              <AuthFormField
+                control={form.control}
+                name="username"
+                label="Username*"
+                type="text"
+                aria-required="true"
+                autoComplete="username"
+              />
+              <AuthFormField
+                control={form.control}
+                name="email"
+                label="Email*"
+                type="email"
+                aria-required="true"
+                autoComplete="email"
+              />
+              <AuthFormField
+                control={form.control}
+                name="password"
+                label="Password*"
+                type="password"
+                aria-required="true"
+                autoComplete="new-password"
+                description={[
+                  `Contains uppercase, lowercase, number and special character`,
+                  `Must be between 8 and 16 characters long`,
+                  `Cannot contain spaces`,
+                ]}
+              />
+            </AuthForm.Content.Fields>
+            <AuthForm.Content.Actions>
+              <SubmitButton
+                isPending={isPending}
+                text="Sign Up"
+                pendingText="Creating account..."
+              />
+              <FormSeparator />
+              <OAuthGoogleButton
+                isPending={isPending}
+                onClick={handleOAuthSignUp}
+              />
+            </AuthForm.Content.Actions>
+            <AuthForm.Content.Links>
               Already have an account?&nbsp;
               <Link href="/signin" className="font-medium text-black underline">
                 Sign In
               </Link>
-            </p>
+            </AuthForm.Content.Links>
           </form>
         </Form>
       </AuthForm.Content>
     </AuthForm>
-  );
+  )
 }

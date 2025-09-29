@@ -1,14 +1,13 @@
-"use client";
+'use client'
 
-import StoreProvider from "./store-provider";
-import QueryProvider from "./query-provider";
+import { ReactNode } from 'react'
+import StoreProvider from './store-provider'
+import QueryProvider from './query-provider'
 
-export function Provider({ children }: { children: React.ReactNode }) {
+export function Provider({ children }: { children: ReactNode }) {
   return (
     <StoreProvider>
-      <QueryProvider>
-          {children}
-      </QueryProvider>
+      <QueryProvider>{children}</QueryProvider>
     </StoreProvider>
-  );
+  )
 }
