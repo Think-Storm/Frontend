@@ -12,6 +12,7 @@ import AuthFormField from '@/features/auth/components/AuthFormField'
 import FormSeparator from '@/features/auth/components/FormSeparator'
 import SubmitButton from '@/features/auth/components/SubmitButton'
 import OAuthGoogleButton from '@/features/auth/components/OAuthGoogleButton'
+import { ROUTES } from '@/constants/routes'
 
 export default function SignInPage() {
   const { signIn, isPending } = useSignIn()
@@ -60,7 +61,10 @@ export default function SignInPage() {
                   autoComplete="current-password"
                 />
                 <div className="absolute -top-1 right-0 text-[13px] text-gray-600">
-                  <Link href="/reset-password" className="underline">
+                  <Link
+                    href={ROUTES.PAGE.AUTH.FORGOT_PASSWORD}
+                    className="underline"
+                  >
                     Forgot your password?
                   </Link>
                 </div>
@@ -81,7 +85,10 @@ export default function SignInPage() {
             </AuthForm.Content.Actions>
             <AuthForm.Content.Links>
               Don&apos;t have an account?&nbsp;
-              <Link href="/signup" className="font-medium text-black underline">
+              <Link
+                href={ROUTES.PAGE.AUTH.SIGNUP}
+                className="font-medium text-black underline"
+              >
                 Sign Up
               </Link>
             </AuthForm.Content.Links>

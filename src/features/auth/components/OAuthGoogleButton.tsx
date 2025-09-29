@@ -20,7 +20,7 @@ export default function OAuthGoogleButton({
       type="button"
       variant="outline"
       className={cn(
-        'w-full h-11 text-base font-light border-gray-200 hover:bg-transparent hover:text-black',
+        'w-full h-11 border-gray-200 text-base font-light hover:bg-transparent hover:text-black shadow',
         className,
       )}
       disabled={isPending}

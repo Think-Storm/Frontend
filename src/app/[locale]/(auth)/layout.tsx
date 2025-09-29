@@ -2,14 +2,19 @@
 
 import { ReactNode } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { ROUTES } from '@/constants/routes'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <div className="relative min-h-screen">
       <div className="fixed inset-0 bg-[url('/images/auth/bg-auth-plain.png')] bg-cover bg-center bg-no-repeat" />
       <div className="relative mx-auto min-h-screen flex flex-col justify-center items-center px-8 py-8">
-        <header className="absolute top-50 left-10 text-3xl font-bold hidden lg:block">
-          <div className="flex flex-col gap-1">
+        <header className="absolute top-50 left-10 text-3xl font-bold hidden lg:block z-10">
+          <Link
+            href={ROUTES.PAGE.PUBLIC.HOME}
+            className="flex flex-col gap-1 cursor-pointer"
+          >
             <div className="flex items-center gap-1">
               <span className="text-black">
                 <Image
@@ -25,11 +30,14 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             <div className="text-xl font-extralight text-gray-700 ml-4">
               Discover, Collaborate, Innovate.
             </div>
-          </div>
+          </Link>
         </header>
 
         <header className="text-3xl font-bold lg:hidden mb-8">
-          <div className="flex flex-col gap-1 items-center">
+          <Link
+            href={ROUTES.PAGE.PUBLIC.HOME}
+            className="flex flex-col gap-1 items-center cursor-pointer"
+          >
             <div className="flex items-center gap-1">
               <span className="text-black">
                 <Image
@@ -47,14 +55,14 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             <div className="text-base lg:text-xl font-extralight text-gray-700">
               Discover, Collaborate, Innovate.
             </div>
-          </div>
+          </Link>
         </header>
 
         <section
           role="main"
           className="w-full flex items-center justify-center lg:justify-end relative"
         >
-          <div className="h-screen w-full max-w-[500px] p-[2px] bg-gradient-to-r from-[#5e00c3] to-[#F81A1A] rounded-2xl relative">
+          <div className="h-screen w-full max-w-[530px] p-[2px] bg-gradient-to-r from-[#5e00c3] to-[#F81A1A] rounded-2xl relative">
             <div className="absolute top-0 -left-48 w-64 h-64 bg-[url('/images/auth/bg-cloud.svg')] bg-contain bg-no-repeat hidden lg:block animate-cloud" />
             <div className="w-full h-full flex flex-col items-center overflow-y-auto bg-white rounded-[calc(1rem-2px)] ">
               <div className="w-full flex-1 flex flex-col justify-center items-center p-12">

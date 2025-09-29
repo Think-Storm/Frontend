@@ -12,6 +12,12 @@ export const ROUTES = {
     AUTH: {
       SIGNIN: '/signin',
       SIGNUP: '/signup',
+      FORGOT_PASSWORD: '/forgot-password',
+      CHECK_EMAIL: '/check-email',
+      RESET_PASSWORD: {
+        BASE: '/reset-password',
+        SUCCESS: '/reset-password/success',
+      },
     },
     PROTECTED: {
       EXPLORE: '/explore',
@@ -24,6 +30,7 @@ export const ROUTES = {
     AUTH: {
       SIGNIN: '/login',
       SIGNUP: '/register',
+      RESET_PASSWORD: '/forgot-password',
     },
     PROTECTED: {
       PROFILE: {

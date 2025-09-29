@@ -56,7 +56,7 @@ const AuthFormHeader: React.FC<AuthFormHeaderProps> = ({
 const AuthFormContent: React.FC<BaseProps> = ({ children, className }) => (
   <div
     className={cn(
-      'w-full flex flex-col justify-center items-center',
+      'w-full flex flex-col justify-center items-center mt-5',
       className,
     )}
   >
@@ -73,7 +73,9 @@ const AuthFormContentActions: React.FC<BaseProps> = ({
   children,
   className,
 }) => (
-  <div className={cn('flex flex-col gap-4 mt-7', className)}>{children}</div>
+  <div className={cn('flex flex-col gap-4 w-full mt-5', className)}>
+    {children}
+  </div>
 )
 
 const AuthFormContentLinks: React.FC<BaseProps> = ({ children, className }) => (

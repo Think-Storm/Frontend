@@ -22,7 +22,6 @@ export default function useSignIn(options?: UseSignInOptions) {
 
   const mutation = useMutation<LoginUserResponse, Error, LoginUser>({
     mutationFn: signIn,
-
     onSuccess: (response: LoginUserResponse) => {
       dispatch(loginSuccess({ user: response.data }))
 
