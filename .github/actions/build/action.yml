@@ -1,64 +1,64 @@
-name: "Build Application Image"
-description: "Builds the Docker image for the application and tags it for later use"
+name: 'Build Application Image'
+description: 'Builds the Docker image for the application and tags it for later use'
 
 # Define inputs to customize the build process
 inputs:
   dockerfile-path:
-    description: "Path to the Dockerfile"
+    description: 'Path to the Dockerfile'
     required: false
-    default: "docker/Dockerfile"
+    default: 'docker/Dockerfile'
   docker-context:
-    description: "Docker build context path"
+    description: 'Docker build context path'
     required: false
-    default: ".."
+    default: '..'
   image-name:
-    description: "Name to use for the built Docker image"
+    description: 'Name to use for the built Docker image'
     required: false
-    default: "thinkstorm-backend-prod"
+    default: 'thinkstorm-backend-prod'
   image-tag:
-    description: "Tag to use for the built Docker image"
+    description: 'Tag to use for the built Docker image'
     required: false
-    default: "latest"
+    default: 'latest'
   build-args:
-    description: "Additional build arguments for Docker build command"
+    description: 'Additional build arguments for Docker build command'
     required: false
-    default: ""
+    default: ''
   cache-from:
-    description: "Cache sources for Docker build"
+    description: 'Cache sources for Docker build'
     required: false
-    default: ""
+    default: ''
   push-to-registry:
-    description: "Whether to push the image to a registry"
+    description: 'Whether to push the image to a registry'
     required: false
-    default: "false"
+    default: 'false'
   registry:
-    description: "Docker registry to push to if push-to-registry is true"
+    description: 'Docker registry to push to if push-to-registry is true'
     required: false
-    default: "ghcr.io"
+    default: 'ghcr.io'
   run-build:
-    description: "Whether to run npm build before Docker build"
+    description: 'Whether to run npm build before Docker build'
     required: false
-    default: "true"
+    default: 'true'
   env-variables:
-    description: "Environment variables to set in the build process"
+    description: 'Environment variables to set in the build process'
     required: false
-    default: ""
+    default: ''
 
 # Define outputs from the build process
 outputs:
   image-name:
-    description: "The full name of the built Docker image"
+    description: 'The full name of the built Docker image'
     value: ${{ steps.build-image.outputs.image-name }}
   build-time:
-    description: "Time taken for the build in seconds"
+    description: 'Time taken for the build in seconds'
     value: ${{ steps.build-image.outputs.build-duration }}
   build-success:
-    description: "Whether the build succeeded"
+    description: 'Whether the build succeeded'
     value: ${{ steps.build-image.outputs.build-success }}
 
 # Define how the action runs
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     # Step 1: Run npm build if requested
     - name: Run npm build

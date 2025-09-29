@@ -1,44 +1,44 @@
-name: "Code Linting"
-description: "Runs ESLint, Prettier, and TypeScript type checking"
+name: 'Code Linting'
+description: 'Runs ESLint, Prettier, and TypeScript type checking'
 
 # Define inputs to make your action configurable
 inputs:
   working-directory:
-    description: "Directory to run linting in"
+    description: 'Directory to run linting in'
     required: false
-    default: "."
+    default: '.'
   eslint-args:
-    description: "Additional arguments for ESLint"
+    description: 'Additional arguments for ESLint'
     required: false
-    default: ""
+    default: ''
   prettier-args:
-    description: "Additional arguments for Prettier"
+    description: 'Additional arguments for Prettier'
     required: false
-    default: ""
+    default: ''
   typescript:
-    description: "Whether to run TypeScript type checking"
+    description: 'Whether to run TypeScript type checking'
     required: false
-    default: "true"
+    default: 'true'
   fail-on-warning:
-    description: "Whether to fail on ESLint warnings"
+    description: 'Whether to fail on ESLint warnings'
     required: false
-    default: "false"
+    default: 'false'
 
 # Define outputs that workflows can use
 outputs:
   eslint-result:
-    description: "Result of ESLint checks"
+    description: 'Result of ESLint checks'
     value: ${{ steps.eslint-summary.outputs.result }}
   prettier-result:
-    description: "Result of Prettier checks"
+    description: 'Result of Prettier checks'
     value: ${{ steps.prettier-summary.outputs.result }}
   type-check-result:
-    description: "Result of TypeScript type checking"
+    description: 'Result of TypeScript type checking'
     value: ${{ steps.typescript-summary.outputs.result }}
 
 # Define how the action runs
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     # Step 1: Check for lint configuration files
     - name: Check for lint config files

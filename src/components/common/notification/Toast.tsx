@@ -1,36 +1,62 @@
-import { toast } from "sonner";
+import { toast } from 'sonner'
+
+type ToastVariant = 'success' | 'error' | 'info' | 'warning'
 
 type ToastOptions = {
-  message?: string;
-  description?: string;
-  duration?: number;
-  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
-};
-
-export function showSuccessToast({
-  message = "Success",
-  description = "Your request has been completed successfully.",
-  duration = 3000,
-  position = "top-right",
-}: ToastOptions = {}) {
-  toast.success(message, {
-    description,
-    className: "bg-emerald-500 text-white border-0 shadow-lg",
-    duration,
-    position,
-  });
+  id?: string
+  message?: string
+  description?: string
+  duration?: number
+  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 }
 
-export function showErrorToast({
-  message = "Error",
-  description = "Something went wrong. Please try again later.",
-  duration = 3000,
-  position = "top-right",
-}: ToastOptions = {}) {
-  toast.error(message, {
+const variantStyles: Record<ToastVariant, string> = {
+  success: 'bg-emerald-500 text-white border-0 shadow-lg',
+  error: 'bg-rose-500 text-white border-0 shadow-lg',
+  info: 'bg-sky-500 text-white border-0 shadow-lg',
+  warning: 'bg-amber-500 text-white border-0 shadow-lg',
+}
+
+export function showToast(
+  variant: ToastVariant,
+  {
+    id,
+    message,
     description,
-    className: "bg-rose-500 text-white border-0 shadow-lg",
+    duration = 3000,
+    position = 'top-right',
+  }: ToastOptions = {},
+) {
+  const defaultMessages: Record<
+    ToastVariant,
+    { message: string; description: string }
+  > = {
+    success: {
+      message: 'Success',
+      description: 'Your request has been completed successfully.',
+    },
+    error: {
+      message: 'Error',
+      description: 'Something went wrong. Please try again later.',
+    },
+    info: {
+      message: 'Info',
+      description: 'Here is some information for you.',
+    },
+    warning: {
+      message: 'Warning',
+      description: 'Please check this before proceeding.',
+    },
+  }
+
+  const { message: defaultMessage, description: defaultDescription } =
+    defaultMessages[variant]
+
+  toast[variant](message ?? defaultMessage, {
+    id,
+    description: description ?? defaultDescription,
+    className: variantStyles[variant],
     duration,
     position,
-  });
+  })
 }

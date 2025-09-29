@@ -1,15 +1,15 @@
-import "@testing-library/jest-dom";
-import { vi, afterEach, afterAll } from "vitest";
+import '@testing-library/jest-dom'
+import { vi, afterEach, afterAll } from 'vitest'
 
 afterEach(() => {
-  vi.clearAllMocks();
-});
+  vi.clearAllMocks()
+})
 
 afterAll(() => {
-  vi.resetAllMocks();
-});
+  vi.resetAllMocks()
+})
 
-Object.defineProperty(window, "matchMedia", {
+Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
     matches: false,
@@ -21,4 +21,4 @@ Object.defineProperty(window, "matchMedia", {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
-});
+})

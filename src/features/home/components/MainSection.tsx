@@ -1,53 +1,53 @@
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { motion, useTransform, useSpring } from "framer-motion";
-import { MainSectionProps } from "@/constants/home";
-import { Button } from "@/components/ui/button";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
+import { motion, useTransform, useSpring } from 'framer-motion'
+import { MainSectionProps } from '@/constants/home'
+import { Button } from '@/components/ui/button'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 export default function MainSection({ scrollY, ref }: MainSectionProps) {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [boxWidth, setBoxWidth] = useState(0);
-  const rightboxRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [boxWidth, setBoxWidth] = useState(0)
+  const rightboxRef = useRef<HTMLDivElement>(null)
 
-  const y = useTransform(scrollY, [0, 300], [0, -50]);
-  const isXL = useMediaQuery("(min-width: 1280px)");
-  const isMD = useMediaQuery("(min-width: 768px)");
+  const y = useTransform(scrollY, [0, 300], [0, -50])
+  const isXL = useMediaQuery('(min-width: 1280px)')
+  const isMD = useMediaQuery('(min-width: 768px)')
   const whiteBgOpacity = useTransform(
     scrollY,
     isXL ? [0, 700, 1000] : isMD ? [0, 900, 1400] : [0, 400, 900],
     [0, 0, 1],
-  );
+  )
 
-  const springY = useSpring(y, { stiffness: 400, damping: 40 });
+  const springY = useSpring(y, { stiffness: 400, damping: 40 })
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX - window.innerWidth / 2) * 0.01,
         y: (e.clientY - window.innerHeight / 2) * 0.01,
-      });
-    };
+      })
+    }
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
 
   useEffect(() => {
-    if (!rightboxRef.current) return;
+    const timer = setTimeout(() => setIsLoaded(true), 100)
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (!rightboxRef.current) return
     const observer = new ResizeObserver(([entry]) => {
-      setBoxWidth(entry.contentRect.width);
-    });
+      setBoxWidth(entry.contentRect.width)
+    })
 
-    observer.observe(rightboxRef.current);
-    return () => observer.disconnect();
-  }, []);
+    observer.observe(rightboxRef.current)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section
@@ -96,7 +96,7 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
             opacity: isLoaded ? 1 : 0,
             y: isLoaded ? 0 : 50,
           }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
           <motion.p
             className="text-gray-500 text-lg lg:text-xl xl:text-2xl mb-2"
@@ -108,7 +108,7 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
           </motion.p>
 
           <div className="text-4xl min-[520px]:text-5xl font-bold leading-tight">
-            {"Build a ".split("").map((char, i) => (
+            {'Build a '.split('').map((char, i) => (
               <motion.span
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
@@ -122,7 +122,7 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
               className="text-pink-600"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.2, duration: 0.5, type: "spring" }}
+              transition={{ delay: 1.2, duration: 0.5, type: 'spring' }}
             >
               Real-world
             </motion.span>
@@ -139,7 +139,7 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
                 className="relative z-10"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1.8, duration: 0.6, type: "spring" }}
+                transition={{ delay: 1.8, duration: 0.6, type: 'spring' }}
               >
                 Together
               </motion.span>
@@ -147,7 +147,7 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
                 className="absolute inset-0 -top-1 -left-5 w-[115%] h-[130%] -z-10"
                 initial={{ scale: 0, rotate: -10 }}
                 animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: 2, duration: 0.8, type: "spring" }}
+                transition={{ delay: 2, duration: 0.8, type: 'spring' }}
                 whileHover={{
                   scale: 1.1,
                   rotate: 5,
@@ -175,14 +175,9 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
             <motion.div
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
             >
-              <Button
-                variant="gradient" 
-                size="gradient"
-                className="p-[3px] rounded-[12px] shadow-lg hover:shadow-xl transition-shadow"
-                textClassName="!bg-black !text-white px-6 py-2"
-              >
+              <Button variant="gradientBorderDark" size="lg">
                 Get Started
               </Button>
             </motion.div>
@@ -196,10 +191,9 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
           >
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button
-                variant="gradient"
-                size="gradient"
-                textBgWhite
-                textClassName="w-[170px] !bg-white !text-black text-sm sm:text-base shadow-md"
+                variant="gradientBorderLight"
+                size="lg"
+                className="cursor-default"
               >
                 Let&apos;s collaborate!
               </Button>
@@ -212,9 +206,9 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
           className="relative w-full min-w-3xl ml-30 xl:mx-auto xl:h-[780px] -mt-10 xl:mt-0 md:block hidden"
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
+          transition={{ delay: 1, duration: 0.8, ease: 'easeOut' }}
           style={{
-            height: "640px",
+            height: '640px',
             x: mousePosition.x * -20,
             y: mousePosition.y * -10,
           }}
@@ -230,15 +224,14 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
             transition={{
               duration: 2,
               repeat: Infinity,
-              repeatType: "reverse",
+              repeatType: 'reverse',
             }}
             whileHover={{ scale: 1.05 }}
           >
             <Button
-              variant="gradient" 
-              size="gradient"
-              textBgWhite
-              textClassName="w-[170px] !bg-white !text-black text-sm sm:text-base shadow-lg"
+              variant="gradientBorderLight"
+              size="lg"
+              className="cursor-default"
             >
               Let&apos;s collaborate!
             </Button>
@@ -257,5 +250,5 @@ export default function MainSection({ scrollY, ref }: MainSectionProps) {
         </motion.div>
       </div>
     </section>
-  );
+  )
 }

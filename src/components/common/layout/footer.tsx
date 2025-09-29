@@ -1,29 +1,27 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "../ui/button";
-import { useForm } from "react-hook-form";
-import { Form } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubscriptionData } from "@/types/user";
-import { subscriptionSchema } from "@/schemas/userSchema";
-import FooterFormField from "../features/footer/components/FooterFormField";
-import { Spinner } from "../ui/spinner";
-import useSubscribe from "../features/footer/hooks/useSubscribe";
-import FooterForm from "../features/footer/components/FooterForm";
+import Image from 'next/image'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { useForm } from 'react-hook-form'
+import { Form } from '@/components/ui/form'
+import { Spinner } from '@/components/ui/spinner'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { UserSubscription } from '@/types/user'
+import { subscriptionSchema } from '@/schemas/userSchema'
+import useSubscribe from '@/features/footer/hooks/useSubscribe'
 
 export default function Footer() {
-  const { subscribe, isPending } = useSubscribe();
-  const form = useForm<SubscriptionData>({
+  const { subscribe, isPending } = useSubscribe()
+  const form = useForm<UserSubscription>({
     defaultValues: {
-      email: "",
+      email: '',
     },
     resolver: zodResolver(subscriptionSchema),
-  });
+  })
 
-  function onSubmit(FormValues: SubscriptionData) {
-    subscribe(FormValues);
+  function onSubmit(FormValues: UserSubscription) {
+    subscribe(FormValues)
   }
 
   return (
@@ -122,5 +120,5 @@ export default function Footer() {
         </span>
       </div>
     </footer>
-  );
+  )
 }

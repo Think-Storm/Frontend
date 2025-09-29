@@ -1,8 +1,8 @@
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { cardData } from "@/constants/home";
-import JoinUsSection from "@/components/features/home/components/JoinUsSection";
-import Card from "@/components/features/home/components/Card";
+import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { cardData } from '@/constants/home'
+import JoinUsSection from '@/features/home/components/JoinUsSection'
+import Card from '@/features/home/components/Card'
 
 export default function CardSection() {
   return (
@@ -35,5 +35,5 @@ export default function CardSection() {
 
       <JoinUsSection />
     </section>
-  );
+  )
 }
