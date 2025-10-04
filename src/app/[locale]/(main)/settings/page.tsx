@@ -377,7 +377,7 @@ export default function Settings() {
                       type="password"
                       title="Change Password"
                       aria-required="true"
-                      originalValue="originalPassword"
+                      originalValue="**********"
                     />
                   </div>
                   <div className="flex-1 space-y-2 ml-10 flex-col">
