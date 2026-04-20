@@ -21,6 +21,9 @@ export const ROUTES = {
     },
     PROTECTED: {
       EXPLORE: '/explore',
+      MY_PROJECTS: '/my-projects',
+      PROJECT_DETAIL: (id: number) => `/projects/${id}`,
+      PROFILE: (id: number) => `/profile/${id}`,
     },
   },
   API: {
@@ -40,6 +43,11 @@ export const ROUTES = {
       PROJECTS: {
         BASE: '/projects',
         SEARCH: '/projects/search',
+        BY_ID: (id: number) => `/projects/${id}`,
+        LIKE: (id: number) => `/projects/${id}/like`,
+        SAVE: (id: number) => `/projects/${id}/save`,
+        UNSAVE: (id: number) => `/projects/${id}/unsave`,
+        JOIN_REQUESTS: (id: number) => `/projects/${id}/join-requests`,
       },
     },
   },

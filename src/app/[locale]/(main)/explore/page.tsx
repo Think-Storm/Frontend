@@ -1,3 +1,5 @@
+import ExploreFeature from '@/features/explore'
+
 export default function ExplorePage() {
-  return <div>ExplorePage</div>
+  return <ExploreFeature />
 }
