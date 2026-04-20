@@ -163,7 +163,6 @@ export const SettingsImgFormField = <T extends FieldValues>({
     const handler = () => {
       if (fileInput.files && fileInput.files[0]) {
         props.setPreview?.(URL.createObjectURL(fileInput.files[0]));
-        console.log(fileInput.files[0]);
         setValue?.(name, fileInput.files[0]);
       }
     };
@@ -770,9 +769,8 @@ export function SettingsPasswordModalField({
   });
 
   const saveChanges = async () => {
-    console.log("abcd");
     const isValid = await userPasswordForm.trigger();
-    // if (!isValid) return;
+    if (!isValid) return;
     const values = userPasswordForm.getValues();
 
     onSubmitUpdatePassword(values);
