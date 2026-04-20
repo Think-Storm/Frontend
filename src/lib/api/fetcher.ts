@@ -20,9 +20,6 @@ export async function fetcher<T>(url: string, options: FetchOptions = {}): Promi
         method,
         headers: {
             "Content-Type": "application/json",
-            Authorization:
-                "Bearer " +
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzU3NTc3OTUwLCJleHAiOjE3NjUzNTM5NTB9.fc9MN2NxzVVhVsi-y-td_DuKueXICjfTwLVoijHDjkc",
             ...headers,
         },
         body: body ? JSON.stringify(body) : undefined,
