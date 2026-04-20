@@ -8,7 +8,7 @@ describe('Projects Page', () => {
     cy.get('img[alt="Header Background"]').should('be.visible')
   })
   it('shows project filters correctly', () => {
-    const filters = ['Created', 'Saved', 'Joined', 'Reequested']
+    const filters = ['Created', 'Saved', 'Joined', 'Requested']
     filters.forEach((filter) => {
       cy.contains('button', filter).should('exist')
     })
